@@ -1,95 +1,77 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { Metadata } from 'next';
 
-export default function Home() {
+import Mainpage from '@/components/MainPage';
+
+import { SITE_CONFIG } from '@/constants';
+import { getApiResponse } from '@/utils/shared/get-api-response';
+
+import { NpmData, PageParams } from '@/types';
+
+export const metadata: Metadata = {
+  metadataBase: new URL('http://roadmaker.site/'),
+  title: {
+    default: `${SITE_CONFIG.title}💜💜💜💜`,
+    template: `%s | ${SITE_CONFIG.title}`,
+  },
+  description: SITE_CONFIG.description,
+  robots: { index: true, follow: true },
+  icons: {
+    icon: '/favicon/favicon.ico',
+    shortcut: '/favicon/favicon-16x16.png',
+    apple: '/favicon/apple-touch-icon.png',
+  },
+  manifest: `/favicon/site.webmanifest`,
+  openGraph: {
+    url: SITE_CONFIG.url,
+    title: SITE_CONFIG.title,
+    description: SITE_CONFIG.description,
+    siteName: SITE_CONFIG.title,
+    images: [`${SITE_CONFIG.url}/images/og.jpg`],
+    type: 'website',
+    locale: 'en_US',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: SITE_CONFIG.title,
+    description: SITE_CONFIG.description,
+    images: [`${SITE_CONFIG.url}/images/og.jpg`],
+    creator: '@pyotato',
+  },
+};
+
+const loadDataFromApi = async (slug?: string) => {
+  if (slug === 'testError500') {
+    throw new Error('This is mock a ssr 500 test error');
+  }
+
+  // Fetch & cache data from 2 remote APIs test
+  const [reactNpmData, nextJsNpmData] = await Promise.all([
+    getApiResponse<NpmData>({
+      apiEndpoint: 'https://registry.npmjs.org/react/latest',
+      revalidate: 60 * 60 * 24, // 24 hours cache
+    }),
+    getApiResponse<NpmData>({
+      apiEndpoint: 'https://registry.npmjs.org/next/latest',
+      revalidate: 0, // no cache
+    }),
+  ]);
+
+  return {
+    reactNpmData,
+    nextJsNpmData,
+  };
+};
+
+const AppHome = async ({ searchParams }: PageParams) => {
+  const slug = searchParams?.slug;
+  const { reactNpmData, nextJsNpmData } = await loadDataFromApi(slug);
+
   return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+    <Mainpage
+      reactVersion={reactNpmData?.version}
+      nextJsVersion={nextJsNpmData?.version}
+    />
   );
-}
+};
+
+export default AppHome;

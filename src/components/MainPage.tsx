@@ -64,6 +64,7 @@ export default function Mainpage() {
     fetchNextPage,
     hasNextPage,
     isFetchingNextPage,
+    isError,
     status,
   } = useInfiniteQuery({
     queryKey: ['mainPosts'],
@@ -71,6 +72,7 @@ export default function Mainpage() {
     initialPageParam: 1,
     getNextPageParam: ({ postData }) => {
       const { next } = postData! as Postdata;
+      if (!next) return null;
       const findPageParamRegex = /page=[0-9]{1,}/g;
       const searchNext = next && next.match(findPageParamRegex);
       const pageNum = Number(searchNext && searchNext[0].split('=')[1]);
@@ -84,8 +86,12 @@ export default function Mainpage() {
     }
   }, [inView, fetchNextPage, hasNextPage]);
 
-  if (error) {
-    return <>oops something went wrong😑{status}</>;
+  if (isError) {
+    return (
+      <>
+        oops something went wrong😑{status}, {error}
+      </>
+    );
   }
 
   if (isFetchingNextPage) {

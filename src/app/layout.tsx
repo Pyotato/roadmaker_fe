@@ -1,4 +1,4 @@
-import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+import { ColorSchemeScript } from '@mantine/core';
 import { Metadata } from 'next';
 import * as React from 'react';
 
@@ -8,7 +8,7 @@ import PageFooter from '@/components/shared/layouts/PageFooter';
 import PageHeader from '@/components/shared/layouts/PageHeader';
 
 import { SITE_CONFIG } from '@/constants';
-import Providers from '@/Providers';
+import Providers from '@/providers/StyledComponentsProvider';
 import { GlobalStyle } from '@/styles/globalStyle';
 
 // !STARTERCONF Change these default meta
@@ -58,11 +58,9 @@ export default function RootLayout({
       <Providers>
         <GlobalStyle />
         <body>
-          <MantineProvider>
-            <PageHeader />
-            {children}
-            <PageFooter />
-          </MantineProvider>
+          <PageHeader />
+          {children}
+          <PageFooter />
         </body>
       </Providers>
     </html>

@@ -3,10 +3,10 @@
 import React from 'react';
 import { ThemeProvider } from 'styled-components';
 
-import StyledComponentsRegistry from './registry';
-import { theme } from './styles/theme';
+import StyledComponentsRegistry from '@/registry';
+import { theme } from '@/styles/theme';
 
-const Providers = (props: React.PropsWithChildren) => {
+const StyledComponentsProvider = (props: React.PropsWithChildren) => {
   return (
     <StyledComponentsRegistry>
       <ThemeProvider theme={theme}>{props.children}</ThemeProvider>
@@ -14,4 +14,4 @@ const Providers = (props: React.PropsWithChildren) => {
   );
 };
 
-export default Providers;
+export default StyledComponentsProvider;

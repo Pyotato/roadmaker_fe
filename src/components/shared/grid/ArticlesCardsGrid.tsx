@@ -11,88 +11,66 @@ import { PropsWithChildren } from 'react';
 
 import classes from './ArticlesCardsGrid.module.css';
 
-import { Post } from '@/components/MainPage';
+import { Postdata } from '@/components/MainPage';
 
 export interface PostProps extends PropsWithChildren {
-  postData: Post[];
+  postData: Postdata['result'];
   innerRef?: (node?: Element | null) => void;
 }
 
 export function ArticlesCardsGrid({ postData, innerRef }: PostProps) {
-  const data = postData as Post[];
-  if (!data) {
+  const data = postData;
+  if (!postData) {
     return <div>No items</div>;
   }
 
-  const cards = data.map(
-    (article, i) =>
-      i === data.length - 1 ? (
-        <Card
-          key={article?.id}
-          p='md'
-          ref={innerRef}
-          radius='md'
-          component='a'
-          href={`/roadmap/post/${article?.id}`}
-          className={classes.card}
-        >
-          <AspectRatio ratio={1920 / 1080}>
-            <Image
-              src={article?.thumbnailUrl}
-              alt={`${article?.thumbnailUrl} 이미지`}
-            />
-          </AspectRatio>
-          <Text c='dimmed' size='xs' tt='uppercase' fw={700} mt='md'>
-            {`${article?.createdAt}`}
-          </Text>
-          <Text className={classes.title} mt={5}>
-            {article?.title}
-          </Text>
-        </Card>
-      ) : (
-        <Card
-          key={article?.id}
-          p='md'
-          radius='md'
-          component='a'
-          href={`/roadmap/post/${article?.id}`}
-          className={classes.card}
-        >
-          <AspectRatio ratio={1920 / 1080}>
-            <Image
-              src={article?.thumbnailUrl}
-              alt={`${article?.thumbnailUrl} 이미지`}
-            />
-          </AspectRatio>
-          <Text c='dimmed' size='xs' tt='uppercase' fw={700} mt='md'>
-            {`${article?.createdAt}`}
-          </Text>
-          <Text className={classes.title} mt={5}>
-            {article?.title}
-          </Text>
-        </Card>
-      ),
-    // <Card
-    //   key={article?.id}
-    //   p='md'
-    //   radius='md'
-    //   component='a'
-    //   href={`/roadmap/post/${article?.id}`}
-    //   className={classes.card}
-    // >
-    //   <AspectRatio ratio={1920 / 1080}>
-    //     <Image
-    //       src={article?.thumbnailUrl}
-    //       alt={`${article?.thumbnailUrl} 이미지`}
-    //     />
-    //   </AspectRatio>
-    //   <Text c='dimmed' size='xs' tt='uppercase' fw={700} mt='md'>
-    //     {`${article?.createdAt}`}
-    //   </Text>
-    //   <Text className={classes.title} mt={5}>
-    //     {article?.title}
-    //   </Text>
-    // </Card>
+  const cards = data.map((article, i) =>
+    i === data.length - 1 ? (
+      <Card
+        key={article?.id}
+        p='md'
+        ref={innerRef}
+        radius='md'
+        component='a'
+        href={`/roadmap/post/${article?.id}`}
+        className={classes.card}
+      >
+        <AspectRatio ratio={1920 / 1080}>
+          <Image
+            src={article?.thumbnailUrl}
+            alt={`${article?.thumbnailUrl} 이미지`}
+          />
+        </AspectRatio>
+        <Text c='dimmed' size='xs' tt='uppercase' fw={700} mt='md'>
+          {`${article?.createdAt}`}
+        </Text>
+        <Text className={classes.title} mt={5}>
+          {article?.title}
+        </Text>
+      </Card>
+    ) : (
+      <Card
+        key={article?.id}
+        p='md'
+        radius='md'
+        component='a'
+        href={`/roadmap/post/${article?.id}`}
+        className={classes.card}
+      >
+        <AspectRatio ratio={1920 / 1080}>
+          <Image
+            src={article?.thumbnailUrl}
+            alt={`${article?.thumbnailUrl} 이미지`}
+          />
+        </AspectRatio>
+        <Text c='dimmed' size='xs' tt='uppercase' fw={700} mt='md'>
+          {`${article?.createdAt}`}
+        </Text>
+        <Text className={classes.title} mt={5}>
+          {article?.title}
+        </Text>
+      </Card>
+    ),
   );
 
   return (

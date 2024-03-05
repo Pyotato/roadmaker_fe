@@ -98,33 +98,27 @@ export default function Mainpage() {
     return <>fetching next page</>;
   }
 
-  return (
-    <>
-      <main>
-        <section>
-          <div>main</div>
-
-          {posts?.pages.map(({ postData }, index) =>
-            postData.next ? (
-              <ArticlesCardsGrid
-                key={index}
-                postData={postData?.result}
-                innerRef={ref}
-              />
-            ) : (
-              <ArticlesCardsGrid key={index} postData={postData?.result} />
-            ),
-          )}
-
-          {/* {posts?.pages.map(({ postData }, index) => (
-            <ArticlesCardsGrid
-              key={index}
-              postData={postData?.result}
-              innerRef={ref}
-            />
-          ))} */}
-        </section>
-      </main>
-    </>
-  );
+  if (posts)
+    return (
+      <>
+        <main>
+          <section>
+            {posts.pages.map(({ postData }, index) =>
+              postData?.next ? (
+                <ArticlesCardsGrid
+                  key={index}
+                  postData={postData?.result}
+                  innerRef={ref}
+                />
+              ) : (
+                <ArticlesCardsGrid
+                  key={index}
+                  postData={postData?.result || []}
+                />
+              ),
+            )}
+          </section>
+        </main>
+      </>
+    );
 }

@@ -41,8 +41,6 @@ export interface PageProps extends PropsWithChildren {
   postData: Postdata | null;
 }
 const loadDataFromApi = async ({ pageParam }: { pageParam: number }) => {
-  // const loadDataFromApi = async (pageParam: unknown) => {
-  // const roadmapPage = 1; // initial load
   const [postData] = await Promise.all([
     getApiResponse<Postdata>({
       apiEndpoint: `${process.env.NEXT_PUBLIC_API}/roadmaps?page=${pageParam}&order-type=recent`,

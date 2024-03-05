@@ -25,7 +25,7 @@ export default function Error({
           <div>
             <button onClick={reset}>Try again</button>
           </div>
-          <a href='/?slug=homepage'>Back to home</a>
+          <a href='/'>Back to home</a>
         </div>
       </section>
     </main>

@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     siteName: SITE_CONFIG.title,
     images: [`${SITE_CONFIG.url}/images/og.jpg`],
     type: 'website',
-    locale: 'en_US',
+    locale: 'ko_KR',
   },
   twitter: {
     card: 'summary_large_image',
@@ -38,28 +38,11 @@ export const metadata: Metadata = {
   },
 };
 
-// const loadDataFromApi = async () => {
-//   const roadmapPage = 1; // initial load
-//   const [postData] = await Promise.all([
-//     getApiResponse<Postdata>({
-//       apiEndpoint: `${process.env.NEXT_PUBLIC_API}/roadmaps?page=${roadmapPage}&order-type=recent`,
-//       revalidate: 60 * 12, // 30 mins cache
-//     }),
-//   ]);
-
-//   return {
-//     postData,
-//   };
-// };
-
-// const AppHome = async () => {
 const AppHome = () => {
-  // const { postData } = await loadDataFromApi();
   return (
     <MantineProvider>
       <Provider>
         <Mainpage />
-        {/* <Mainpage postData={postData} /> */}
       </Provider>
     </MantineProvider>
   );

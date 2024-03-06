@@ -29,7 +29,6 @@ const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
 
   const [nodeState, setNodes, onNodesChange] = useNodesState<Node[]>([]);
   const [edgeState, setEdges, onEdgesChange] = useEdgesState<Edge[]>([]);
-
   const getMinMax = <T extends ReactFlowInfo['nodes']>(obj: T, arg: string) =>
     obj.reduce(
       (acc, curr) => {

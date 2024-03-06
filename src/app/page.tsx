@@ -1,4 +1,3 @@
-// import { MantineProvider } from '@mantine/core';
 import { Metadata } from 'next';
 
 import Mainpage from '@/components/MainPage';
@@ -38,11 +37,7 @@ export const metadata: Metadata = {
 };
 
 const AppHome = () => {
-  return (
-    // <MantineProvider>
-    <Mainpage />
-    // </MantineProvider>
-  );
+  return <Mainpage />;
 };
 
 export default AppHome;

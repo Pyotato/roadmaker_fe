@@ -1,10 +1,10 @@
-'use client'; // Error components must be Client Components
+'use client';
 
 import * as React from 'react';
 
 import { consoleLog } from '@/utils/shared/console-log';
 
-export default function Error({
+export default function ErrorPage({
   error,
   reset,
 }: Readonly<{

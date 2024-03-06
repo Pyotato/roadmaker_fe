@@ -26,20 +26,6 @@ const NodeDetails = () => {
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
     editable: false,
-    // content: state.filter((v) => v.id === id)[0]?.details || '',
-    // onUpdate(e) {
-    //   setToggle(e.editor?.getHTML());
-    // eslint-disable-next-line array-callback-return
-    //   state.forEach((item, idx) => {
-    // if (item.id !== id) return;
-    // const copyState = [...state];
-    // copyState.splice(idx, 1, {
-    //   id: item.id,
-    //   details: e.editor?.getHTML(),
-    // });
-    // setState(copyState);
-    //   });
-    // },
   });
   return (
     <EditorContent editor={editor} readOnly style={{ lineHeight: '2rem' }} />

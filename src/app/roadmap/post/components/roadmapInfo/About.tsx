@@ -4,6 +4,7 @@ import { toTSXString } from '@/utils/shared';
 
 import { AboutInfo } from '.';
 import Creator from './Creator';
+import Join from './Join';
 import Likes from './Likes';
 
 interface AboutProps extends PropsWithChildren {
@@ -11,17 +12,30 @@ interface AboutProps extends PropsWithChildren {
 }
 
 const About = ({ aboutInfo }: AboutProps) => {
-  const { title, description, isLiked, likeCount, member } = aboutInfo;
+  const {
+    title,
+    description,
+    isLiked,
+    likeCount,
+    member,
+    createdAt,
+    isJoined,
+    joinCount,
+  } = aboutInfo;
 
   return (
     <>
       <h1>{toTSXString(title)}</h1>
+      <div>만든 날짜: {toTSXString(createdAt)}</div>
       <h3>{toTSXString(description)}</h3>
       <div>
         <Likes likesInfo={{ isLiked, likeCount }} />
       </div>
       <div>
         <Creator creatorInfo={{ member }} />
+      </div>
+      <div>
+        <Join joinInfo={{ isJoined, joinCount }} />
       </div>
     </>
   );

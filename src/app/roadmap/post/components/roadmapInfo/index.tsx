@@ -57,11 +57,7 @@ export interface RoadMapInfo extends Post {
   updatedAt: string;
 
   viewport: Viewport;
-  // edges: Array<Edge>;
-  // edges: Array<CustomEdge | EdgeProps>;
   edges: Array<CustomEdge>;
-  // nodes: Array<CustomNode | Node>;
-  // nodes: Array<CustomNode | NodeProps>;
   nodes: Array<CustomNode>;
 }
 export type AboutKeys = 'viewport' | 'edges' | 'nodes';

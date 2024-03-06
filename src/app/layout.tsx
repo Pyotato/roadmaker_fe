@@ -1,4 +1,4 @@
-import { ColorSchemeScript } from '@mantine/core';
+import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { Metadata } from 'next';
 import * as React from 'react';
 
@@ -8,6 +8,7 @@ import PageFooter from '@/components/shared/layouts/PageFooter';
 import PageHeader from '@/components/shared/layouts/PageHeader';
 
 import { SITE_CONFIG } from '@/constants';
+import Provider from '@/providers';
 import Providers from '@/providers/StyledComponentsProvider';
 import { GlobalStyle } from '@/styles/globalStyle';
 
@@ -55,12 +56,18 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript />
       </head>
+
       <Providers>
         <GlobalStyle />
+
         <body>
-          <PageHeader />
-          {children}
-          <PageFooter />
+          <MantineProvider>
+            <Provider>
+              <PageHeader />
+              {children}
+              <PageFooter />
+            </Provider>
+          </MantineProvider>
         </body>
       </Providers>
     </html>

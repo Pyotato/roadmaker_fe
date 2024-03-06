@@ -3,7 +3,7 @@ import { PropsWithChildren } from 'react';
 import { toTSXString } from '@/utils/shared';
 
 import { AboutInfo } from '.';
-import Creator from './creator';
+import Creator from './Creator';
 import Likes from './Likes';
 
 interface AboutProps extends PropsWithChildren {

@@ -9,7 +9,7 @@ import { omit, pick } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
 import About from './About';
-import ReactFlow from './ReactFlow';
+import ReactFlow from './reactFlow/ReactFlow';
 
 export interface Position {
   x: number;
@@ -18,7 +18,7 @@ export interface Position {
 export interface Viewport extends Position {
   zoom: number;
 }
-export interface Edge {
+export interface CustomEdge {
   id: string;
   source: string;
   type: string;
@@ -30,7 +30,7 @@ export interface NodeStyle extends ReactElement {
   borderRadius: number;
   fontSize: number;
 }
-export interface Node {
+export interface CustomNode {
   id: string;
   type: string;
   width: number;
@@ -57,8 +57,12 @@ export interface RoadMapInfo extends Post {
   updatedAt: string;
 
   viewport: Viewport;
-  edges: Array<Edge>;
-  nodes: Array<Node>;
+  // edges: Array<Edge>;
+  // edges: Array<CustomEdge | EdgeProps>;
+  edges: Array<CustomEdge>;
+  // nodes: Array<CustomNode | Node>;
+  // nodes: Array<CustomNode | NodeProps>;
+  nodes: Array<CustomNode>;
 }
 export type AboutKeys = 'viewport' | 'edges' | 'nodes';
 export type AboutInfo = Omit<RoadMapInfo, AboutKeys>;

@@ -7,10 +7,8 @@ import TanstackProvider from './TanstackProvider';
 const Provider = ({ children }: { children: ReactNode }) => {
   return (
     <TanstackProvider>
-      {/* <SessionProvider> */}
       <QueryProvider>
         <StyledComponentsProvider>{children}</StyledComponentsProvider>
-        {/* </SessionProvider> */}
       </QueryProvider>
     </TanstackProvider>
   );

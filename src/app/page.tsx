@@ -1,10 +1,9 @@
-import { MantineProvider } from '@mantine/core';
+// import { MantineProvider } from '@mantine/core';
 import { Metadata } from 'next';
 
 import Mainpage from '@/components/MainPage';
 
 import { SITE_CONFIG } from '@/constants';
-import Provider from '@/providers';
 
 export const metadata: Metadata = {
   metadataBase: new URL('http://roadmaker.site/'),
@@ -40,11 +39,9 @@ export const metadata: Metadata = {
 
 const AppHome = () => {
   return (
-    <MantineProvider>
-      <Provider>
-        <Mainpage />
-      </Provider>
-    </MantineProvider>
+    // <MantineProvider>
+    <Mainpage />
+    // </MantineProvider>
   );
 };
 

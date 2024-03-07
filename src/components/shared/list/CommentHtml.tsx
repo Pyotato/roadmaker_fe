@@ -30,6 +30,7 @@ export function CommentHtml({ commentData, innerRef }: CommentProps) {
         radius='md'
         className={classes.comment}
         key={i}
+        style={{ overflow: 'hidden' }}
         ref={innerRef}
       >
         <Group>
@@ -55,7 +56,13 @@ export function CommentHtml({ commentData, innerRef }: CommentProps) {
         </TypographyStylesProvider>
       </Paper>
     ) : (
-      <Paper withBorder radius='md' className={classes.comment} key={i}>
+      <Paper
+        withBorder
+        radius='md'
+        className={classes.comment}
+        key={i}
+        style={{ overflow: 'hidden' }}
+      >
         <Group>
           <Avatar
             src='https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png'

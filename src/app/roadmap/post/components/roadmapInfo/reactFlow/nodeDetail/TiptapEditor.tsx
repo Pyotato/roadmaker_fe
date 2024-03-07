@@ -1,5 +1,6 @@
 'use client';
 
+import { RichTextEditor } from '@mantine/tiptap';
 import { Highlight } from '@tiptap/extension-highlight';
 import { Link } from '@tiptap/extension-link';
 import { Subscript } from '@tiptap/extension-subscript';
@@ -8,7 +9,7 @@ import { TextAlign } from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import { Underline } from '@tiptap/extension-underline';
 import Youtube from '@tiptap/extension-youtube';
-import { EditorContent, useEditor } from '@tiptap/react';
+import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { PropsWithChildren, useMemo } from 'react';
 
@@ -36,6 +37,7 @@ const NodeDetails = ({ details }: NodeDetailsProps) => {
       TextAlign.configure({ types: ['heading', 'paragraph', ''] }),
     ],
     editable: false,
+
     content: details.detailedContent,
   });
 
@@ -44,7 +46,9 @@ const NodeDetails = ({ details }: NodeDetailsProps) => {
   }, [details, editor?.commands]);
 
   return (
-    <EditorContent editor={editor} readOnly style={{ lineHeight: '2rem' }} />
+    <RichTextEditor editor={editor} style={{ border: 'none' }}>
+      <RichTextEditor.Content style={{ lineHeight: '2rem' }} />
+    </RichTextEditor>
   );
 };
 export default NodeDetails;

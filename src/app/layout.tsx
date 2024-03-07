@@ -3,6 +3,7 @@ import { Metadata } from 'next';
 import * as React from 'react';
 
 import '@mantine/core/styles.css';
+import '@mantine/tiptap/styles.css';
 
 import PageFooter from '@/components/shared/layouts/PageFooter';
 import PageHeader from '@/components/shared/layouts/PageHeader';
@@ -12,8 +13,6 @@ import Provider from '@/providers';
 import Providers from '@/providers/StyledComponentsProvider';
 import { GlobalStyle } from '@/styles/globalStyle';
 
-// !STARTERCONF Change these default meta
-// !STARTERCONF Look at @/constant/config to change them
 export const metadata: Metadata = {
   metadataBase: new URL('http://roadmaker.site/'),
   title: {

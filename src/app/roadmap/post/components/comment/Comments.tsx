@@ -2,6 +2,7 @@
 
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
+import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { CommentHtml } from '@/components/shared/list/CommentHtml';
@@ -43,9 +44,9 @@ const Comments = () => {
   const {
     data: comments,
     error,
-    // !!CONF need to update api :currently fetching all data
-    // fetchNextPage,
-    // hasNextPage,
+    // !!API need to update api :currently fetching all data
+    fetchNextPage,
+    hasNextPage,
     isError,
     status,
   } = useInfiniteQuery({
@@ -59,6 +60,12 @@ const Comments = () => {
     },
   });
 
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, fetchNextPage, hasNextPage]);
+
   if (isError)
     return (
       <>
@@ -70,7 +77,11 @@ const Comments = () => {
     return (
       <>
         {comments.pages.map(({ comments }, i) => (
-          <CommentHtml key={i} commentData={comments?.result || []} />
+          <CommentHtml
+            key={i}
+            commentData={comments?.result || []}
+            innerRef={ref}
+          />
         ))}
       </>
     );

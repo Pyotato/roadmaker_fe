@@ -61,7 +61,6 @@ export default function Mainpage() {
     error,
     fetchNextPage,
     hasNextPage,
-    isFetchingNextPage,
     isError,
     status,
   } = useInfiniteQuery({
@@ -90,10 +89,6 @@ export default function Mainpage() {
         oops something went wrong😑{status}, {error}
       </>
     );
-  }
-
-  if (isFetchingNextPage) {
-    return <>fetching next page</>;
   }
 
   if (posts)

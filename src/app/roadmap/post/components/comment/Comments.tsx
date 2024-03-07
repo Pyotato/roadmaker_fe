@@ -1,5 +1,6 @@
 'use client';
 
+import { Container } from '@mantine/core';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useEffect } from 'react';
@@ -41,10 +42,11 @@ const Comments = () => {
     };
   };
 
+  // !!API need to update api :currently fetching all data
+
   const {
     data: comments,
     error,
-    // !!API need to update api :currently fetching all data
     fetchNextPage,
     hasNextPage,
     isError,
@@ -73,17 +75,24 @@ const Comments = () => {
       </>
     );
 
-  if (comments)
+  if (comments) {
+    if (comments.pages[0].comments?.totalPage === 0)
+      return <Container my='xl'>아직 댓글이 없습니다.</Container>;
     return (
       <>
-        {comments.pages.map(({ comments }, i) => (
-          <CommentHtml
-            key={i}
-            commentData={comments?.result || []}
-            innerRef={ref}
-          />
-        ))}
+        {comments.pages.map(({ comments }, i) =>
+          comments?.next ? (
+            <CommentHtml
+              key={i}
+              commentData={comments?.result || []}
+              innerRef={ref}
+            />
+          ) : (
+            <CommentHtml key={i} commentData={comments?.result || []} />
+          ),
+        )}
       </>
     );
+  }
 };
 export default Comments;

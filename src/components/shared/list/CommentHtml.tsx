@@ -20,8 +20,7 @@ export interface CommentProps extends PropsWithChildren {
 }
 
 export function CommentHtml({ commentData, innerRef }: CommentProps) {
-  if (!commentData.length)
-    return <Container my='xl'>아직 댓글이 없습니다.</Container>;
+  if (commentData.length === 0) return <></>;
 
   const comments = commentData.map((v, i) =>
     i === commentData.length - 1 ? (
@@ -30,6 +29,7 @@ export function CommentHtml({ commentData, innerRef }: CommentProps) {
         radius='md'
         className={classes.comment}
         key={i}
+        style={{ overflow: 'hidden' }}
         ref={innerRef}
       >
         <Group>
@@ -55,7 +55,13 @@ export function CommentHtml({ commentData, innerRef }: CommentProps) {
         </TypographyStylesProvider>
       </Paper>
     ) : (
-      <Paper withBorder radius='md' className={classes.comment} key={i}>
+      <Paper
+        withBorder
+        radius='md'
+        className={classes.comment}
+        key={i}
+        style={{ overflow: 'hidden' }}
+      >
         <Group>
           <Avatar
             src='https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png'

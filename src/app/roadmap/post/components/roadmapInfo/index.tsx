@@ -117,7 +117,17 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
     return (
       <>
         <About aboutInfo={aboutInfo} />
-        <ReactFlow reactFlowInfo={reactFlowInfo} />
+        <div
+          style={{
+            display: 'inline-flex',
+            minWidth: '100%',
+            width: 'fit-content',
+            justifyContent: 'center',
+            backgroundColor: '#EFEFEF',
+          }}
+        >
+          <ReactFlow reactFlowInfo={reactFlowInfo} />
+        </div>
       </>
     );
   }

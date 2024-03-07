@@ -54,7 +54,7 @@ const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
   const getWidth = getMinMax(nodes, 'width');
 
   const getRangePx = (obj: { max: number; min: number }, offset: number) =>
-    `${obj.max + obj.min + offset}px`;
+    `${obj.max - obj.min + offset}px`;
 
   const nodeTypes = useMemo(() => ({ custom: DoneStatusNode }), []);
 
@@ -81,6 +81,7 @@ const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
     >
       <ReactFlowProvider>
         <ReactFlow
+          fitView
           preventScrolling={false}
           nodes={nodeState}
           nodeTypes={nodeTypes}
@@ -114,7 +115,7 @@ const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
           lockScroll={false}
         >
           <Drawer.Content>
-            <Drawer.CloseButton mr='1rem' mt='1rem' />
+            <Drawer.CloseButton mr='1rem' mt='1rem' ml='1rem' />
             <Drawer.Body p='1rem' style={{ height: '100vh' }}>
               <NodeDetails details={openNode} />
             </Drawer.Body>

@@ -4,9 +4,12 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { PropsWithChildren, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+import { getPageNum } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
 import { ArticlesCardsGrid } from './shared/grid/ArticlesCardsGrid';
+
+import { DataWithPages } from '@/types';
 
 export interface Member {
   id: number;
@@ -30,12 +33,10 @@ export interface Post {
   member: Member;
 }
 export const url = `${process.env.NEXT_PUBLIC_API}/roadmaps?page=2&order-type=recent`;
-export type Postdata = {
-  totalPage: number;
-  next: typeof url;
-  previous: null;
+
+export interface Postdata extends DataWithPages {
   result: Array<Post | null>;
-};
+}
 
 export interface PageProps extends PropsWithChildren {
   postData: Postdata | null;
@@ -69,10 +70,7 @@ export default function Mainpage() {
     initialPageParam: 1,
     getNextPageParam: ({ postData }) => {
       const { next } = postData! as Postdata;
-      if (!next) return null;
-      const findPageParamRegex = /page=[0-9]{1,}/g;
-      const searchNext = next && next.match(findPageParamRegex);
-      const pageNum = Number(searchNext && searchNext[0].split('=')[1]);
+      const pageNum = getPageNum(next);
       return pageNum;
     },
   });

@@ -3,6 +3,8 @@ export interface PageParams {
   searchParams?: { [key: string]: string | undefined };
 }
 
-export interface NpmData {
-  version: string;
+export interface DataWithPages {
+  totalPage: number;
+  next: string;
+  previous: null;
 }

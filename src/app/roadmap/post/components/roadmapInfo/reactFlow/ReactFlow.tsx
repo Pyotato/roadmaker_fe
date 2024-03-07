@@ -1,6 +1,7 @@
 'use client';
 
-import { PropsWithChildren, useEffect } from 'react';
+import { Drawer, ScrollArea } from '@mantine/core';
+import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import ReactFlow, {
   Edge,
   Node,
@@ -12,20 +13,29 @@ import styled from 'styled-components';
 
 import 'reactflow/dist/style.css';
 
-import { ReactFlowInfo } from '@/app/roadmap/post/components/roadmapInfo';
-import TipTapEditor from '@/app/roadmap/post/components/roadmapInfo/TiptapEditor';
+import {
+  CustomNode,
+  ReactFlowInfo,
+} from '@/app/roadmap/post/components/roadmapInfo';
+import NodeDetails from '@/app/roadmap/post/components/roadmapInfo/reactFlow/nodeDetail/TiptapEditor';
 
 import CustomEdge from './custom/BezierEdge';
 import { DoneStatusNode } from './custom/DoneStatusNode';
-
 interface ReactFlowProps extends PropsWithChildren {
   reactFlowInfo: ReactFlowInfo;
+}
+
+export interface DetailedContent {
+  id: CustomNode['id'];
+  detailedContent: CustomNode['detailedContent'];
 }
 
 const proOptions = { hideAttribution: true };
 
 const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
   const { nodes, edges } = reactFlowInfo;
+  const [isOpen, setIsOpen] = useState(false);
+  const [openNode, setOpenNode] = useState({ id: '', detailedContent: '' });
 
   const [nodeState, setNodes, onNodesChange] = useNodesState<Node[]>([]);
   const [edgeState, setEdges, onEdgesChange] = useEdgesState<Edge[]>([]);
@@ -46,11 +56,12 @@ const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
   const getRangePx = (obj: { max: number; min: number }, offset: number) =>
     `${obj.max + obj.min + offset}px`;
 
-  const nodeTypes = { custom: DoneStatusNode };
+  const nodeTypes = useMemo(() => ({ custom: DoneStatusNode }), []);
 
-  const edgeTypes = {
-    smoothstep: CustomEdge,
-  };
+  const edgeTypes = useMemo(() => ({ smoothstep: CustomEdge }), []);
+  const detailedContent: DetailedContent[] = nodes.map((v) => {
+    return { id: v.id, detailedContent: v.detailedContent };
+  });
 
   useEffect(() => {
     const customNodes = nodes as unknown as Node<Node[], string | undefined>[];
@@ -86,8 +97,29 @@ const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
           zoomOnDoubleClick={false}
           panOnDrag={false}
           attributionPosition='top-right'
+          onNodeClick={(e, n) => {
+            setIsOpen(true);
+            setOpenNode(detailedContent.filter((v) => v.id == n.id)[0]);
+          }}
         ></ReactFlow>
-        <TipTapEditor />
+        <Drawer.Root
+          opened={isOpen}
+          scrollAreaComponent={ScrollArea.Autosize}
+          onClose={() => {
+            setIsOpen(false);
+          }}
+          position='right'
+          keepMounted
+          closeOnEscape
+          lockScroll={false}
+        >
+          <Drawer.Content>
+            <Drawer.CloseButton mr='1rem' mt='1rem' />
+            <Drawer.Body p='1rem' style={{ height: '100vh' }}>
+              <NodeDetails details={openNode} />
+            </Drawer.Body>
+          </Drawer.Content>
+        </Drawer.Root>
       </ReactFlowProvider>
     </Wrap>
   );

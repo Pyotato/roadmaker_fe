@@ -20,8 +20,7 @@ export interface CommentProps extends PropsWithChildren {
 }
 
 export function CommentHtml({ commentData, innerRef }: CommentProps) {
-  if (!commentData.length)
-    return <Container my='xl'>아직 댓글이 없습니다.</Container>;
+  if (commentData.length === 0) return <></>;
 
   const comments = commentData.map((v, i) =>
     i === commentData.length - 1 ? (

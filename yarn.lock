@@ -1650,7 +1650,7 @@
     react-textarea-autosize "8.5.3"
     type-fest "^3.13.1"
 
-"@mantine/dropzone@^7.5.2":
+"@mantine/dropzone@^7.6.1":
   version "7.6.1"
   resolved "https://registry.yarnpkg.com/@mantine/dropzone/-/dropzone-7.6.1.tgz#4fc53d0e5542b8c9e8e1918a669036aeeafe9538"
   integrity sha512-qkj681fV5DmCPW44PBhS5cKB2iYtU3UsEWA2VfC2vizU5FpSqFRF8qmaiH6OXyPYzeDK0X+IaEjUma1pqB5ZWA==

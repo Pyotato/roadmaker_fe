@@ -4,7 +4,4 @@ export const SITE_CONFIG = {
   url: 'http://roadmaker.site',
 };
 
-export const HIDE_DEBUG_ARY = [
-  'getApiResponse',
-  // 'getMongoDbApiData',
-];
+export const HIDE_DEBUG_ARY = ['getApiResponse'];

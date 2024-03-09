@@ -18,11 +18,55 @@ export function DoneStatusNode({ data }: NodeProps<NodeData>) {
         padding: '1rem',
       }}
     >
-      <Handle style={{ opacity: 0 }} type='target' position={Position.Left} />
-      <Handle style={{ opacity: 0 }} type='target' position={Position.Top} />
+      <Handle
+        style={{ opacity: 0 }}
+        type='target'
+        position={Position.Right}
+        id={Position.Right}
+      />
+      <Handle
+        style={{ opacity: 0 }}
+        type='target'
+        position={Position.Bottom}
+        id={Position.Bottom}
+      />
+      <Handle
+        style={{ opacity: 0 }}
+        type='target'
+        position={Position.Left}
+        id={Position.Left}
+      />
+      <Handle
+        style={{ opacity: 0 }}
+        type='target'
+        position={Position.Top}
+        id={Position.Top}
+      />
       {data.label}
-      <Handle style={{ opacity: 0 }} type='source' position={Position.Right} />
-      <Handle style={{ opacity: 0 }} type='source' position={Position.Bottom} />
+      <Handle
+        style={{ opacity: 0 }}
+        type='source'
+        position={Position.Left}
+        id={Position.Left}
+      />
+      <Handle
+        style={{ opacity: 0 }}
+        type='source'
+        position={Position.Right}
+        id={Position.Right}
+      />
+      <Handle
+        style={{ opacity: 0 }}
+        type='source'
+        position={Position.Bottom}
+        id={Position.Bottom}
+      />
+      <Handle
+        style={{ opacity: 0 }}
+        type='source'
+        position={Position.Top}
+        id={Position.Top}
+      />
     </Wrap>
   );
 }

@@ -1,7 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
-import { ReactElement } from 'react';
+import { Connection } from 'reactflow';
 
 import { Member, Post } from '@/components/MainPage';
 
@@ -10,7 +10,6 @@ import { getApiResponse } from '@/utils/shared/get-api-response';
 
 import About from './About';
 import ReactFlow from './reactFlow/ReactFlow';
-
 export interface Position {
   x: number;
   y: number;
@@ -18,13 +17,15 @@ export interface Position {
 export interface Viewport extends Position {
   zoom: number;
 }
-export interface CustomEdge {
+export interface CustomEdge extends Connection {
   id: string;
   source: string;
   type: string;
+  style?: { stroke: string };
   animated: boolean;
 }
-export interface NodeStyle extends ReactElement {
+
+export interface NodeStyle {
   background: string;
   border: string;
   borderRadius: number;
@@ -32,19 +33,20 @@ export interface NodeStyle extends ReactElement {
 }
 export interface CustomNode {
   id: string;
-  type: string;
-  width: number;
-  height: number;
-  sourcePosition: string;
-  targetPosition: string;
-  done: boolean;
-  detailedContent: string;
-  style: NodeStyle;
   data: {
     label: string;
   };
-  position: Position;
-  positionAbsolute: Position;
+  position: Viewport | Position;
+  positionAbsolute?: Viewport | Position;
+  type: string;
+  sourcePosition?: string | null;
+  targetPosition?: string | null;
+  style: NodeStyle;
+  width?: number;
+  height?: number;
+  done?: boolean;
+  detailedContent?: string;
+  blogKeyword?: string;
 }
 
 export interface RoadMapInfo extends Post {

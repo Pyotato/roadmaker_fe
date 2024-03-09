@@ -11,15 +11,14 @@ import ReactFlow, {
 } from 'reactflow';
 import styled from 'styled-components';
 
-import 'reactflow/dist/style.css';
-
 import {
+  CustomEdge,
   CustomNode,
   ReactFlowInfo,
 } from '@/app/roadmap/post/components/roadmapInfo';
 import NodeDetails from '@/app/roadmap/post/components/roadmapInfo/reactFlow/nodeDetail/TiptapEditor';
 
-import CustomEdge from './custom/BezierEdge';
+import CustomBezierEdge from './custom/BezierEdge';
 import { DoneStatusNode } from './custom/DoneStatusNode';
 interface ReactFlowProps extends PropsWithChildren {
   reactFlowInfo: ReactFlowInfo;
@@ -35,10 +34,15 @@ const proOptions = { hideAttribution: true };
 const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
   const { nodes, edges } = reactFlowInfo;
   const [isOpen, setIsOpen] = useState(false);
-  const [openNode, setOpenNode] = useState({ id: '', detailedContent: '' });
+  const [openNode, setOpenNode] = useState<DetailedContent>({
+    id: '',
+    detailedContent: '',
+  });
 
   const [nodeState, setNodes, onNodesChange] = useNodesState<Node[]>([]);
-  const [edgeState, setEdges, onEdgesChange] = useEdgesState<Edge[]>([]);
+  const [edgeState, setEdges, onEdgesChange] = useEdgesState<
+    CustomEdge[] | Edge[]
+  >([]);
   const getMinMax = <T extends ReactFlowInfo['nodes']>(obj: T, arg: string) =>
     obj.reduce(
       (acc, curr) => {
@@ -58,14 +62,30 @@ const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
 
   const nodeTypes = useMemo(() => ({ custom: DoneStatusNode }), []);
 
-  const edgeTypes = useMemo(() => ({ smoothstep: CustomEdge }), []);
+  const edgeTypes = useMemo(() => ({ smoothstep: CustomBezierEdge }), []);
   const detailedContent: DetailedContent[] = nodes.map((v) => {
     return { id: v.id, detailedContent: v.detailedContent };
   });
 
   useEffect(() => {
     const customNodes = nodes as unknown as Node<Node[], string | undefined>[];
-    const customEdges = edges as unknown as Edge<Edge[]>[];
+    const customEdges = edges.reduce(
+      (acc, curr) => {
+        const temp = curr;
+        const regex = /left|right|top|bottom/g;
+        const handles = temp.id.match(regex);
+
+        if (handles) {
+          temp['sourceHandle'] = `${handles[0]}`;
+          temp['targetHandle'] = `${handles[1]}`;
+        }
+        acc.push(temp);
+
+        return acc;
+      },
+      [] as Array<CustomEdge | Edge>,
+    ) as Array<Edge>;
+
     setNodes(customNodes);
     setEdges(customEdges);
   }, [nodes, edges, setEdges, setNodes]);

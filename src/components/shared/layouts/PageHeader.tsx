@@ -10,6 +10,9 @@ const PageHeader = () => {
       <button type='button' onClick={() => router.push('/auth')}>
         sign in
       </button>
+      <button type='button' onClick={() => router.push('/roadmap/create')}>
+        create roadmap
+      </button>
     </section>
   );
 };

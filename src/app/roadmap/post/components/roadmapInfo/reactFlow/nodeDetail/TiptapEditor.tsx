@@ -9,7 +9,7 @@ import { TextAlign } from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import { Underline } from '@tiptap/extension-underline';
 import Youtube from '@tiptap/extension-youtube';
-import { useEditor } from '@tiptap/react';
+import { Content, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { PropsWithChildren, useMemo } from 'react';
 
@@ -42,7 +42,8 @@ const NodeDetails = ({ details }: NodeDetailsProps) => {
   });
 
   useMemo(() => {
-    editor?.commands.setContent(details.detailedContent);
+    const content = details.detailedContent as Content;
+    editor?.commands.setContent(content);
   }, [details, editor?.commands]);
 
   return (

@@ -4,6 +4,7 @@ import * as React from 'react';
 
 import '@mantine/core/styles.css';
 import '@mantine/tiptap/styles.css';
+import 'reactflow/dist/style.css';
 
 import PageFooter from '@/components/shared/layouts/PageFooter';
 import PageHeader from '@/components/shared/layouts/PageHeader';

@@ -3,6 +3,7 @@
 import { Drawer, ScrollArea } from '@mantine/core';
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 import ReactFlow, {
+  ConnectionLineType,
   Edge,
   Node,
   ReactFlowProvider,
@@ -11,15 +12,14 @@ import ReactFlow, {
 } from 'reactflow';
 import styled from 'styled-components';
 
-import {
-  CustomEdge,
-  CustomNode,
-  ReactFlowInfo,
-} from '@/app/roadmap/post/components/roadmapInfo';
-import NodeDetails from '@/app/roadmap/post/components/roadmapInfo/reactFlow/nodeDetail/TiptapEditor';
+import CustomBezierEdge from '@/components/reactflow/custom/edge/BezierEdge';
+import { QuadroHandleNode } from '@/components/reactflow/custom/node/QuadroHandleNode';
 
-import CustomBezierEdge from './custom/BezierEdge';
-import { DoneStatusNode } from './custom/DoneStatusNode';
+import { ReactFlowInfo } from '@/app/roadmap/post/components/roadmapInfo';
+import NodeDetails from '@/app/roadmap/post/components/roadmapInfo/reactFlow/nodeDetail/TiptapEditor';
+import { edgeOptions } from '@/constants';
+
+import { CustomEdge, CustomNode } from '@/types/reactFlow';
 interface ReactFlowProps extends PropsWithChildren {
   reactFlowInfo: ReactFlowInfo;
 }
@@ -60,7 +60,7 @@ const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
   const getRangePx = (obj: { max: number; min: number }, offset: number) =>
     `${obj.max - obj.min + offset}px`;
 
-  const nodeTypes = useMemo(() => ({ custom: DoneStatusNode }), []);
+  const nodeTypes = useMemo(() => ({ custom: QuadroHandleNode }), []);
 
   const edgeTypes = useMemo(() => ({ smoothstep: CustomBezierEdge }), []);
   const detailedContent: DetailedContent[] = nodes.map((v) => {
@@ -102,6 +102,9 @@ const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
       <ReactFlowProvider>
         <ReactFlow
           fitView
+          defaultEdgeOptions={edgeOptions}
+          connectionLineType={ConnectionLineType.SmoothStep}
+          connectionLineStyle={{ stroke: edgeOptions.style.stroke }}
           preventScrolling={false}
           nodes={nodeState}
           nodeTypes={nodeTypes}
@@ -118,7 +121,7 @@ const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
           zoomOnDoubleClick={false}
           panOnDrag={false}
           attributionPosition='top-right'
-          onNodeClick={(e, n) => {
+          onNodeClick={(_e, n) => {
             setIsOpen(true);
             setOpenNode(detailedContent.filter((v) => v.id == n.id)[0]);
           }}

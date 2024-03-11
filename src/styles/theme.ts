@@ -8,9 +8,8 @@
 const calcRem = (size: number) => `${size / 16}rem`;
 
 export const colors = {
-  color_grey1: '#f0f1f3',
-  color_primary: '#524FA1',
-  color_grey2: '#E1E2E4',
+  color_primary: '#000000',
+  color_grey1: '#ced4da',
   color_grey3: '#E9EBF',
   color_grey4: '#a8a9ab',
   color_primary_white: '#F0F1F3',

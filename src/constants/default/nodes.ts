@@ -1,4 +1,4 @@
-import { CustomNode } from '@/app/roadmap/post/components/roadmapInfo';
+import { CustomNode } from '@/types/reactFlow';
 
 export const defaultNodes: CustomNode[] = [
   {
@@ -12,7 +12,7 @@ export const defaultNodes: CustomNode[] = [
       borderRadius: 15,
       fontSize: 24,
     },
-
+    height: 'fit-content',
     blogKeyword: '',
     detailedContent: '',
   },
@@ -32,4 +32,42 @@ export const defaultNodes: CustomNode[] = [
     blogKeyword: '',
     detailedContent: '',
   },
+];
+
+export const randomNodeColor = [
+  '#EEF5DB',
+  '#C7EFCF',
+  '#C7EFCF',
+  '#FE5F55',
+  '#F0B67F',
+  '#F0B67F',
+  '#F0B67F',
+  '#B7CECE',
+  '#6E7E85',
+  '#EF626C',
+  '#F6E8EA',
+  '#446DF6',
+  '#08A4BD',
+  '#00635D',
+  '#F06449',
+  '#F06449',
+  '#B2C9AB',
+  '#92B6B1',
+  '#788AA3',
+  '#666A86',
+  '#CFD11A',
+  '#91C499',
+  '#FFADC6',
+  '#DDA3B2',
+  '#764248',
+  '#E3C5BB',
+  '#D81E5B',
+  '#59C9A5',
+  '#B9E3C6',
+  '#FFFD98',
+  '#E3C0D3',
+  '#95818D',
+  '#F26DF9',
+  '#EB4B98',
+  '#5158BB',
 ];

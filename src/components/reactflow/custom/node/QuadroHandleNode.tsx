@@ -1,19 +1,21 @@
 'use client';
+import { Text } from '@mantine/core';
 import { Handle, NodeProps, Position } from 'reactflow';
 import { styled } from 'styled-components';
 
-import { CustomNode } from '@/app/roadmap/post/components/roadmapInfo';
+import { CustomNode } from '@/types/reactFlow';
 
 type NodeData = {
   label: CustomNode['data']['label'];
 };
 
-export function DoneStatusNode({ data }: NodeProps<NodeData>) {
+export function QuadroHandleNode({ data }: NodeProps<NodeData>) {
   return (
     <Wrap
       className='node'
       style={{
         width: 'fit-content',
+        height: 'fit-content',
         fontSize: '1rem',
         padding: '1rem',
       }}
@@ -42,7 +44,7 @@ export function DoneStatusNode({ data }: NodeProps<NodeData>) {
         position={Position.Top}
         id={Position.Top}
       />
-      {data.label}
+      <Text>{data.label}</Text>
       <Handle
         style={{ opacity: 0 }}
         type='source'
@@ -70,7 +72,7 @@ export function DoneStatusNode({ data }: NodeProps<NodeData>) {
     </Wrap>
   );
 }
-export default DoneStatusNode;
+export default QuadroHandleNode;
 
 const Wrap = styled.div`
   .react-flow__node.react-flow__node-custom {

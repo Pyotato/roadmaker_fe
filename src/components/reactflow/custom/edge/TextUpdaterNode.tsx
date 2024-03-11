@@ -1,19 +1,20 @@
 'use client';
 
+import { Textarea } from '@mantine/core';
 import { FormEvent, useCallback } from 'react';
 import { Handle, Node, Position } from 'reactflow';
 import styled from 'styled-components';
 
-function TextUpdaterNode({ data }: { data: Node['data'] }) {
+function TextUpdaterNode({ data }: Readonly<{ data: Node['data'] }>) {
   const onChange = useCallback(
-    (evt: FormEvent<HTMLInputElement>) => {
+    (evt: FormEvent<HTMLTextAreaElement>) => {
       data.label = evt?.currentTarget?.value;
     },
     [data],
   );
 
   return (
-    <Wrap className='text-updater-node'>
+    <Wrap className='text-updater-node' style={{ height: 'fit-content' }}>
       <Handle
         type='target'
         position={Position.Right}
@@ -40,10 +41,10 @@ function TextUpdaterNode({ data }: { data: Node['data'] }) {
         isConnectable={true}
       />
       <div className='label-wrap'>
-        <label htmlFor='text'>Text : </label>
-        <input
+        <Textarea
           id='text'
           name='text'
+          autosize
           onChange={onChange}
           className='nodrag'
           placeholder='내용을 입력해주세요.'
@@ -84,7 +85,6 @@ const Wrap = styled.div`
   & .label-wrap {
     width: fit-content;
     padding: 1rem;
-    background-color: red;
   }
 `;
 

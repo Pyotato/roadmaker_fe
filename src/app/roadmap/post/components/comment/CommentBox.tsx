@@ -1,25 +1,31 @@
 'use client';
 
 import { Button, Container } from '@mantine/core';
-import { RichTextEditor } from '@mantine/tiptap';
+import BulletList from '@tiptap/extension-bullet-list';
 import Highlight from '@tiptap/extension-highlight';
+import Italic from '@tiptap/extension-italic';
 import Link from '@tiptap/extension-link';
+import ListItem from '@tiptap/extension-list-item';
+import OrderedList from '@tiptap/extension-ordered-list';
 import { Placeholder } from '@tiptap/extension-placeholder';
 import Subscript from '@tiptap/extension-subscript';
 import Superscript from '@tiptap/extension-superscript';
 import TextAlign from '@tiptap/extension-text-align';
 import Underline from '@tiptap/extension-underline';
+import Youtube from '@tiptap/extension-youtube';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
+import TipTapTextEditor from '@/components/shared/tiptap/TipTapTextEditor';
+
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
 const CommentBox = () => {
   const params = useParams<{ tag: string; item: string; id: string[] }>();
-  const currPostId = params.id!;
+  const currPostId = params.id;
 
   const [content, setContent] = useState('');
 
@@ -27,16 +33,30 @@ const CommentBox = () => {
     extensions: [
       StarterKit,
       Placeholder.configure({
-        placeholder: '로드맵 상세 내용을 입력해주세요.',
+        placeholder: '댓글을 달아주세요.',
       }),
       Underline,
       Link,
       Superscript,
       Subscript,
       Highlight,
+      Italic,
+      ListItem,
+      BulletList.configure({
+        itemTypeName: 'listItem',
+        keepMarks: true,
+      }),
+      Youtube.configure({
+        inline: false,
+        ccLanguage: 'ko',
+        interfaceLanguage: 'ko',
+      }),
+      OrderedList.configure({
+        itemTypeName: 'listItem',
+        keepMarks: true,
+      }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
-
     content: content,
     onUpdate(e) {
       setContent(e.editor.getHTML());
@@ -65,48 +85,7 @@ const CommentBox = () => {
   const tiptapEditor = useMemo(() => {
     return (
       <EditorWrap>
-        <RichTextEditor editor={editor} style={{ width: '100%' }}>
-          <RichTextEditor.Toolbar sticky stickyOffset={5}>
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Bold />
-              <RichTextEditor.Italic />
-              <RichTextEditor.Underline />
-              <RichTextEditor.Strikethrough />
-              <RichTextEditor.ClearFormatting />
-              <RichTextEditor.Highlight />
-              <RichTextEditor.Code />
-            </RichTextEditor.ControlsGroup>
-
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.H1 />
-              <RichTextEditor.H2 />
-              <RichTextEditor.H3 />
-              <RichTextEditor.H4 />
-            </RichTextEditor.ControlsGroup>
-
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Blockquote />
-              <RichTextEditor.Hr />
-              <RichTextEditor.BulletList />
-              <RichTextEditor.OrderedList />
-              <RichTextEditor.Subscript />
-              <RichTextEditor.Superscript />
-            </RichTextEditor.ControlsGroup>
-
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.Link />
-              <RichTextEditor.Unlink />
-            </RichTextEditor.ControlsGroup>
-
-            <RichTextEditor.ControlsGroup>
-              <RichTextEditor.AlignLeft />
-              <RichTextEditor.AlignCenter />
-              <RichTextEditor.AlignJustify />
-              <RichTextEditor.AlignRight />
-            </RichTextEditor.ControlsGroup>
-          </RichTextEditor.Toolbar>
-          <RichTextEditor.Content style={{ minHeight: '20em' }} />
-        </RichTextEditor>
+        <TipTapTextEditor editor={editor} />
       </EditorWrap>
     );
   }, [editor]);

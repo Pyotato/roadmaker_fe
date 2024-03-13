@@ -1,6 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 import { Member, Post } from '@/components/MainPage';
 
@@ -46,6 +47,7 @@ const loadDataFromApi = async (pageParam: string) => {
 
 const Roadmap = ({ params }: { params: { id: string } }) => {
   const { id } = params;
+  const router = useRouter();
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: [`post${id}`],
     queryFn: async () => await loadDataFromApi(id),
@@ -54,13 +56,8 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
   if (isLoading) return <div>is loading</div>;
   if (isError) return <div>oops something went wrong!🥲</div>;
   if (data === null || !data?.roadMapInfo) {
-    return (
-      <main>
-        <section>
-          <div>empty</div>
-        </section>
-      </main>
-    );
+    router.replace('/error');
+    return <></>;
   }
 
   if (isSuccess && 'roadMapInfo' in data) {

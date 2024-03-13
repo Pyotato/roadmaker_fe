@@ -1,8 +1,8 @@
 'use client';
 
-import { Container } from '@mantine/core';
+import { Box, Container } from '@mantine/core';
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
@@ -26,14 +26,18 @@ export interface CommentData extends DataWithPages {
 
 const Comments = () => {
   const { ref, inView } = useInView();
+  const router = useRouter();
   const params = useParams<{ tag: string; item: string; id: string[] }>();
-  const currPostId = params.id!;
+
+  if (!params.id) router.replace('/error');
+
+  const currPostId = params.id;
 
   const loadDataFromApi = async ({ pageParam }: { pageParam: number }) => {
     const [comments] = await Promise.all([
       getApiResponse<CommentData>({
         apiEndpoint: `${process.env.NEXT_PUBLIC_API}/roadmaps/load-roadmap/${currPostId[0]}/comments?page=${pageParam}&size=5`,
-        revalidate: 2 * 12, // 1 mins cache
+        revalidate: 0, // 1 mins cache
       }),
     ]);
 
@@ -52,11 +56,11 @@ const Comments = () => {
     isError,
     status,
   } = useInfiniteQuery({
-    queryKey: [`comments`],
+    queryKey: [`comments`, `${currPostId[0]}`],
     queryFn: loadDataFromApi,
     initialPageParam: 1,
     getNextPageParam: ({ comments }) => {
-      const { next } = (comments! as CommentData) || null;
+      const { next } = comments! || null;
       const pageNum = getPageNum(next);
       return pageNum;
     },
@@ -79,7 +83,7 @@ const Comments = () => {
     if (comments.pages[0].comments?.totalPage === 0)
       return <Container my='xl'>아직 댓글이 없습니다.</Container>;
     return (
-      <>
+      <Box py='xl'>
         {comments.pages.map(({ comments }, i) =>
           comments?.next ? (
             <CommentHtml
@@ -88,10 +92,10 @@ const Comments = () => {
               innerRef={ref}
             />
           ) : (
-            <CommentHtml key={i} commentData={comments?.result || []} />
+            <CommentHtml key={i} commentData={comments?.result ?? []} />
           ),
         )}
-      </>
+      </Box>
     );
   }
 };

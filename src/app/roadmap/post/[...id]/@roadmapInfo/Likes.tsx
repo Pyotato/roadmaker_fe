@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react';
 
 import { toTSXString } from '@/utils/shared';
 
-import { AboutInfo } from '.';
+import { AboutInfo } from './page';
 
 interface LikeProps extends PropsWithChildren {
   likesInfo: {

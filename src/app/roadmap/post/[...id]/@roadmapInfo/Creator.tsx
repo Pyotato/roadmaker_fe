@@ -4,7 +4,7 @@ import { Member } from '@/components/MainPage';
 
 import { toTSXString } from '@/utils/shared';
 
-import { AboutInfo } from '.';
+import { AboutInfo } from './page';
 
 interface CreatorProps extends PropsWithChildren {
   creatorInfo: {
@@ -24,10 +24,6 @@ const Creator = ({ creatorInfo }: CreatorProps) => {
     // blogUrl,
     // baekjoonId,
   } = member as Member;
-  return (
-    <>
-      <h1>creator: {toTSXString(nickname)}</h1>
-    </>
-  );
+  return <h1>creator: {toTSXString(nickname)}</h1>;
 };
 export default Creator;

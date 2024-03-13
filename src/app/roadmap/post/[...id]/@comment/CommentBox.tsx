@@ -1,12 +1,9 @@
 'use client';
 
 import { Button, Container } from '@mantine/core';
-import BulletList from '@tiptap/extension-bullet-list';
+import { useQueryClient } from '@tanstack/react-query';
 import Highlight from '@tiptap/extension-highlight';
-import Italic from '@tiptap/extension-italic';
 import Link from '@tiptap/extension-link';
-import ListItem from '@tiptap/extension-list-item';
-import OrderedList from '@tiptap/extension-ordered-list';
 import { Placeholder } from '@tiptap/extension-placeholder';
 import Subscript from '@tiptap/extension-subscript';
 import Superscript from '@tiptap/extension-superscript';
@@ -40,20 +37,10 @@ const CommentBox = () => {
       Superscript,
       Subscript,
       Highlight,
-      Italic,
-      ListItem,
-      BulletList.configure({
-        itemTypeName: 'listItem',
-        keepMarks: true,
-      }),
       Youtube.configure({
         inline: false,
         ccLanguage: 'ko',
         interfaceLanguage: 'ko',
-      }),
-      OrderedList.configure({
-        itemTypeName: 'listItem',
-        keepMarks: true,
       }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
@@ -62,6 +49,8 @@ const CommentBox = () => {
       setContent(e.editor.getHTML());
     },
   });
+
+  const queryClient = useQueryClient();
 
   const postResponseFromApi = async () => {
     await Promise.all([
@@ -78,8 +67,11 @@ const CommentBox = () => {
         },
       }),
     ]);
+
     setContent('');
+
     editor?.commands.setContent('');
+    queryClient.invalidateQueries({ queryKey: ['comments', currPostId[0]] });
   };
 
   const tiptapEditor = useMemo(() => {
@@ -100,6 +92,7 @@ const CommentBox = () => {
             type='button'
             onClick={postResponseFromApi}
             className='btn'
+            disabled={editor?.getText() === ''}
           >
             댓글 달기
           </Button>

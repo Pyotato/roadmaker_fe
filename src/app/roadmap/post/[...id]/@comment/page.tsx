@@ -1,9 +1,11 @@
+'use server';
+
 import { Container, Title } from '@mantine/core';
 
-import CommentBox from '@/app/roadmap/post/components/comment/CommentBox';
-import Comment from '@/app/roadmap/post/components/comment/Comments';
+import CommentBox from '@/app/roadmap/post/[...id]/@comment/CommentBox';
+import Comments from '@/app/roadmap/post/[...id]/@comment/Comments';
 
-export default function CommentSection() {
+export default async function CommentSection() {
   return (
     <>
       <Container py='l'>
@@ -13,7 +15,9 @@ export default function CommentSection() {
       <Container py='l'>
         <Title order={1}>댓글</Title>
       </Container>
-      <Comment />
+      <Container py='l'>
+        <Comments />
+      </Container>
     </>
   );
 }

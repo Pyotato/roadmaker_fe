@@ -1,16 +1,18 @@
 import { Container } from '@mantine/core';
 
-import Roadmap from '@/app/roadmap/post/components/roadmapInfo';
+import Roadmap from '@/app/roadmap/post/[[...id]]/@roadmapInfo/page';
 
-import CommentSection from '../components/comment';
+import CommentSection from './@comment/page';
 
-export default function PostPage({ params }: { params: { id: string } }) {
+export default function PostPage({
+  params,
+}: Readonly<{ params: { id: string } }>) {
   return (
-    <div>
+    <>
       <Roadmap params={params} />
       <Container py='xl'>
         <CommentSection />
       </Container>
-    </div>
+    </>
   );
 }

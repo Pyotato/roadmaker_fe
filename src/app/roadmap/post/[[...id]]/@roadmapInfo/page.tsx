@@ -1,6 +1,7 @@
 'use client';
 
 import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 import { Member, Post } from '@/components/MainPage';
 
@@ -11,7 +12,6 @@ import About from './About';
 import ReactFlow from './reactFlow/ReactFlow';
 
 import { CustomEdge, CustomNode, Viewport } from '@/types/reactFlow';
-import { useRouter } from 'next/navigation';
 
 export interface RoadMapInfo extends Post {
   [key: string]: unknown;

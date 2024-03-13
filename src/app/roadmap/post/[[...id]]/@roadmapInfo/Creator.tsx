@@ -24,10 +24,6 @@ const Creator = ({ creatorInfo }: CreatorProps) => {
     // blogUrl,
     // baekjoonId,
   } = member as Member;
-  return (
-    <>
-      <h1>creator: {toTSXString(nickname)}</h1>
-    </>
-  );
+  return <h1>creator: {toTSXString(nickname)}</h1>;
 };
 export default Creator;

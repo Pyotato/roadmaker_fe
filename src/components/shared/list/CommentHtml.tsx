@@ -11,7 +11,7 @@ import { PropsWithChildren } from 'react';
 
 import classes from './CommentHtml.module.css';
 
-import { CommentData } from '@/app/roadmap/post/[[...id]]/@comment/Comments';
+import { CommentData } from '@/app/roadmap/post/[...id]/@comment/Comments';
 import { toTSXString } from '@/utils/shared';
 
 export interface CommentProps extends PropsWithChildren {

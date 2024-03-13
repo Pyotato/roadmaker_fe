@@ -1,12 +1,10 @@
 'use client';
 
 import { RichTextEditor } from '@mantine/tiptap';
-import BulletList from '@tiptap/extension-bullet-list';
 import { Highlight } from '@tiptap/extension-highlight';
-import Italic from '@tiptap/extension-italic';
+
 import { Link } from '@tiptap/extension-link';
-import ListItem from '@tiptap/extension-list-item';
-import OrderedList from '@tiptap/extension-ordered-list';
+
 import { Subscript } from '@tiptap/extension-subscript';
 import { Superscript } from '@tiptap/extension-superscript';
 import { TextAlign } from '@tiptap/extension-text-align';
@@ -35,20 +33,10 @@ const NodeDetails = ({ details }: NodeDetailsProps) => {
       }),
       Underline,
       Link,
-      Italic,
       Superscript,
       Subscript,
       Highlight,
-      ListItem,
       TextAlign.configure({ types: ['heading', 'paragraph', ''] }),
-      BulletList.configure({
-        itemTypeName: 'listItem',
-        keepMarks: true,
-      }),
-      OrderedList.configure({
-        itemTypeName: 'listItem',
-        keepMarks: true,
-      }),
     ],
 
     editable: false,

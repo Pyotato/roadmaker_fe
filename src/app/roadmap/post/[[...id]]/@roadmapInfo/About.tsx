@@ -2,10 +2,10 @@ import { PropsWithChildren } from 'react';
 
 import { toTSXString } from '@/utils/shared';
 
-import { AboutInfo } from '.';
 import Creator from './Creator';
 import Join from './Join';
 import Likes from './Likes';
+import { AboutInfo } from './page';
 
 interface AboutProps extends PropsWithChildren {
   aboutInfo: AboutInfo;

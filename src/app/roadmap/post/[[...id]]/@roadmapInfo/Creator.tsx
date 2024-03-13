@@ -4,7 +4,7 @@ import { Member } from '@/components/MainPage';
 
 import { toTSXString } from '@/utils/shared';
 
-import { AboutInfo } from '.';
+import { AboutInfo } from './page';
 
 interface CreatorProps extends PropsWithChildren {
   creatorInfo: {

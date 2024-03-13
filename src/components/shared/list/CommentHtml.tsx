@@ -1,6 +1,6 @@
 import {
   Avatar,
-  Container,
+  Box,
   Group,
   Paper,
   SimpleGrid,
@@ -11,7 +11,7 @@ import { PropsWithChildren } from 'react';
 
 import classes from './CommentHtml.module.css';
 
-import { CommentData } from '@/app/roadmap/post/components/comment/Comments';
+import { CommentData } from '@/app/roadmap/post/[[...id]]/@comment/Comments';
 import { toTSXString } from '@/utils/shared';
 
 export interface CommentProps extends PropsWithChildren {
@@ -88,8 +88,8 @@ export function CommentHtml({ commentData, innerRef }: CommentProps) {
   );
 
   return (
-    <Container py='xl'>
+    <Box pt='sm'>
       <SimpleGrid cols={{ base: 1, sm: 1 }}>{comments}</SimpleGrid>
-    </Container>
+    </Box>
   );
 }

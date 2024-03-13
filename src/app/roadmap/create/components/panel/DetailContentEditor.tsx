@@ -1,11 +1,7 @@
 'use client';
 
-import BulletList from '@tiptap/extension-bullet-list';
 import Highlight from '@tiptap/extension-highlight';
-import Italic from '@tiptap/extension-italic';
 import Link from '@tiptap/extension-link';
-import ListItem from '@tiptap/extension-list-item';
-import OrderedList from '@tiptap/extension-ordered-list';
 import Placeholder from '@tiptap/extension-placeholder';
 import Subscript from '@tiptap/extension-subscript';
 import Superscript from '@tiptap/extension-superscript';
@@ -47,23 +43,15 @@ const DetailContentEditor = ({
       }),
       Underline,
       Link,
-      Italic,
+
       Superscript,
       Subscript,
       Highlight,
-      ListItem,
+
       Youtube.configure({
         inline: false,
         ccLanguage: 'ko',
         interfaceLanguage: 'ko',
-      }),
-      BulletList.configure({
-        itemTypeName: 'listItem',
-        keepMarks: true,
-      }),
-      OrderedList.configure({
-        itemTypeName: 'listItem',
-        keepMarks: true,
       }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],

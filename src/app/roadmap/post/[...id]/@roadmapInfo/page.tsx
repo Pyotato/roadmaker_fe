@@ -1,5 +1,6 @@
 'use client';
 
+import { Box } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 
@@ -21,7 +22,6 @@ export interface RoadMapInfo extends Post {
   likeCount: number;
   member: Member;
   updatedAt: string;
-
   viewport: Viewport;
   edges: Array<CustomEdge>;
   nodes: Array<CustomNode>;
@@ -79,7 +79,7 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
     return (
       <>
         <About aboutInfo={aboutInfo} />
-        <div
+        <Box
           style={{
             display: 'inline-flex',
             minWidth: '100%',
@@ -89,7 +89,7 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
           }}
         >
           <ReactFlow reactFlowInfo={reactFlowInfo} />
-        </div>
+        </Box>
       </>
     );
   }

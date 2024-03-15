@@ -31,7 +31,6 @@ function TextUpdaterNode({ data }: Readonly<{ data: Node['data'] }>) {
         type='target'
         position={Position.Left}
         id={Position.Left}
-        // style={handleStyle}
         isConnectable={true}
       />
       <Handle
@@ -66,7 +65,6 @@ function TextUpdaterNode({ data }: Readonly<{ data: Node['data'] }>) {
         type='source'
         position={Position.Left}
         id={Position.Left}
-        // style={handleStyle}
         isConnectable={true}
       />
       <Handle

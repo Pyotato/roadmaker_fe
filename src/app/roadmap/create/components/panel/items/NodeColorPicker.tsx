@@ -8,7 +8,6 @@ import { omit } from '@/utils/shared';
 
 const NodeColorPicker = ({
   clickedNode,
-  setClickedNode,
   setNodes,
   nodes,
 }: {
@@ -51,7 +50,6 @@ const NodeColorPicker = ({
             style: newStyle,
           } as Node;
 
-          setClickedNode(temp);
           const newNodes = nodes.reduce((acc, curr) => {
             if (curr.id === temp.id) {
               acc.push(temp);

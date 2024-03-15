@@ -6,6 +6,7 @@ import {
   Image,
   SimpleGrid,
   Text,
+  Title,
 } from '@mantine/core';
 import { PropsWithChildren } from 'react';
 
@@ -37,15 +38,41 @@ export function ArticlesCardsGrid({ postData, innerRef }: PostProps) {
       >
         <AspectRatio ratio={1920 / 1080}>
           <Image
-            src={article?.thumbnailUrl}
+            radius='md'
+            src={article?.thumbnailUrl || '/no-image.png'}
             alt={`${article?.thumbnailUrl} 이미지`}
           />
         </AspectRatio>
         <Text c='dimmed' size='xs' tt='uppercase' fw={700} mt='md'>
           {`${article?.createdAt}`}
         </Text>
-        <Text className={classes.title} mt={5}>
+        <Title
+          className={classes.title}
+          mt={5}
+          order={3}
+          style={{
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+          }}
+        >
           {article?.title}
+        </Title>
+        <Text
+          className={classes.title}
+          mt={5}
+          c='dimmed'
+          style={{
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+          }}
+        >
+          {article?.description}
+        </Text>
+        {article?.description === '' && <div>'no description'</div>}
+        <Text c='dimmed' size='xs' fw={700} mt='md'>
+          {`${article?.member?.nickname}`}
         </Text>
       </Card>
     ) : (
@@ -59,6 +86,7 @@ export function ArticlesCardsGrid({ postData, innerRef }: PostProps) {
       >
         <AspectRatio ratio={1920 / 1080}>
           <Image
+            radius='md'
             src={article?.thumbnailUrl}
             alt={`${article?.thumbnailUrl} 이미지`}
           />
@@ -66,16 +94,47 @@ export function ArticlesCardsGrid({ postData, innerRef }: PostProps) {
         <Text c='dimmed' size='xs' tt='uppercase' fw={700} mt='md'>
           {`${article?.createdAt}`}
         </Text>
-        <Text className={classes.title} mt={5}>
+        <Title
+          className={classes.title}
+          mt={5}
+          order={3}
+          style={{
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+          }}
+        >
           {article?.title}
+        </Title>
+        <Text
+          className={classes.title}
+          mt={5}
+          c='dimmed'
+          style={{
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+          }}
+        >
+          {article?.description}
+        </Text>
+        {article?.description === '' && <div>'no description'</div>}
+        <Text c='dimmed' size='xs' fw={700} mt='md'>
+          {`${article?.member?.nickname}`}
         </Text>
       </Card>
     ),
   );
 
   return (
-    <Container py='xl'>
-      <SimpleGrid cols={{ base: 1, sm: 2 }}>{cards}</SimpleGrid>
+    <Container pt='lg'>
+      <SimpleGrid
+        cols={{ base: 1, sm: 2 }}
+        spacing={{ base: 'md', sm: 'md', lg: 'lg' }}
+        verticalSpacing={{ base: 'md', sm: 'md', lg: 'lg' }}
+      >
+        {cards}
+      </SimpleGrid>
     </Container>
   );
 }

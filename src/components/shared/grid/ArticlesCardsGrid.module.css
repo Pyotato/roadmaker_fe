@@ -1,5 +1,13 @@
 .card {
   background-color: var(--mantine-color-body);
+  border-radius: var(--mantine-radius-md);
+  box-shadow: var(--mantine-shadows-lg);
+  transition: 'transform 150ms ease, box-shadow 150ms ease';
+}
+
+.card:hover {
+  transform: 'scale(1.01)';
+  box-shadow: var(--mantine-shadow-md);
 }
 
 .title {

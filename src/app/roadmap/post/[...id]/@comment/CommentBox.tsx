@@ -46,7 +46,7 @@ const CommentBox = () => {
     ],
     content: content,
     onUpdate(e) {
-      setContent(e.editor.getHTML());
+      setContent(e.editor.getHTML().replace(' ', '&nbsp'));
     },
   });
 
@@ -92,7 +92,9 @@ const CommentBox = () => {
             type='button'
             onClick={postResponseFromApi}
             className='btn'
-            disabled={editor?.getText() === ''}
+            disabled={
+              editor?.getHTML() === '<p></p>' || editor?.getText() === ''
+            }
           >
             댓글 달기
           </Button>

@@ -1,8 +1,14 @@
-import { PropsWithChildren } from 'react';
+'use client';
+import { Box, Title } from '@mantine/core';
+import { IconHeart } from '@tabler/icons-react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
+import { PropsWithChildren, useMemo, useState } from 'react';
 
-import { toTSXString } from '@/utils/shared';
+import { omit, toTSXString } from '@/utils/shared';
+import { getApiResponse } from '@/utils/shared/get-api-response';
 
-import { AboutInfo } from './page';
+import { AboutInfo, RoadMapInfo } from './page';
 
 interface LikeProps extends PropsWithChildren {
   likesInfo: {
@@ -11,14 +17,63 @@ interface LikeProps extends PropsWithChildren {
   };
 }
 
+interface RoadMapInfoQuery {
+  roadMapInfo: RoadMapInfo;
+}
+
 const Likes = ({ likesInfo }: LikeProps) => {
-  const { isLiked, likeCount } = likesInfo;
+  const [liked, setLiked] = useState(likesInfo.isLiked);
+  const [heartColor, setHeartColor] = useState(likesInfo.isLiked);
+  const [likedCount, setLikedCount] = useState(likesInfo.likeCount);
+  const params = useParams<{ tag: string; item: string; id: string[] }>();
+
+  const queryClient = useQueryClient();
+
+  const postResponseFromApi = async () => {
+    const [likes] = await Promise.all([
+      getApiResponse<LikeProps['likesInfo']>({
+        apiEndpoint: `${process.env.NEXT_PUBLIC_API}/likes/like-roadmap/${params.id}`,
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_USER_ACCESS_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+      }),
+    ]);
+    if (likes) {
+      setLiked(likes.isLiked);
+      setLikedCount(likes.likeCount);
+      setHeartColor(likes.isLiked);
+    }
+    // queryClient.invalidateQueries({ queryKey: [`post${params.id}`] });
+    const previousData = queryClient.getQueryData([
+      `post${params.id}`,
+    ]) as RoadMapInfoQuery;
+    const newRoadMapInfo = {
+      ...omit(previousData.roadMapInfo, 'isLiked', 'likeCount'),
+      isLiked: likes?.isLiked,
+      likeCount: likes?.likeCount,
+    };
+    queryClient.setQueryData([`post${params.id}`], {
+      roadMapInfo: newRoadMapInfo,
+    });
+    return { likes };
+  };
+
+  useMemo(() => {
+    setHeartColor(liked);
+  }, [liked]);
 
   return (
-    <>
-      <h1>isliked: {toTSXString(isLiked)}</h1>
-      <h3>like count: {toTSXString(likeCount)}</h3>
-    </>
+    <Box style={{ display: 'inline-flex', alignItems: 'center', gap: '1rem' }}>
+      <IconHeart
+        fill={heartColor ? 'red' : '#ffffff'}
+        style={{ color: 'red' }}
+        onClick={postResponseFromApi}
+      />
+      {/* {toTSXString(liked)} */}
+      <Title order={6}>{toTSXString(likedCount)}</Title>
+    </Box>
   );
 };
 export default Likes;

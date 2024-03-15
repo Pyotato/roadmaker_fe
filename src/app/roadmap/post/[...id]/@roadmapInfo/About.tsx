@@ -1,3 +1,5 @@
+import { Box, Container, Title } from '@mantine/core';
+import { IconCalendarMonth } from '@tabler/icons-react';
 import { PropsWithChildren } from 'react';
 
 import { toTSXString } from '@/utils/shared';
@@ -24,20 +26,42 @@ const About = ({ aboutInfo }: AboutProps) => {
   } = aboutInfo;
 
   return (
-    <>
-      <h1>{toTSXString(title)}</h1>
-      <div>만든 날짜: {toTSXString(createdAt)}</div>
-      <h3>{toTSXString(description)}</h3>
-      <div>
-        <Likes likesInfo={{ isLiked, likeCount }} />
-      </div>
-      <div>
+    <Container px='xl' my='xl'>
+      <Box
+        style={{ display: 'inline-flex', alignItems: 'center', width: '100%' }}
+      >
+        <Title order={1}>{toTSXString(title)}</Title>{' '}
+      </Box>
+      <Box my='md' className='txt-height'>
+        {toTSXString(description)}
+      </Box>
+      <Box
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          width: '100%',
+          gap: '1rem',
+        }}
+        mt='xs'
+      >
         <Creator creatorInfo={{ member }} />
-      </div>
-      <div>
-        <Join joinInfo={{ isJoined, joinCount }} />
-      </div>
-    </>
+      </Box>
+      <Box
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '1rem',
+        }}
+        my='xs'
+      >
+        <IconCalendarMonth />
+        <Box>{toTSXString(createdAt)}</Box>
+      </Box>
+      <Box my='xs'>
+        <Likes likesInfo={{ isLiked, likeCount }} />
+      </Box>
+      <Join joinInfo={{ isJoined, joinCount }} />
+    </Container>
   );
 };
 export default About;

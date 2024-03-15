@@ -1,6 +1,6 @@
 'use client';
 
-import { Box, Container } from '@mantine/core';
+import { Box } from '@mantine/core';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
@@ -81,7 +81,7 @@ const Comments = () => {
 
   if (comments) {
     if (comments.pages[0].comments?.totalPage === 0)
-      return <Container my='xl'>아직 댓글이 없습니다.</Container>;
+      return <Box my='xl'>아직 댓글이 없습니다.</Box>;
     return (
       <Box py='xl'>
         {comments.pages.map(({ comments }, i) =>

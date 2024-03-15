@@ -16,9 +16,10 @@ export interface CustomEdge extends Connection {
 }
 
 export interface NodeStyle {
+  [key: string]: unknown;
   background: string;
   border: string;
-  borderRadius: number;
+  borderRadius: number | string;
   fontSize: number;
 }
 export interface CustomNode {

@@ -20,7 +20,6 @@ import {
   IconPencil,
   IconPhotoPlus,
   IconPlus,
-  IconTriangleSquareCircle,
 } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import { useCallback, useMemo, useRef, useState } from 'react';
@@ -66,8 +65,6 @@ const PanelItem = ({
       />
     );
   });
-
-  const onChangeShape = () => {};
 
   const onSubmitRoadmap = useCallback(async () => {
     if (!formData || !files) {
@@ -189,11 +186,11 @@ const PanelItem = ({
               <IconLayoutDistributeHorizontal data-disabled size='1rem' />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label='change shape' position='bottom'>
+          {/* <Tooltip label='change shape' position='bottom'>
             <ActionIcon variant='default' onClick={onChangeShape}>
               <IconTriangleSquareCircle data-disabled size='1rem' />
             </ActionIcon>
-          </Tooltip>
+          </Tooltip> */}
 
           <Tooltip
             label={

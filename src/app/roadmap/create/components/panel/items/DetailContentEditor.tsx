@@ -10,7 +10,7 @@ import Underline from '@tiptap/extension-underline';
 import Youtube from '@tiptap/extension-youtube';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { Dispatch, SetStateAction, useMemo, useState } from 'react';
+import { Dispatch, SetStateAction, useEffect, useMemo } from 'react';
 import { Node, useUpdateNodeInternals } from 'reactflow';
 
 import TipTapTextEditor from '@/components/shared/tiptap/TipTapTextEditor';
@@ -32,7 +32,6 @@ const DetailContentEditor = ({
   setNodes: Dispatch<SetStateAction<Node[]>>;
   nodes: Node[];
 }) => {
-  const [content, setContent] = useState(clickedNode?.detailedContent ?? '');
   const updateNodeInternals = useUpdateNodeInternals();
 
   const editor = useEditor({
@@ -43,11 +42,9 @@ const DetailContentEditor = ({
       }),
       Underline,
       Link,
-
       Superscript,
       Subscript,
       Highlight,
-
       Youtube.configure({
         inline: false,
         ccLanguage: 'ko',
@@ -55,39 +52,31 @@ const DetailContentEditor = ({
       }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
-    content: content,
+    content: clickedNode?.detailedContent ?? '',
     onUpdate(e) {
-      setContent(e.editor.getHTML().replace(' ', '&nbsp'));
+      const tempClickedNode = clickedNode as unknown as Record<string, unknown>;
+      const temp = {
+        ...omit(tempClickedNode, 'detailedContent'),
+        detailedContent: e.editor?.getHTML().replace(' ', '&nbsp'),
+      } as unknown as Node;
+      setClickedNode(temp);
+      const newNodes = nodes.reduce((acc, curr) => {
+        if (curr.id === temp.id) {
+          acc.push(temp);
+          return acc;
+        } else {
+          acc.push(curr);
+        }
+        return acc;
+      }, [] as Node[]);
+      setNodes([...newNodes]);
     },
   });
-
-  useMemo(() => {
-    const newDetail = content;
-    const tempClickedNode = clickedNode as unknown as Record<string, unknown>;
-    const temp = {
-      ...omit(tempClickedNode, 'detailedContent'),
-      detailedContent: newDetail,
-    } as unknown as Node;
-
-    setClickedNode(temp);
-    const newNodes = nodes.reduce((acc, curr) => {
-      if (curr.id === temp.id) {
-        acc.push(temp);
-        return acc;
-      } else {
-        acc.push(curr);
-      }
-      return acc;
-    }, [] as Node[]);
-    setNodes([...newNodes]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [content]);
 
   /**
    * 클릭한 노드의 상세 내용이 에디터 내용으로 채우기
    */
-  useMemo(() => {
-    setContent(clickedNode?.detailedContent ?? '');
+  useEffect(() => {
     editor?.commands.setContent(clickedNode.detailedContent ?? '');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickedNode]);

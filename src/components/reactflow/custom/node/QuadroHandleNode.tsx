@@ -44,7 +44,7 @@ export function QuadroHandleNode({ data }: NodeProps<NodeData>) {
         position={Position.Top}
         id={Position.Top}
       />
-      <Text>{data.label}</Text>
+      <Text className='label-input'>{data.label}</Text>
       <Handle
         style={{ opacity: 0 }}
         type='source'

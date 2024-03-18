@@ -1,4 +1,6 @@
 'use client';
+import ELK from 'elkjs/lib/elk.bundled.js';
+import { ElkExtendedEdge, ElkNode } from 'elkjs/lib/elk-api';
 import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 import ReactFlow, {
   addEdge,
@@ -14,6 +16,8 @@ import ReactFlow, {
   Node,
   NodeChange,
   Panel,
+  useReactFlow,
+  XYPosition,
 } from 'reactflow';
 
 import CustomBezierEdge from '@/components/reactflow/custom/edge/BezierEdge';
@@ -30,10 +34,18 @@ import PanelItem from './panel/PanelControl';
 
 import { CustomEdge, CustomNode } from '@/types/reactFlow';
 
+interface CustomElkNode extends ElkNode {
+  id: Node['id'];
+  data: Node['data'];
+  position: XYPosition;
+}
+
 const proOptions = { hideAttribution: true };
 
 const nodeTypes = { textUpdater: TextUpdaterNode };
 const edgeTypes = { bezierEdge: CustomBezierEdge };
+
+const elk = new ELK();
 
 const Flow = ({
   nodes,
@@ -82,6 +94,71 @@ const Flow = ({
     const temp = [...nodes, newNode] as Node[];
     setNodes(temp);
   }, [setNodes, nodes]);
+
+  const useLayoutedElements = () => {
+    const { getNodes, setNodes, getEdges, fitView, setEdges, getViewport } =
+      useReactFlow();
+
+    const getLayoutedElements = useCallback(
+      (options: { [key: string]: unknown }) => {
+        const defaultOptions = {
+          'elk.algorithm': 'layered',
+          'elk.layered.spacing.nodeNodeBetweenLayers': 100,
+          'elk.spacing.nodeNode': 80,
+        };
+        const layoutOptions = { ...defaultOptions, ...options };
+        const graph = {
+          id: 'root',
+          layoutOptions: layoutOptions,
+          children: getNodes(),
+          edges: getEdges() as unknown as Edge[],
+        } as unknown as ElkExtendedEdge;
+
+        elk.layout(graph).then(({ children, edges }) => {
+          if (children) {
+            const chrn = children as CustomElkNode[];
+
+            chrn.forEach((node) => {
+              node.position = { x: node.x, y: node.y } as XYPosition;
+            });
+            setNodes(chrn);
+          }
+          if (edges) {
+            const eds = edges as unknown as Edge[];
+            eds.forEach((edge) => {
+              let temp = edge.id;
+              if (options['elk.direction'] === 'RIGHT') {
+                edge.sourceHandle = 'right';
+                edge.targetHandle = 'left';
+                temp = edge.id
+                  .replace('bottom', 'right')
+                  .replace('top', 'left');
+              } else if (options['elk.direction'] === 'DOWN') {
+                edge.sourceHandle = 'bottom';
+                edge.targetHandle = 'top';
+                temp = edge.id
+                  .replace('left', 'top')
+                  .replace('right', 'bottom');
+              }
+              edge.id = temp;
+            });
+
+            setEdges(eds);
+          }
+
+          window.requestAnimationFrame(() => {
+            fitView();
+          });
+        });
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [nodes, edges, getViewport],
+    );
+
+    return { getLayoutedElements };
+  };
+
+  const { getLayoutedElements } = useLayoutedElements();
 
   const onConnect = useCallback(
     (connection: Connection) => {
@@ -150,7 +227,14 @@ const Flow = ({
         }}
       >
         <Panel position='top-right'>
-          <PanelItem onAddNode={onAddNode} nodes={nodes} edges={edges} />
+          <PanelItem
+            onAddNode={onAddNode}
+            nodes={nodes}
+            edges={edges}
+            getLayoutedElements={getLayoutedElements}
+            setEdges={setEdges}
+            setNodes={setNodes}
+          />
         </Panel>
         <Background gap={16} />
         <Controls position='bottom-right' />

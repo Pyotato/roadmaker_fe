@@ -12,6 +12,8 @@ import {
 } from '@mantine/core';
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import {
+  IconArrowBackUp,
+  IconArrowForwardUp,
   IconExclamationCircle,
   IconFileCheck,
   IconLayersIntersect2,
@@ -20,38 +22,72 @@ import {
   IconPencil,
   IconPhotoPlus,
   IconPlus,
+  IconSitemap,
 } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
-import { useCallback, useMemo, useRef, useState } from 'react';
-import { Edge, Node } from 'reactflow';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { Connection, Edge, Node } from 'reactflow';
+import useUndoable from 'use-undoable';
 
 import { omit } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
 import { CustomEdge, CustomNode } from '@/types/reactFlow';
 
+interface Args {
+  [key: string]: string;
+}
 const PanelItem = ({
   onAddNode,
   nodes,
   edges,
+  getLayoutedElements,
+  setEdges,
+  setNodes,
 }: {
   nodes: Node[];
   edges: Edge[];
   onAddNode: () => void;
+  getLayoutedElements: (args: Args) => void;
+  setNodes: Dispatch<SetStateAction<Node[]>>;
+  setEdges: Dispatch<SetStateAction<Edge<CustomEdge | Connection | Edge>[]>>;
 }) => {
   const router = useRouter();
+
   const [files, setFiles] = useState<FileWithPath[]>([]);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const ref = useRef<HTMLImageElement | null>(null);
   const [formData, setFormData] = useState<FormData | null>();
   const [isToggled, setIsToggled] = useState(true);
+  const [flow, setFlow, { undo, canUndo, redo, canRedo }] = useUndoable<{
+    nodes: Node[];
+    edges: Edge[];
+  }>({ nodes, edges });
 
   useMemo(() => {
     const tempFormData = new FormData();
     tempFormData.append('file', files[0]);
     setFormData(tempFormData);
   }, [files]);
+
+  useMemo(() => {
+    setFlow({ nodes, edges });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [nodes, edges]);
+
+  useMemo(() => {
+    setNodes(flow.nodes);
+    setEdges(flow.edges);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flow]);
 
   const previews = files.map((file) => {
     const imageUrl = URL.createObjectURL(file);
@@ -176,14 +212,59 @@ const PanelItem = ({
               <IconLayersIntersect2 data-disabled size='1rem' />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label='horizontal layout' position='bottom'>
+          <Tooltip
+            label='space out nodes'
+            position='bottom'
+            onClick={() => getLayoutedElements({})}
+          >
+            <ActionIcon variant='default'>
+              <IconSitemap data-disabled size='1rem' />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip
+            label='vertical layout'
+            position='bottom'
+            onClick={() =>
+              getLayoutedElements({
+                'elk.algorithm': 'layered',
+                'elk.direction': 'RIGHT',
+              })
+            }
+          >
             <ActionIcon variant='default'>
               <IconLayoutDistributeVertical data-disabled size='1rem' />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label='horizontal layout' position='bottom'>
+          <Tooltip
+            label='horizontal layout'
+            position='bottom'
+            onClick={() =>
+              getLayoutedElements({
+                'elk.algorithm': 'layered',
+                'elk.direction': 'DOWN',
+              })
+            }
+          >
             <ActionIcon variant='default'>
               <IconLayoutDistributeHorizontal data-disabled size='1rem' />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label='undo' position='bottom'>
+            <ActionIcon
+              variant='default'
+              disabled={!canUndo}
+              onClick={() => undo()}
+            >
+              <IconArrowBackUp data-disabled size='1rem' />
+            </ActionIcon>
+          </Tooltip>
+          <Tooltip label='redo' position='bottom'>
+            <ActionIcon
+              variant='default'
+              disabled={!canRedo}
+              onClick={() => redo()}
+            >
+              <IconArrowForwardUp data-disabled size='1rem' />
             </ActionIcon>
           </Tooltip>
           {/* <Tooltip label='change shape' position='bottom'>

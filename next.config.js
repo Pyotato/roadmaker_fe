@@ -18,12 +18,12 @@ const nextConfig = {
   //   ],
   // },
 
-  rewrites: {
-    beforeFiles: {
-      source: '/api/:path*',
-      destination: 'https://main.dmb5wiywaiaet.amplifyapp.com/api/:path*',
-    },
-  },
+  // rewrites: {
+  //   beforeFiles: {
+  //     source: '/api/:path*',
+  //     destination: 'https://main.dmb5wiywaiaet.amplifyapp.com/api/:path*',
+  //   },
+  // },
 
   images: {
     remotePatterns: [

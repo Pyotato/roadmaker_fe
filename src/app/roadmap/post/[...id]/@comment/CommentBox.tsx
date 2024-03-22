@@ -18,6 +18,7 @@ import styled from 'styled-components';
 
 import TipTapTextEditor from '@/components/shared/tiptap/TipTapTextEditor';
 
+import { apiRoutes } from '@/constants';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
 const CommentBox = () => {
@@ -59,7 +60,7 @@ const CommentBox = () => {
           content: content,
           roadmapId: Number(currPostId[0]),
         }),
-        apiEndpoint: `${process.env.NEXT_PUBLIC_API}/comments`,
+        apiEndpoint: `${apiRoutes.comments}`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_USER_ACCESS_TOKEN}`,

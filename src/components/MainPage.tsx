@@ -4,6 +4,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { PropsWithChildren, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
+import { apiRoutes } from '@/constants';
 import { getPageNum } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
@@ -32,7 +33,7 @@ export interface Post {
   updatedAt: Date | string;
   member: Member;
 }
-export const url = `${process.env.NEXT_PUBLIC_API}/roadmaps?page=2&order-type=recent`;
+export const url = `${apiRoutes.roadmapPaged}2&order-type=recent`;
 
 export interface Postdata extends DataWithPages {
   result: Array<Post | null>;
@@ -44,7 +45,7 @@ export interface PageProps extends PropsWithChildren {
 const loadDataFromApi = async ({ pageParam }: { pageParam: number }) => {
   const [postData] = await Promise.all([
     getApiResponse<Postdata>({
-      apiEndpoint: `${process.env.NEXT_PUBLIC_API}/roadmaps?page=${pageParam}&order-type=recent`,
+      apiEndpoint: `${apiRoutes.roadmapPaged}${pageParam}&order-type=recent`,
       revalidate: 60 * 12, // 30 mins cache
     }),
   ]);
@@ -69,7 +70,8 @@ export default function Mainpage() {
     queryFn: loadDataFromApi,
     initialPageParam: 1,
     getNextPageParam: ({ postData }) => {
-      const { next } = (postData! as Postdata) || null;
+      if (postData?.next) return getPageNum(null);
+      const { next } = postData as Postdata;
       const pageNum = getPageNum(next);
       return pageNum;
     },
@@ -91,25 +93,23 @@ export default function Mainpage() {
 
   if (posts)
     return (
-      <>
-        <main>
-          <section>
-            {posts.pages.map(({ postData }, index) =>
-              postData?.next ? (
-                <ArticlesCardsGrid
-                  key={index}
-                  postData={postData?.result}
-                  innerRef={ref}
-                />
-              ) : (
-                <ArticlesCardsGrid
-                  key={index}
-                  postData={postData?.result || []}
-                />
-              ),
-            )}
-          </section>
-        </main>
-      </>
+      <main>
+        <section>
+          {posts.pages.map(({ postData }, index) =>
+            postData?.next ? (
+              <ArticlesCardsGrid
+                key={index}
+                postData={postData?.result}
+                innerRef={ref}
+              />
+            ) : (
+              <ArticlesCardsGrid
+                key={index}
+                postData={postData?.result || []}
+              />
+            ),
+          )}
+        </section>
+      </main>
     );
 }

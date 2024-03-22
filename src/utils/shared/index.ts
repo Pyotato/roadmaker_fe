@@ -40,10 +40,11 @@ export const toTSXString = (v: unknown) => `${v}`;
 /**
  * 페이지 url에서 정규표현식을 활용해 페이지 번호를 구하는 함수입니다.
  */
-export const getPageNum = (next: string) => {
+export const getPageNum = (next: string | null) => {
   if (!next) return null;
   const findPageParamRegex = /page=[0-9]{1,}/g;
-  const searchNext = next && next.match(findPageParamRegex);
-  const pageNum = Number(searchNext && searchNext[0].split('=')[1]);
-  return pageNum;
+  const searchNext = next.match(findPageParamRegex);
+  if (searchNext) {
+    return Number(searchNext[0].split('=')[1]);
+  } else return null;
 };

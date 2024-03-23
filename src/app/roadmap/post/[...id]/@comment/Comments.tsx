@@ -60,6 +60,7 @@ const Comments = () => {
     queryFn: loadDataFromApi,
     initialPageParam: 1,
     getNextPageParam: ({ comments }) => {
+      if (comments?.next) return getPageNum(null);
       const { next } = comments! || null;
       const pageNum = getPageNum(next);
       return pageNum;

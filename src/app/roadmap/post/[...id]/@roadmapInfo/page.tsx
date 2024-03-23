@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 
 import { Member, Post } from '@/components/MainPage';
 
+import { apiRoutes } from '@/constants';
 import { omit, pick } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
@@ -35,7 +36,7 @@ export type aboutInfoKeys = keyof AboutInfo;
 const loadDataFromApi = async (pageParam: string) => {
   const [roadMapInfo] = await Promise.all([
     getApiResponse<RoadMapInfo>({
-      apiEndpoint: `${process.env.NEXT_PUBLIC_API}/roadmaps/${pageParam}`,
+      apiEndpoint: `${apiRoutes.roadmaps}/${pageParam}`,
       revalidate: 60 * 2, // 5 mins cache
     }),
   ]);

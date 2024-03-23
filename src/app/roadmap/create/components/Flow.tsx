@@ -96,7 +96,8 @@ const Flow = ({
   }, [setNodes, nodes]);
 
   const useLayoutedElements = () => {
-    const { getNodes, setNodes, getEdges, fitView, setEdges } = useReactFlow();
+    const { getNodes, setNodes, getEdges, fitView, setEdges, getViewport } =
+      useReactFlow();
 
     const getLayoutedElements = useCallback(
       (options: { [key: string]: unknown }) => {
@@ -116,32 +117,30 @@ const Flow = ({
         elk.layout(graph).then(({ children, edges }) => {
           if (children) {
             const chrn = children as CustomElkNode[];
+
             chrn.forEach((node) => {
               node.position = { x: node.x, y: node.y } as XYPosition;
             });
             setNodes(chrn);
           }
-
           if (edges) {
             const eds = edges as unknown as Edge[];
             eds.forEach((edge) => {
               let temp = edge.id;
-              if (options['elk.direction']) {
-                if (options['elk.direction'] === 'RIGHT') {
-                  edge.sourceHandle = 'right';
-                  edge.targetHandle = 'left';
-                  temp = edge.id
-                    .replace('bottom', 'right')
-                    .replace('top', 'left');
-                } else if (options['elk.direction'] === 'DOWN') {
-                  edge.sourceHandle = 'bottom';
-                  edge.targetHandle = 'top';
-                  temp = edge.id
-                    .replace('left', 'top')
-                    .replace('right', 'bottom');
-                }
-                edge.id = temp;
+              if (options['elk.direction'] === 'RIGHT') {
+                edge.sourceHandle = 'right';
+                edge.targetHandle = 'left';
+                temp = edge.id
+                  .replace('bottom', 'right')
+                  .replace('top', 'left');
+              } else if (options['elk.direction'] === 'DOWN') {
+                edge.sourceHandle = 'bottom';
+                edge.targetHandle = 'top';
+                temp = edge.id
+                  .replace('left', 'top')
+                  .replace('right', 'bottom');
               }
+              edge.id = temp;
             });
 
             setEdges(eds);
@@ -152,7 +151,8 @@ const Flow = ({
           });
         });
       },
-      [getNodes, getEdges, setNodes, setEdges, fitView],
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [nodes, edges, getViewport],
     );
 
     return { getLayoutedElements };

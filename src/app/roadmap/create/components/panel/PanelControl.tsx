@@ -30,12 +30,12 @@ import {
   SetStateAction,
   useCallback,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { Connection, Edge, Node } from 'reactflow';
 import useUndoable from 'use-undoable';
 
-import { apiRoutes } from '@/constants';
 import { omit } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
@@ -62,11 +62,9 @@ const PanelItem = ({
   const router = useRouter();
 
   const [files, setFiles] = useState<FileWithPath[]>([]);
-  const [thumbnail, setThumbnail] = useState(
-    localStorage.getItem('thumbnail') || null,
-  );
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const ref = useRef<HTMLImageElement | null>(null);
   const [formData, setFormData] = useState<FormData | null>();
   const [isToggled, setIsToggled] = useState(true);
   const [flow, setFlow, { undo, canUndo, redo, canRedo }] = useUndoable<{
@@ -91,21 +89,18 @@ const PanelItem = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flow]);
 
-  const previews = useCallback(() => {
-    const url = thumbnail;
-    return files.map((file) => {
-      const imageUrl = URL.createObjectURL(file);
-
-      return (
-        <Image
-          key={`${file.name}`}
-          src={url}
-          alt={`${url}`}
-          onLoad={() => URL.revokeObjectURL(imageUrl)}
-        />
-      );
-    });
-  }, [files, thumbnail]);
+  const previews = files.map((file) => {
+    const imageUrl = URL.createObjectURL(file);
+    return (
+      <Image
+        ref={ref}
+        key={`${file.name}`}
+        src={imageUrl}
+        alt={imageUrl}
+        onLoad={() => URL.revokeObjectURL(imageUrl)}
+      />
+    );
+  });
 
   const onSubmitRoadmap = useCallback(async () => {
     if (!formData || !files) {
@@ -154,7 +149,7 @@ const PanelItem = ({
           edges: tempEdges,
           viewport: { x: 0, y: 0, zoom: 0.45 },
         }),
-        apiEndpoint: `${apiRoutes.roadmaps}`,
+        apiEndpoint: `${process.env.NEXT_PUBLIC_API}/roadmaps`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_USER_ACCESS_TOKEN}`,
@@ -170,7 +165,7 @@ const PanelItem = ({
     await Promise.all([
       getApiResponse<undefined>({
         requestData: formData,
-        apiEndpoint: `${apiRoutes.roadmapsSlash}${response}/thumbnails`,
+        apiEndpoint: `${process.env.NEXT_PUBLIC_API}/roadmaps/${response}/thumbnails`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_USER_ACCESS_TOKEN}`,
@@ -178,7 +173,7 @@ const PanelItem = ({
       }),
       getApiResponse<undefined>({
         requestData: JSON.stringify({}),
-        apiEndpoint: `${apiRoutes.roadmapsSlash}${response}/join`,
+        apiEndpoint: `${process.env.NEXT_PUBLIC_API}/roadmaps/${response}/join`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_USER_ACCESS_TOKEN}`,
@@ -186,7 +181,6 @@ const PanelItem = ({
         },
       }),
       alert(`${response} 포스팅 성공!`),
-      localStorage.removeItem('thumbnail'),
       router.replace(`/roadmap/post/${response}`),
     ]);
   }, [nodes, edges, files, title, description, formData, router]);
@@ -363,18 +357,11 @@ const PanelItem = ({
               accept={IMAGE_MIME_TYPE}
               onDrop={(e) => {
                 setFiles(e);
-                const fr = new FileReader();
-                fr.readAsDataURL(e[0]);
-                fr.onloadend = () => {
-                  const url = fr.result as string;
-                  localStorage.setItem('thumbnail', url);
-                  setThumbnail(url);
-                };
               }}
             >
-              {files.length > 0 ? (
+              {previews.length > 0 ? (
                 <Tooltip.Floating label='이미지 변경하기'>
-                  <Box>{previews()}</Box>
+                  <Box>{previews}</Box>
                 </Tooltip.Floating>
               ) : (
                 <Box

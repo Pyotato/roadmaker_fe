@@ -5,7 +5,6 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { PropsWithChildren, useMemo, useState } from 'react';
 
-import { apiRoutes } from '@/constants';
 import { omit, toTSXString } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
@@ -33,8 +32,7 @@ const Likes = ({ likesInfo }: LikeProps) => {
   const postResponseFromApi = async () => {
     const [likes] = await Promise.all([
       getApiResponse<LikeProps['likesInfo']>({
-        // apiEndpoint: `${process.env.NEXT_PUBLIC_API}/like-roadmap/${params.id}`,
-        apiEndpoint: `${apiRoutes.likes}${params.id}`,
+        apiEndpoint: `${process.env.NEXT_PUBLIC_API}/likes/like-roadmap/${params.id}`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_USER_ACCESS_TOKEN}`,
@@ -47,7 +45,7 @@ const Likes = ({ likesInfo }: LikeProps) => {
       setLikedCount(likes.likeCount);
       setHeartColor(likes.isLiked);
     }
-
+    // queryClient.invalidateQueries({ queryKey: [`post${params.id}`] });
     const previousData = queryClient.getQueryData([
       `post${params.id}`,
     ]) as RoadMapInfoQuery;
@@ -73,6 +71,7 @@ const Likes = ({ likesInfo }: LikeProps) => {
         style={{ color: 'red' }}
         onClick={postResponseFromApi}
       />
+      {/* {toTSXString(liked)} */}
       <Title order={6}>{toTSXString(likedCount)}</Title>
     </Box>
   );

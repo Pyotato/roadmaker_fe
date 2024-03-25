@@ -20,10 +20,28 @@ export const missing = {
   content: {
     id: 'no-content-alert',
     title: '⚠️ 내용 ⚠️',
-    message: '내용은 필수입니다. 내용을 입력해주세요.',
+    message:
+      '내용은 필수입니다. 내용을 입력해주세요. \n 빈칸과 공백 이외의 내용을 입력해주세요.',
     color: 'orange',
   },
 };
 
 export type Missing = typeof missing;
 export type MissingKeys = keyof Missing;
+
+export const sucess = {
+  comment: {
+    id: 'roadmap-comment-sucess',
+    title: '댓글 생성!',
+    message: '댓글 생성 완료!',
+    color: 'teal',
+  },
+  roadmaps: {
+    id: `roadmap-post-sucess`,
+    title: '로드맵 생성 성공',
+    color: 'teal',
+  },
+};
+
+export type Success = typeof sucess;
+export type SuccessKeys = keyof Success;

@@ -14,7 +14,6 @@ export const consoleLog = (
     if (typeof var1 === 'string') {
       if (HIDE_DEBUG_ARY.some((item) => var1.includes(item))) {
         console.log('H💖 🔥 💪 👌 👍 💔 😅');
-        // console.log('H');
         return;
       }
     }

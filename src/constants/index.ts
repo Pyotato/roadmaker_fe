@@ -1,3 +1,4 @@
+export * from '@/constants/alerts';
 export * from '@/constants/config';
 export * from '@/constants/default/edges';
 export * from '@/constants/default/nodes';

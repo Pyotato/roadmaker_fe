@@ -1,11 +1,12 @@
 'use client';
 import { ActionIcon, Container, Group, Image, rem, Text } from '@mantine/core';
 import { IconBrandGithub } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 export function PageFooter() {
   const router = useRouter();
-
+  const path = usePathname();
+  if (path === '/roadmap/create') return <></>;
   return (
     <footer className='footer'>
       <Container className='inner' px='xl'>

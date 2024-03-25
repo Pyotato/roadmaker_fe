@@ -135,4 +135,33 @@ export const GlobalStyle = createGlobalStyle`
     flex-direction: column;
   }
 }	
+
+.root {
+  background-color: var(--notification-color, var(--mantine-primary-color-filled));
+
+  &::before {
+    background-color: var(--mantine-color-white);
+  }
+}
+
+.description,
+.title {
+  color: var(--mantine-color-white);
+}
+
+.closeButton {
+  color: var(--mantine-color-white);
+
+  @mixin hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+.notification{
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  min-width: 18rem;
+}
+
 `;

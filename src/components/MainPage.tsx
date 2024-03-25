@@ -70,8 +70,7 @@ export default function Mainpage() {
     queryFn: loadDataFromApi,
     initialPageParam: 1,
     getNextPageParam: ({ postData }) => {
-      if (postData?.next) return getPageNum(null);
-      const { next } = postData as Postdata;
+      const { next } = (postData as Postdata) || null;
       const pageNum = getPageNum(next);
       return pageNum;
     },

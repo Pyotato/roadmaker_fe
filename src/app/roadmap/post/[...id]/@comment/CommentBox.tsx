@@ -104,7 +104,8 @@ const CommentBox = () => {
             onClick={() => {
               if (
                 content.length <= '<p></p>'.length ||
-                `${editor?.getText()}`.replaceAll(' ', '').length === 0
+                `${editor?.getText()}`.replaceAll(' ', '').replaceAll('\n', '')
+                  .length === 0
               ) {
                 notifications.show({
                   id: missing.content.id,

@@ -111,19 +111,6 @@ const PanelItem = ({
 
   const onSubmitRoadmap = useCallback(async () => {
     if (!formData || !files || !thumbnail) {
-      notifications.show({
-        id: 'no-thumnail-alert',
-        withCloseButton: true,
-        autoClose: 1000,
-        title: '‼️썸네일‼️',
-        message: '썸네일은 필수입니다. 썸네일을 등록해주세요.',
-        color: 'orange',
-        icon: (
-          <IconExclamationMark style={{ width: '20rem', height: '20rem' }} />
-        ),
-        className: 'my-notification-class notification',
-        loading: false,
-      });
       return;
     }
 
@@ -330,7 +317,7 @@ const PanelItem = ({
                   const alerts = [] as MissingKeys[];
                   !title && alerts.push('title');
                   !description && alerts.push('description');
-                  !thumbnail || (!files[0] && alerts.push('thumbnail'));
+                  (!thumbnail || !files[0]) && alerts.push('thumbnail');
 
                   alerts.forEach((v, index) => {
                     setTimeout(() => {

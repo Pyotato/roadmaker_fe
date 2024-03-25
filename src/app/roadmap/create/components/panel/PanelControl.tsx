@@ -11,10 +11,13 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { Dropzone, FileWithPath, IMAGE_MIME_TYPE } from '@mantine/dropzone';
+import { notifications } from '@mantine/notifications';
 import {
   IconArrowBackUp,
   IconArrowForwardUp,
+  IconCheck,
   IconExclamationCircle,
+  IconExclamationMark,
   IconFileCheck,
   IconLayersIntersect2,
   IconLayoutDistributeHorizontal,
@@ -23,6 +26,7 @@ import {
   IconPhotoPlus,
   IconPlus,
   IconSitemap,
+  IconX,
 } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import {
@@ -35,12 +39,12 @@ import {
 import { Connection, Edge, Node } from 'reactflow';
 import useUndoable from 'use-undoable';
 
-import { apiRoutes } from '@/constants';
+import { apiRoutes, missing, MissingKeys, sucess } from '@/constants';
 import { omit } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
+import { getItem, removeItem, setItem } from '@/utils/shared/localStorage';
 
 import { CustomEdge, CustomNode } from '@/types/reactFlow';
-
 interface Args {
   [key: string]: string;
 }
@@ -62,9 +66,7 @@ const PanelItem = ({
   const router = useRouter();
 
   const [files, setFiles] = useState<FileWithPath[]>([]);
-  const [thumbnail, setThumbnail] = useState(
-    localStorage.getItem('thumbnail') || null,
-  );
+  const [thumbnail, setThumbnail] = useState(getItem('thumbnail') || null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [formData, setFormData] = useState<FormData | null>();
@@ -108,10 +110,23 @@ const PanelItem = ({
   }, [files, thumbnail]);
 
   const onSubmitRoadmap = useCallback(async () => {
-    if (!formData || !files) {
-      alert('썸네일은 필수입니다.');
+    if (!formData || !files || !thumbnail) {
+      notifications.show({
+        id: 'no-thumnail-alert',
+        withCloseButton: true,
+        autoClose: 1000,
+        title: '‼️썸네일‼️',
+        message: '썸네일은 필수입니다. 썸네일을 등록해주세요.',
+        color: 'orange',
+        icon: (
+          <IconExclamationMark style={{ width: '20rem', height: '20rem' }} />
+        ),
+        className: 'my-notification-class notification',
+        loading: false,
+      });
       return;
     }
+
     const tempNodes = nodes.reduce((acc, curr) => {
       const tempNodes = {
         ...omit(
@@ -163,7 +178,17 @@ const PanelItem = ({
       }),
     ]);
     if (!response) {
-      alert('failed to create roadmap');
+      notifications.show({
+        id: 'roadmap-post-fail',
+        withCloseButton: true,
+        autoClose: 5000,
+        title: '로드맵 생성 실패',
+        message: '🥲 로드맵 생성에 실패했습니다',
+        color: 'red',
+        icon: <IconX style={{ width: '20rem', height: '20rem' }} />,
+        className: 'my-notification-class',
+        loading: false,
+      });
       return;
     }
 
@@ -185,11 +210,21 @@ const PanelItem = ({
           'Content-Type': 'application/json',
         },
       }),
-      alert(`${response} 포스팅 성공!`),
-      localStorage.removeItem('thumbnail'),
+      notifications.show({
+        id: sucess.roadmaps.id,
+        withCloseButton: false,
+        autoClose: 1000,
+        title: sucess.roadmaps.title,
+        message: `☺️ 로드맵 ${response}생성에 성공했습니다`,
+        color: sucess.roadmaps.color,
+        icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+        className: 'my-notification-class notification',
+        loading: false,
+      }),
+      removeItem('thumbnail'),
       router.replace(`/roadmap/post/${response}`),
     ]);
-  }, [nodes, edges, files, title, description, formData, router]);
+  }, [nodes, edges, files, title, description, thumbnail, formData, router]);
 
   return (
     <Box style={{ backgroundColor: 'white', borderRadius: '0.2rem' }} p='md'>
@@ -290,8 +325,30 @@ const PanelItem = ({
             <ActionIcon
               variant='default'
               onClick={() => {
-                if (!title || !description || !files[0]) {
+                if (!title || !description || !files[0] || !thumbnail) {
                   setIsToggled(true);
+                  const alerts = [] as MissingKeys[];
+                  !title && alerts.push('title');
+                  !description && alerts.push('description');
+                  !thumbnail || (!files[0] && alerts.push('thumbnail'));
+
+                  alerts.forEach((v, index) => {
+                    setTimeout(() => {
+                      notifications.show({
+                        title: `${missing[v].title}`,
+                        withCloseButton: true,
+                        autoClose: 1000,
+                        message: ` ${missing[v].message}`,
+                        icon: (
+                          <IconExclamationMark
+                            style={{ width: '20rem', height: '20rem' }}
+                          />
+                        ),
+                        color: missing[v].color,
+                      });
+                    }, 200 * index);
+                  });
+
                   return;
                 }
                 onSubmitRoadmap();
@@ -367,7 +424,7 @@ const PanelItem = ({
                 fr.readAsDataURL(e[0]);
                 fr.onloadend = () => {
                   const url = fr.result as string;
-                  localStorage.setItem('thumbnail', url);
+                  setItem('thumbnail', url);
                   setThumbnail(url);
                 };
               }}

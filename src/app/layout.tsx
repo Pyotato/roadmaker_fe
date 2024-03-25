@@ -1,4 +1,5 @@
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+import { Notifications } from '@mantine/notifications';
 import { Metadata } from 'next';
 import * as React from 'react';
 
@@ -64,6 +65,11 @@ export default function RootLayout({
           <MantineProvider>
             <Provider>
               <PageHeader />
+              <Notifications
+                zIndex={9999}
+                className='description title closeButton notification'
+                position='bottom-right'
+              />
               {children}
               <PageFooter />
             </Provider>

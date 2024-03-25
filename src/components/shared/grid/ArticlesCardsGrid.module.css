@@ -3,6 +3,8 @@
   border-radius: var(--mantine-radius-md);
   box-shadow: var(--mantine-shadows-lg);
   transition: 'transform 150ms ease, box-shadow 150ms ease';
+  border: rem(1px) solid
+    light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
 }
 
 .card:hover {

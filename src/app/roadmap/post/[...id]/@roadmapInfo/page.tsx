@@ -3,6 +3,9 @@
 import { Box } from '@mantine/core';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { JWT } from 'next-auth/jwt';
+import { useSession } from 'next-auth/react';
+import { useMemo, useState } from 'react';
 
 import { Member, Post } from '@/components/MainPage';
 
@@ -33,25 +36,77 @@ export type ReactFlowInfo = Pick<RoadMapInfo, AboutKeys>;
 
 export type aboutInfoKeys = keyof AboutInfo;
 
-const loadDataFromApi = async (pageParam: string) => {
-  const [roadMapInfo] = await Promise.all([
-    getApiResponse<RoadMapInfo>({
-      apiEndpoint: `${apiRoutes.roadmaps}/${pageParam}`,
-      revalidate: 60 * 2, // 5 mins cache
-    }),
-  ]);
-
-  return {
-    roadMapInfo,
-  };
-};
-
 const Roadmap = ({ params }: { params: { id: string } }) => {
   const { id } = params;
   const router = useRouter();
+  const { data: session, status } = useSession();
+
+  const [tokenState, setTokenState] = useState<JWT['token']>(null);
+
+  useMemo(() => {
+    const accessToken = session as unknown as JWT;
+    if (status !== 'loading') setTokenState(accessToken?.token);
+    // console.log(session);
+  }, [session, status]);
+
+  // const loadDataFromApi = async (pageParam: string) => {
+  //   let roadMapInfo;
+  //   if (tokenState) {
+  //     roadMapInfo = await Promise.resolve(
+  //       getApiResponse<RoadMapInfo>({
+  //         apiEndpoint: `${apiRoutes.roadmaps}/${pageParam}`,
+  //         revalidate: 60 * 2, // 5 mins cache
+  //         headers: {
+  //           Authorization: `Bearer ${tokenState}`,
+  //         },
+  //       }),
+  //     );
+  //   } else {
+  //     roadMapInfo = await Promise.resolve(
+  //       getApiResponse<RoadMapInfo>({
+  //         apiEndpoint: `${apiRoutes.roadmaps}/${pageParam}`,
+  //         revalidate: 60 * 2, // 5 mins cache
+  //       }),
+  //     );
+  //   }
+
+  //   return {
+  //     roadMapInfo,
+  //   };
+  // };
+
+  const loadDataFromApi = async (
+    pageParam: string,
+    tokenState: JWT['token'],
+  ) => {
+    let roadMapInfo;
+    if (tokenState) {
+      roadMapInfo = await Promise.resolve(
+        getApiResponse<RoadMapInfo>({
+          apiEndpoint: `${apiRoutes.roadmaps}/${pageParam}`,
+          revalidate: 60 * 2, // 5 mins cache
+          headers: {
+            Authorization: `Bearer ${tokenState}`,
+          },
+        }),
+      );
+    } else {
+      roadMapInfo = await Promise.resolve(
+        getApiResponse<RoadMapInfo>({
+          apiEndpoint: `${apiRoutes.roadmaps}/${pageParam}`,
+          revalidate: 60 * 2, // 5 mins cache
+        }),
+      );
+    }
+
+    return {
+      roadMapInfo,
+    };
+  };
+
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: [`post${id}`],
-    queryFn: async () => await loadDataFromApi(id),
+    queryFn: () => loadDataFromApi(id, tokenState),
   });
 
   if (isLoading) return <div>is loading</div>;
@@ -70,6 +125,7 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
       'edges',
       'nodes',
     ) as ReactFlowInfo;
+
     const aboutInfo = omit(
       roadMapInfo,
       'viewport',

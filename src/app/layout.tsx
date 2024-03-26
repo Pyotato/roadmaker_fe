@@ -66,7 +66,6 @@ export default function RootLayout({
             <Provider>
               <PageHeader />
               <Notifications
-                zIndex={9999}
                 className='description title closeButton notification'
                 position='bottom-right'
               />

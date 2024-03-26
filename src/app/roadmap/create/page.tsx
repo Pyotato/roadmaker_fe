@@ -2,6 +2,8 @@
 
 import { Box, Drawer, ScrollArea } from '@mantine/core';
 import { IconCircleChevronRight } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { Edge, Node, ReactFlowProvider } from 'reactflow';
 
@@ -14,6 +16,12 @@ export default function RoadmapEditorPage() {
   const [edges, setEdges] = useState<Edge[]>([]);
   const [isOpen, setIsOpen] = useState(false);
   const [clickedNode, setClickedNode] = useState<Node | null>(null);
+  const { status } = useSession();
+  const router = useRouter();
+
+  if (status === 'unauthenticated') {
+    return router.replace('/api/auth/signin');
+  }
 
   return (
     <ReactFlowProvider>

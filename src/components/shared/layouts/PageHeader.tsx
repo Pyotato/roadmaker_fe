@@ -1,29 +1,26 @@
 'use client';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 
 import AuthButton from './components/LoginButton';
+import RoadmapCreateButton from './components/RoadmapCreateButton';
 
 const PageHeader = () => {
   const router = useRouter();
-
+  const { status } = useSession();
+  if (status === 'loading') {
+    return <>loading...</>;
+  }
   return (
     <section>
       <button type='button' onClick={() => router.push('/')}>
         home
       </button>
-      {/* {!session ? (
-        <button type='button' onClick={() => signIn('github')}>
-          sign up
-        </button>
-      ) : (
-        <button type='button' onClick={() => signOut()}>
-          sign out
-        </button>
-      )} */}
       <AuthButton />
-      <button type='button' onClick={() => router.push('/roadmap/create')}>
-        create roadmap
-      </button>
+      {status === 'unauthenticated' && (
+        <button onClick={() => router.push('/auth')}>sign up</button>
+      )}
+      <RoadmapCreateButton />
     </section>
   );
 };

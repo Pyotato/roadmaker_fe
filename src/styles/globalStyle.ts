@@ -30,6 +30,16 @@ export const GlobalStyle = createGlobalStyle`
 			color: ${({ theme }) => theme.colors.color_primary};
 		}
 	}
+
+
+  .login-box{
+    margin-top: rem(120px);
+    border-radius: ${({ theme }) => theme.borderRadii.radius_small};
+    padding-top: calc(var(--mantine-spacing-xl) * 2);
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+    border-top: rem(1px) solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
+  }
+
 	.hvrImg{
 		img:hover{
 			background-color: white;
@@ -37,6 +47,19 @@ export const GlobalStyle = createGlobalStyle`
 			cursor:none !important;
 		}
 	}
+
+
+  .hvr.txt:hover{
+    cursor: pointer;
+    color: ${({ theme }) => theme.colors.color_grey4};
+  }
+
+  .heart:hover{
+    cursor: pointer;
+    color: red;
+  }
+
+
 	sub, sup {
 		font-size: 75%;
 		line-height: 0;
@@ -162,6 +185,11 @@ export const GlobalStyle = createGlobalStyle`
   bottom: 1rem;
   right: 1rem;
   min-width: 18rem;
+  z-index: var(--mantine-z-index-max);
 }
+.mantine-RichTextEditor-toolbar{
+  z-index: 100 !important;
+}
+
 
 `;

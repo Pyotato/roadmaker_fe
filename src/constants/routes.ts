@@ -4,4 +4,6 @@ export const apiRoutes = {
   roadmapPaged: `${process.env.NEXT_PUBLIC_API}/roadmaps?page=`,
   comments: `${process.env.NEXT_PUBLIC_API}/comments`,
   likes: `${process.env.NEXT_PUBLIC_API}/likes/like-roadmap/`,
+  signin: `${process.env.NEXT_PUBLIC_API}/members/signin`,
+  signup: `${process.env.NEXT_PUBLIC_API}/members/signup`,
 };

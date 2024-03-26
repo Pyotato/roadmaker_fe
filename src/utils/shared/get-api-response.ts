@@ -1,4 +1,4 @@
-import { IS_PROD } from '@/constants';
+import { apiRoutes, IS_PROD } from '@/constants';
 import { consoleLog } from '@/utils/shared/console-log';
 
 export const getApiResponse = async <T>({
@@ -24,6 +24,19 @@ export const getApiResponse = async <T>({
         revalidate,
       },
     });
+
+    if (response.url === `${apiRoutes.signup}`) {
+      if (response.status === 201) {
+        return {
+          message: `${JSON.parse(`${requestData}`)?.nickname}님 반갑습니다.`,
+          httpStatus: response.status,
+        };
+      }
+      if (response.status === 409) {
+        return response.json();
+      }
+    }
+
     if (!response.ok) {
       consoleLog('🚀 Debug getApiResponse requestData:', requestData);
 

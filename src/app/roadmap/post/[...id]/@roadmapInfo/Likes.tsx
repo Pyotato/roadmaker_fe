@@ -1,11 +1,14 @@
 'use client';
 import { Box, Title } from '@mantine/core';
-import { IconHeart } from '@tabler/icons-react';
+import { notifications } from '@mantine/notifications';
+import { IconExclamationMark, IconHeart } from '@tabler/icons-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
-import { PropsWithChildren, useMemo, useState } from 'react';
+import { JWT } from 'next-auth/jwt';
+import { useSession } from 'next-auth/react';
+import { PropsWithChildren, useState } from 'react';
 
-import { apiRoutes } from '@/constants';
+import { apiRoutes, missing } from '@/constants';
 import { omit, toTSXString } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
@@ -23,34 +26,32 @@ interface RoadMapInfoQuery {
 }
 
 const Likes = ({ likesInfo }: LikeProps) => {
-  const [liked, setLiked] = useState(likesInfo.isLiked);
-  const [heartColor, setHeartColor] = useState(likesInfo.isLiked);
   const [likedCount, setLikedCount] = useState(likesInfo.likeCount);
+  const [liked, setLiked] = useState(likesInfo.isLiked);
   const params = useParams<{ tag: string; item: string; id: string[] }>();
+  const { data: token, status } = useSession();
 
   const queryClient = useQueryClient();
 
   const postResponseFromApi = async () => {
-    const [likes] = await Promise.all([
+    const accessToken = token as unknown as JWT;
+    const likes = await Promise.resolve(
       getApiResponse<LikeProps['likesInfo']>({
-        // apiEndpoint: `${process.env.NEXT_PUBLIC_API}/like-roadmap/${params.id}`,
         apiEndpoint: `${apiRoutes.likes}${params.id}`,
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_USER_ACCESS_TOKEN}`,
-          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken?.token}`,
         },
       }),
-    ]);
-    if (likes) {
-      setLiked(likes.isLiked);
-      setLikedCount(likes.likeCount);
-      setHeartColor(likes.isLiked);
-    }
+    );
+
+    setLiked(likes.isLiked);
+    setLikedCount(likes.likeCount);
 
     const previousData = queryClient.getQueryData([
       `post${params.id}`,
     ]) as RoadMapInfoQuery;
+
     const newRoadMapInfo = {
       ...omit(previousData.roadMapInfo, 'isLiked', 'likeCount'),
       isLiked: likes?.isLiked,
@@ -62,16 +63,33 @@ const Likes = ({ likesInfo }: LikeProps) => {
     return { likes };
   };
 
-  useMemo(() => {
-    setHeartColor(liked);
-  }, [liked]);
-
   return (
     <Box style={{ display: 'inline-flex', alignItems: 'center', gap: '1rem' }}>
       <IconHeart
-        fill={heartColor ? 'red' : '#ffffff'}
+        onClick={() => {
+          if (status !== 'authenticated') {
+            notifications.show({
+              id: 'no-auth-alert',
+              withCloseButton: true,
+              autoClose: 1000,
+              title: missing.auth.title,
+              message: missing.auth.message,
+              color: missing.auth.color,
+              icon: (
+                <IconExclamationMark
+                  style={{ width: '20rem', height: '20rem' }}
+                />
+              ),
+              className: 'my-notification-class',
+              loading: false,
+            });
+            return;
+          }
+          postResponseFromApi();
+        }}
+        fill={liked ? 'red' : '#ffffff'}
         style={{ color: 'red' }}
-        onClick={postResponseFromApi}
+        className='heart'
       />
       <Title order={6}>{toTSXString(likedCount)}</Title>
     </Box>

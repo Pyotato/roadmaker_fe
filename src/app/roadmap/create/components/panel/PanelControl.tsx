@@ -28,9 +28,9 @@ import {
   IconSitemap,
   IconX,
 } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import {
   Dispatch,
   SetStateAction,
@@ -82,7 +82,7 @@ const PanelItem = ({
 
   useMemo(() => {
     const aToken = token as unknown as JWT;
-    setAccessToken(aToken.token);
+    setAccessToken(aToken?.token);
   }, [token]);
 
   useMemo(() => {

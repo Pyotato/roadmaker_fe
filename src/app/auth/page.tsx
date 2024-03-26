@@ -11,8 +11,8 @@ import {
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconAt, IconCheck, IconPassword, IconUser } from '@tabler/icons-react';
-import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { signIn, useSession } from 'next-auth/react';
 import { useState } from 'react';
 
 import { apiRoutes, fail, sucess } from '@/constants';
@@ -175,6 +175,7 @@ export default function AuthPage() {
                 !password ||
                 !email ||
                 !passwordCheck ||
+                !password.match(regex) ||
                 password !== passwordCheck
               }
               onClick={() => {
@@ -183,6 +184,7 @@ export default function AuthPage() {
                   !password ||
                   !email ||
                   !passwordCheck ||
+                  !password.match(regex) ||
                   password !== passwordCheck
                 ) {
                   return;

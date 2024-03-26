@@ -29,6 +29,8 @@ import {
   IconX,
 } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
+import { JWT } from 'next-auth/jwt';
+import { useSession } from 'next-auth/react';
 import {
   Dispatch,
   SetStateAction,
@@ -71,10 +73,17 @@ const PanelItem = ({
   const [description, setDescription] = useState('');
   const [formData, setFormData] = useState<FormData | null>();
   const [isToggled, setIsToggled] = useState(true);
+  const [accessToken, setAccessToken] = useState<JWT['token']>(null);
   const [flow, setFlow, { undo, canUndo, redo, canRedo }] = useUndoable<{
     nodes: Node[];
     edges: Edge[];
   }>({ nodes, edges });
+  const { data: token } = useSession();
+
+  useMemo(() => {
+    const aToken = token as unknown as JWT;
+    setAccessToken(aToken.token);
+  }, [token]);
 
   useMemo(() => {
     const tempFormData = new FormData();
@@ -159,7 +168,7 @@ const PanelItem = ({
         apiEndpoint: `${apiRoutes.roadmaps}`,
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_USER_ACCESS_TOKEN}`,
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
       }),
@@ -185,7 +194,7 @@ const PanelItem = ({
         apiEndpoint: `${apiRoutes.roadmapsSlash}${response}/thumbnails`,
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_USER_ACCESS_TOKEN}`,
+          Authorization: `Bearer ${accessToken}`,
         },
       }),
       getApiResponse<undefined>({
@@ -193,7 +202,7 @@ const PanelItem = ({
         apiEndpoint: `${apiRoutes.roadmapsSlash}${response}/join`,
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_USER_ACCESS_TOKEN}`,
+          Authorization: `Bearer ${accessToken}`,
           'Content-Type': 'application/json',
         },
       }),
@@ -202,16 +211,28 @@ const PanelItem = ({
         withCloseButton: false,
         autoClose: 1000,
         title: sucess.roadmaps.title,
-        message: `☺️ 로드맵 ${response}생성에 성공했습니다`,
+        message: `🎉 로드맵 ${response}생성에 성공했습니다 🎉`,
         color: sucess.roadmaps.color,
         icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
         className: 'my-notification-class notification',
-        loading: false,
+        loading: true,
       }),
       removeItem('thumbnail'),
-      router.replace(`/roadmap/post/${response}`),
+      setTimeout(() => {
+        router.replace(`/roadmap/post/${response}`);
+      }, 1100),
     ]);
-  }, [nodes, edges, files, title, description, thumbnail, formData, router]);
+  }, [
+    nodes,
+    edges,
+    files,
+    title,
+    description,
+    thumbnail,
+    formData,
+    router,
+    accessToken,
+  ]);
 
   return (
     <Box style={{ backgroundColor: 'white', borderRadius: '0.2rem' }} p='md'>

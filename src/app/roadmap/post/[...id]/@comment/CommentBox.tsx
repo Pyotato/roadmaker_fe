@@ -15,6 +15,8 @@ import Youtube from '@tiptap/extension-youtube';
 import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useParams } from 'next/navigation';
+import { JWT } from 'next-auth/jwt';
+import { useSession } from 'next-auth/react';
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
@@ -24,9 +26,9 @@ import { apiRoutes, missing, sucess } from '@/constants';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
 const CommentBox = () => {
+  const { data: token } = useSession();
   const params = useParams<{ tag: string; item: string; id: string[] }>();
   const currPostId = params.id;
-
   const [content, setContent] = useState('');
 
   const editor = useEditor({
@@ -56,6 +58,7 @@ const CommentBox = () => {
   const queryClient = useQueryClient();
 
   const postResponseFromApi = async () => {
+    const accessToken = token as unknown as JWT;
     await Promise.all([
       getApiResponse<undefined>({
         requestData: JSON.stringify({
@@ -65,7 +68,7 @@ const CommentBox = () => {
         apiEndpoint: `${apiRoutes.comments}`,
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_USER_ACCESS_TOKEN}`,
+          Authorization: `Bearer ${accessToken?.token}`,
           'Content-Type': 'application/json',
         },
       }),

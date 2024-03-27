@@ -21,7 +21,7 @@ interface LikeProps extends PropsWithChildren {
   };
 }
 
-interface RoadMapInfoQuery {
+export interface RoadMapInfoQuery {
   roadMapInfo: RoadMapInfo;
 }
 
@@ -57,9 +57,12 @@ const Likes = ({ likesInfo }: LikeProps) => {
       isLiked: likes?.isLiked,
       likeCount: likes?.likeCount,
     };
-    queryClient.setQueryData([`post${params.id}`], {
-      roadMapInfo: newRoadMapInfo,
-    });
+    queryClient.setQueryData(
+      [`post${params.id}-${accessToken?.user?.nickname}`],
+      {
+        roadMapInfo: newRoadMapInfo,
+      },
+    );
     return { likes };
   };
 

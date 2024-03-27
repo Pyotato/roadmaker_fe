@@ -30,8 +30,17 @@ export interface RoadMapInfo extends Post {
   edges: Array<CustomEdge>;
   nodes: Array<CustomNode>;
 }
+export interface AboutInfo {
+  [key: string]: unknown;
+  isJoined: boolean;
+  isLiked: boolean;
+  joinCount: number;
+  likeCount: number;
+  member: Member;
+  updatedAt: string;
+}
+
 export type AboutKeys = 'viewport' | 'edges' | 'nodes';
-export type AboutInfo = Omit<RoadMapInfo, AboutKeys>;
 export type ReactFlowInfo = Pick<RoadMapInfo, AboutKeys>;
 
 export type aboutInfoKeys = keyof AboutInfo;

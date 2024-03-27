@@ -22,7 +22,7 @@ import styled from 'styled-components';
 
 import TipTapTextEditor from '@/components/shared/tiptap/TipTapTextEditor';
 
-import { apiRoutes, missing, sucess } from '@/constants';
+import { apiRoutes, missing, success } from '@/constants';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
 const CommentBox = () => {
@@ -76,12 +76,12 @@ const CommentBox = () => {
 
     setContent('');
     notifications.show({
-      id: sucess.comment.id,
+      id: success.comment.id,
       withCloseButton: true,
       autoClose: 1000,
-      title: sucess.comment.title,
-      message: sucess.comment.message,
-      color: sucess.comment.color,
+      title: success.comment.title,
+      message: success.comment.message,
+      color: success.comment.color,
       icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
     }),
       editor?.commands.setContent('');

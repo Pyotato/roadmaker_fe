@@ -41,7 +41,7 @@ import {
 import { Connection, Edge, Node } from 'reactflow';
 import useUndoable from 'use-undoable';
 
-import { apiRoutes, missing, MissingKeys, sucess } from '@/constants';
+import { apiRoutes, missing, MissingKeys, success } from '@/constants';
 import { omit } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 import { getItem, removeItem, setItem } from '@/utils/shared/localStorage';
@@ -207,12 +207,12 @@ const PanelItem = ({
         },
       }),
       notifications.show({
-        id: sucess.roadmaps.id,
+        id: success.roadmaps.id,
         withCloseButton: false,
         autoClose: 1000,
-        title: sucess.roadmaps.title,
+        title: success.roadmaps.title,
         message: `🎉 로드맵 ${response}생성에 성공했습니다 🎉`,
-        color: sucess.roadmaps.color,
+        color: success.roadmaps.color,
         icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
         className: 'my-notification-class notification',
         loading: true,

@@ -35,26 +35,31 @@ export const missing = {
 export type Missing = typeof missing;
 export type MissingKeys = keyof Missing;
 
-export const sucess = {
+export const success = {
   comment: {
-    id: 'roadmap-comment-sucess',
+    id: 'roadmap-comment-success',
     title: '댓글 생성!',
     message: '댓글 생성 완료!',
     color: 'teal',
   },
   roadmaps: {
-    id: `roadmap-post-sucess`,
+    id: `roadmap-post-success`,
     title: '로드맵 생성 성공',
     color: 'teal',
   },
   signup: {
-    id: `signup-sucess`,
+    id: `signup-success`,
     title: '회원 가입 성공',
+    color: 'teal',
+  },
+  join: {
+    id: `join-success`,
+    title: '로드맵 참여 성공',
     color: 'teal',
   },
 };
 
-export type Success = typeof sucess;
+export type Success = typeof success;
 export type SuccessKeys = keyof Success;
 
 export const fail = {

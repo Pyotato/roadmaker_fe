@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import { useState } from 'react';
 
-import { apiRoutes, fail, sucess } from '@/constants';
+import { apiRoutes, fail, success } from '@/constants';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
 export default function AuthPage() {
@@ -70,12 +70,12 @@ export default function AuthPage() {
     }
     if (res?.httpStatus === 201) {
       notifications.show({
-        id: sucess.signup.id,
+        id: success.signup.id,
         withCloseButton: true,
         autoClose: 6000,
-        title: sucess.signup.title,
+        title: success.signup.title,
         message: res.message,
-        color: sucess.signup.color,
+        color: success.signup.color,
         icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
       });
       await signIn('credentials', {

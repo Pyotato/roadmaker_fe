@@ -43,42 +43,17 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
 
   const [tokenState, setTokenState] = useState<JWT['token']>(null);
 
+  const [nickname, setNickname] = useState<JWT['user']['nickname']>(null);
+
   useMemo(() => {
     const accessToken = session as unknown as JWT;
-    if (status !== 'loading') setTokenState(accessToken?.token);
-    // console.log(session);
+    if (status !== 'loading') {
+      setTokenState(accessToken?.token);
+      setNickname(accessToken?.user?.nickname);
+    }
   }, [session, status]);
 
-  // const loadDataFromApi = async (pageParam: string) => {
-  //   let roadMapInfo;
-  //   if (tokenState) {
-  //     roadMapInfo = await Promise.resolve(
-  //       getApiResponse<RoadMapInfo>({
-  //         apiEndpoint: `${apiRoutes.roadmaps}/${pageParam}`,
-  //         revalidate: 60 * 2, // 5 mins cache
-  //         headers: {
-  //           Authorization: `Bearer ${tokenState}`,
-  //         },
-  //       }),
-  //     );
-  //   } else {
-  //     roadMapInfo = await Promise.resolve(
-  //       getApiResponse<RoadMapInfo>({
-  //         apiEndpoint: `${apiRoutes.roadmaps}/${pageParam}`,
-  //         revalidate: 60 * 2, // 5 mins cache
-  //       }),
-  //     );
-  //   }
-
-  //   return {
-  //     roadMapInfo,
-  //   };
-  // };
-
-  const loadDataFromApi = async (
-    pageParam: string,
-    tokenState: JWT['token'],
-  ) => {
+  const loadDataFromApi = async (pageParam: string) => {
     let roadMapInfo;
     if (tokenState) {
       roadMapInfo = await Promise.resolve(
@@ -105,8 +80,8 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
   };
 
   const { data, isLoading, isError, isSuccess } = useQuery({
-    queryKey: [`post${id}`],
-    queryFn: () => loadDataFromApi(id, tokenState),
+    queryKey: [`post${id}-${nickname}`],
+    queryFn: async () => await loadDataFromApi(id),
   });
 
   if (isLoading) return <div>is loading</div>;

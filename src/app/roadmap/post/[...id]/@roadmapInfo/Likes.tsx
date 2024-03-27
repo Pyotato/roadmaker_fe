@@ -29,12 +29,12 @@ const Likes = ({ likesInfo }: LikeProps) => {
   const [likedCount, setLikedCount] = useState(likesInfo.likeCount);
   const [liked, setLiked] = useState(likesInfo.isLiked);
   const params = useParams<{ tag: string; item: string; id: string[] }>();
-  const { data: token, status } = useSession();
+  const { data: session, status } = useSession();
 
   const queryClient = useQueryClient();
 
   const postResponseFromApi = async () => {
-    const accessToken = token as unknown as JWT;
+    const accessToken = session as unknown as JWT;
     const likes = await Promise.resolve(
       getApiResponse<LikeProps['likesInfo']>({
         apiEndpoint: `${apiRoutes.likes}${params.id}`,
@@ -49,7 +49,7 @@ const Likes = ({ likesInfo }: LikeProps) => {
     setLikedCount(likes.likeCount);
 
     const previousData = queryClient.getQueryData([
-      `post${params.id}`,
+      `post${params.id}-${accessToken?.user?.nickname}`,
     ]) as RoadMapInfoQuery;
 
     const newRoadMapInfo = {

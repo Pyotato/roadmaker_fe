@@ -1,6 +1,8 @@
 import { apiRoutes, IS_PROD } from '@/constants';
 import { consoleLog } from '@/utils/shared/console-log';
 
+import { pick } from '.';
+
 export const getApiResponse = async <T>({
   apiEndpoint,
   requestData,
@@ -10,7 +12,7 @@ export const getApiResponse = async <T>({
 }: {
   apiEndpoint: string;
   requestData?: BodyInit;
-  method?: 'POST' | 'GET' | 'PUT' | 'DELETE';
+  method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH';
   revalidate?: number;
   headers?: HeadersInit;
 }) => {
@@ -35,6 +37,14 @@ export const getApiResponse = async <T>({
       if (response.status === 409) {
         return response.json();
       }
+    }
+
+    if (response.status === 404) {
+      return { ...pick(await response.json(), 'error') };
+    }
+
+    if (response.status === 401) {
+      return response.json();
     }
 
     if (!response.ok) {

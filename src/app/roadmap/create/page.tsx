@@ -7,6 +7,8 @@ import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { Edge, Node, ReactFlowProvider } from 'reactflow';
 
+import { siteRoutes } from '@/constants';
+
 import Flow from './components/Flow';
 import DetailContentEditor from './components/panel/items/DetailContentEditor';
 import NodeColorPicker from './components/panel/items/NodeColorPicker';
@@ -20,7 +22,7 @@ export default function RoadmapEditorPage() {
   const router = useRouter();
 
   if (status === 'unauthenticated') {
-    return router.replace('/api/auth/signin');
+    return router.replace(siteRoutes.signIn);
   }
 
   return (

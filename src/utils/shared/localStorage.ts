@@ -2,7 +2,9 @@ import { consoleLog } from './console-log';
 
 export const setItem = (key: string, item: unknown) => {
   try {
-    window.localStorage.setItem(key, JSON.stringify(item));
+    if (typeof window !== 'undefined') {
+      window.localStorage.setItem(key, JSON.stringify(item));
+    }
   } catch (err) {
     consoleLog('local storage setItem error:', err);
   }
@@ -10,7 +12,9 @@ export const setItem = (key: string, item: unknown) => {
 
 export const getItem = (key: string) => {
   try {
-    return window.localStorage.getItem(key);
+    if (typeof window !== 'undefined') {
+      return window.localStorage.getItem(key);
+    }
   } catch (err) {
     consoleLog('local storage getItem error:', err);
   }
@@ -18,7 +22,9 @@ export const getItem = (key: string) => {
 
 export const removeItem = (key: string) => {
   try {
-    return window.localStorage.removeItem(key);
+    if (typeof window !== 'undefined') {
+      return window.localStorage.removeItem(key);
+    }
   } catch (err) {
     consoleLog('local storage removeItem error:', err);
   }

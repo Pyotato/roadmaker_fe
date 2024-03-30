@@ -1,4 +1,4 @@
-'use server';
+// 'use server';
 
 import { Container, Title } from '@mantine/core';
 

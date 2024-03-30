@@ -1,5 +1,3 @@
-// 'use server';
-
 import { Container, Title } from '@mantine/core';
 
 import CommentBox from '@/app/roadmap/post/[...id]/@comment/CommentBox';

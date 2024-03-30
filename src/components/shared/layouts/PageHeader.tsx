@@ -1,19 +1,26 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 
-import AuthButton from './components/LoginButton';
+import AuthButton from './components/AuthButton';
 import RoadmapCreateButton from './components/RoadmapCreateButton';
 
 const PageHeader = () => {
   const router = useRouter();
+  const currPath = usePathname();
   const { status } = useSession();
   if (status === 'loading') {
     return <>loading...</>;
   }
   return (
     <section>
-      <button type='button' onClick={() => router.push('/')}>
+      <button
+        type='button'
+        onClick={() => {
+          if (currPath === '/') location.reload();
+          router.push('/');
+        }}
+      >
         home
       </button>
       <AuthButton />

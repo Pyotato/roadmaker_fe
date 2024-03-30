@@ -1,4 +1,4 @@
-import { Box, Image, Title } from '@mantine/core';
+import { Avatar, Box, Title } from '@mantine/core';
 import { PropsWithChildren } from 'react';
 
 import { Member } from '@/components/MainPage';
@@ -28,14 +28,14 @@ const Creator = ({ creatorInfo }: CreatorProps) => {
   return (
     <>
       <Box style={{ width: '24px' }}>
-        <Image
+        <Avatar
           src={
             avatarUrl ||
             'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png'
           }
           alt={toTSXString(avatarUrl)}
           radius='xl'
-          style={{ width: '24px' }}
+          size='sm'
         />
       </Box>
       <Title order={6}>{toTSXString(nickname)}</Title>

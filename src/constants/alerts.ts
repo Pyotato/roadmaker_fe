@@ -57,6 +57,11 @@ export const success = {
     title: '로드맵 참여 성공',
     color: 'teal',
   },
+  user: {
+    id: `update-user-info-success`,
+    title: '내 정보 수정 성공',
+    color: 'teal',
+  },
 };
 
 export type Success = typeof success;
@@ -64,8 +69,18 @@ export type SuccessKeys = keyof Success;
 
 export const fail = {
   409: {
-    id: 'roadmap-signup-error',
+    id: 'duplicate-info-error',
     title: '⚠️ 중복 ⚠️',
+    color: 'red',
+  },
+  401: {
+    id: 'unauthenticated-user-error',
+    title: '⚠️ 로그인이 필요한 행동입니다 ⚠️',
+    color: 'red',
+  },
+  500: {
+    id: 'internal-server-error',
+    title: '⚠️ 예기지 못한 에러가 발생했습니다 ⚠️',
     color: 'red',
   },
 };

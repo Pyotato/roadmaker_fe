@@ -5,6 +5,7 @@ import {
   Box,
   Group,
   Image,
+  Kbd,
   Text,
   Textarea,
   TextInput,
@@ -256,7 +257,14 @@ const PanelItem = ({
               <IconPlus data-disabled size='1rem' />
             </ActionIcon>
           </Tooltip>
-          <Tooltip label='shift + drag 으로 그룹하기' position='bottom'>
+          <Tooltip
+            label={
+              <Box p='xs'>
+                <Kbd>Shift</Kbd> + 드래그해서 그룹하기
+              </Box>
+            }
+            position='bottom'
+          >
             <ActionIcon variant='default'>
               <IconLayersIntersect2 data-disabled size='1rem' />
             </ActionIcon>

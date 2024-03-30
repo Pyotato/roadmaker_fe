@@ -1,15 +1,16 @@
 'use client';
 
 import { Box } from '@mantine/core';
+import { notifications } from '@mantine/notifications';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Member, Post } from '@/components/MainPage';
 
-import { apiRoutes } from '@/constants';
+import { apiRoutes, success } from '@/constants';
 import { omit, pick } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
@@ -53,6 +54,10 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
   const [tokenState, setTokenState] = useState<JWT['token']>(null);
 
   const [nickname, setNickname] = useState<JWT['user']['nickname']>(null);
+
+  useEffect(() => {
+    notifications.hide(success.roadmaps.id);
+  }, []);
 
   useMemo(() => {
     const accessToken = session as unknown as JWT;

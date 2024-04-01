@@ -4,8 +4,8 @@ import { modals } from '@mantine/modals';
 import { IconExclamationCircle } from '@tabler/icons-react';
 import { useSession } from 'next-auth/react';
 
-import OverLay from '../Overlay';
 import Header from './components/Header';
+import OverLay from '../Overlay';
 
 const PageHeader = () => {
   const { status } = useSession();

@@ -1,7 +1,7 @@
 'use client';
 import { Button, Group } from '@mantine/core';
-import { signIn, signOut, useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 const AuthButton = ({
   openModal,
@@ -26,6 +26,7 @@ const AuthButton = ({
                 closeDrawer();
                 signOut({ callbackUrl: '/' });
               });
+              closeDrawer();
             }
           }}
         >

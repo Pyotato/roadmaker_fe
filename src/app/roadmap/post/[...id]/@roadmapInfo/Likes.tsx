@@ -3,9 +3,9 @@ import { Box, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconExclamationMark, IconHeart } from '@tabler/icons-react';
 import { useQueryClient } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { signOut, useSession } from 'next-auth/react';
-import { useParams } from 'next/navigation';
 import { PropsWithChildren, useState } from 'react';
 
 import { apiRoutes, fail, IS_PROD, siteRoutes, warning } from '@/constants';

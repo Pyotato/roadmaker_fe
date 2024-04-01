@@ -2,8 +2,8 @@
 
 import { Box, Drawer, ScrollArea } from '@mantine/core';
 import { IconCircleChevronRight } from '@tabler/icons-react';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { Edge, Node, ReactFlowProvider } from 'reactflow';
 

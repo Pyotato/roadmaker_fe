@@ -12,5 +12,6 @@ export const apiRoutes = {
 };
 
 export const siteRoutes = {
-  signIn: `/api/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F`,
+  signIn: '/api/auth/signin?callbackUrl=https://roadmaker-fe.vercel.app/',
+  signInDev: `/api/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F`,
 };

@@ -77,7 +77,7 @@ export const {
       },
     }),
   ],
-
+  secret: process.env.SECRET,
   session: {
     strategy: 'jwt',
     maxAge: 30 * 24 * 60 * 60,
@@ -101,6 +101,7 @@ export const {
       }
       return token;
     },
+
     session: async ({ session, token }) => {
       if (token.provider === 'Credentials')
         return {

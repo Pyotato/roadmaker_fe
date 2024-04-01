@@ -1,3 +1,4 @@
+import { ModalsProvider } from '@mantine/modals';
 import { ReactNode } from 'react';
 
 import SessionWrapper from './SessionProvider';
@@ -8,7 +9,9 @@ const Provider = ({ children }: { children: ReactNode }) => {
   return (
     <TanstackProvider>
       <SessionWrapper>
-        <StyledComponentsProvider>{children}</StyledComponentsProvider>
+        <ModalsProvider>
+          <StyledComponentsProvider>{children}</StyledComponentsProvider>
+        </ModalsProvider>
       </SessionWrapper>
     </TanstackProvider>
   );

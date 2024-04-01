@@ -22,7 +22,7 @@ import styled from 'styled-components';
 
 import TipTapTextEditor from '@/components/shared/tiptap/TipTapTextEditor';
 
-import { apiRoutes, missing, success } from '@/constants';
+import { apiRoutes, success, warning } from '@/constants';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
 const CommentBox = () => {
@@ -111,12 +111,12 @@ const CommentBox = () => {
                   .length === 0
               ) {
                 notifications.show({
-                  id: missing.content.id,
+                  id: warning.content.id,
                   withCloseButton: true,
                   autoClose: 1000,
-                  title: missing.content.title,
-                  message: missing.content.message,
-                  color: missing.content.color,
+                  title: warning.content.title,
+                  message: warning.content.message,
+                  color: warning.content.color,
                   icon: (
                     <IconExclamationMark
                       style={{ width: '20rem', height: '20rem' }}

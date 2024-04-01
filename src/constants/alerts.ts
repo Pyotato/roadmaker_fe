@@ -1,4 +1,4 @@
-export const missing = {
+export const warning = {
   title: {
     id: 'no-title-alert',
     title: '⚠️ 제목 ⚠️',
@@ -32,8 +32,8 @@ export const missing = {
   },
 };
 
-export type Missing = typeof missing;
-export type MissingKeys = keyof Missing;
+export type Warning = typeof warning;
+export type WarningKeys = keyof Warning;
 
 export const success = {
   comment: {

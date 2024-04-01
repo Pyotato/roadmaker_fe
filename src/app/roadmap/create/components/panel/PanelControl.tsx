@@ -42,7 +42,7 @@ import {
 import { Connection, Edge, Node } from 'reactflow';
 import useUndoable from 'use-undoable';
 
-import { apiRoutes, missing, MissingKeys, success } from '@/constants';
+import { apiRoutes, success, warning, WarningKeys } from '@/constants';
 import { omit } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 import { getItem, removeItem, setItem } from '@/utils/shared/localStorage';
@@ -343,24 +343,24 @@ const PanelItem = ({
               onClick={() => {
                 if (!title || !description || !files[0] || !thumbnail) {
                   setIsToggled(true);
-                  const alerts = [] as MissingKeys[];
+                  const alerts = [] as WarningKeys[];
                   !title && alerts.push('title');
                   !description && alerts.push('description');
                   (!thumbnail || !files[0]) && alerts.push('thumbnail');
 
-                  alerts.forEach((v, index) => {
+                  alerts.forEach((v: WarningKeys, index) => {
                     setTimeout(() => {
                       notifications.show({
-                        title: `${missing[v].title}`,
+                        title: `${warning[v].title}`,
                         withCloseButton: true,
                         autoClose: 1000,
-                        message: ` ${missing[v].message}`,
+                        message: ` ${warning[v].message}`,
                         icon: (
                           <IconExclamationMark
                             style={{ width: '20rem', height: '20rem' }}
                           />
                         ),
-                        color: missing[v].color,
+                        color: warning[v].color,
                       });
                     }, 200 * index);
                   });

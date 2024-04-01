@@ -3,12 +3,12 @@ import { Box, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconExclamationMark, IconHeart } from '@tabler/icons-react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { signOut, useSession } from 'next-auth/react';
+import { useParams } from 'next/navigation';
 import { PropsWithChildren, useState } from 'react';
 
-import { apiRoutes, fail, missing, siteRoutes } from '@/constants';
+import { apiRoutes, fail, IS_PROD, siteRoutes, warning } from '@/constants';
 import { omit, toTSXString } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
@@ -65,7 +65,7 @@ const Likes = ({ likesInfo }: LikeProps) => {
       });
       setTimeout(() => {
         signOut({
-          callbackUrl: siteRoutes.signIn,
+          callbackUrl: IS_PROD ? siteRoutes.signIn : siteRoutes.signInDev,
         });
       }, 1100);
 
@@ -102,9 +102,9 @@ const Likes = ({ likesInfo }: LikeProps) => {
               id: 'no-auth-alert',
               withCloseButton: true,
               autoClose: 1000,
-              title: missing.auth.title,
-              message: missing.auth.message,
-              color: missing.auth.color,
+              title: warning.auth.title,
+              message: warning.auth.message,
+              color: warning.auth.color,
               icon: (
                 <IconExclamationMark
                   style={{ width: '20rem', height: '20rem' }}

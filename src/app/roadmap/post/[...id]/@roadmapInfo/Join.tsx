@@ -8,7 +8,7 @@ import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
 import { PropsWithChildren, useState } from 'react';
 
-import { apiRoutes, missing, success } from '@/constants';
+import { apiRoutes, success, warning } from '@/constants';
 import { omit } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
@@ -104,9 +104,9 @@ const Join = ({ joinInfo }: JoinProps) => {
               id: 'no-auth-alert',
               withCloseButton: true,
               autoClose: 1000,
-              title: missing.auth.title,
-              message: missing.auth.message,
-              color: missing.auth.color,
+              title: warning.auth.title,
+              message: warning.auth.message,
+              color: warning.auth.color,
               icon: (
                 <IconExclamationMark
                   style={{ width: '20rem', height: '20rem' }}

@@ -1,6 +1,8 @@
 'use client';
 import { signIn, useSession } from 'next-auth/react';
 
+import OverLay from '@/components/shared/Overlay';
+
 import MyRoadmapsTabs from '../Tabs';
 
 export default function CreatedRoadmap() {
@@ -8,6 +10,6 @@ export default function CreatedRoadmap() {
   if (status === 'unauthenticated') {
     signIn();
   }
-  if (status === 'loading') <>loading...</>;
+  if (status === 'loading') <OverLay />;
   return <MyRoadmapsTabs />;
 }

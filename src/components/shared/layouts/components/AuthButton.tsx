@@ -1,4 +1,5 @@
 'use client';
+import { Button, Group } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 import { signIn, signOut, useSession } from 'next-auth/react';
 const AuthButton = () => {
@@ -7,17 +8,21 @@ const AuthButton = () => {
 
   if (session) {
     return (
-      <>
-        <button onClick={() => signOut()}>Sign out</button>
-        <button onClick={() => router.replace('/mypage')}>
-          {session?.user?.email} 내 페이지로 이동
-        </button>
-      </>
+      <Group justify='center' grow pb='xl' px='md'>
+        <Button variant='default' onClick={() => signOut()}>
+          Sign out
+        </Button>
+      </Group>
     );
   }
   return (
     <>
-      <button onClick={() => signIn()}>Sign in</button>
+      <Group justify='center' grow pb='xl' px='md'>
+        <Button variant='default' onClick={() => signIn()}>
+          Sign in
+        </Button>
+        <Button onClick={() => router.push('/auth')}>Sign up</Button>
+      </Group>
     </>
   );
 };

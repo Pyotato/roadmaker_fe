@@ -31,6 +31,9 @@ export const GlobalStyle = createGlobalStyle`
 		}
 	}
 
+  .hvr-text:hover{
+    color: ${({ theme }) => theme.colors.color_grey2};
+  }
 
   .login-box{
     margin-top: rem(120px);

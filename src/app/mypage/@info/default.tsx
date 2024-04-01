@@ -1,6 +1,8 @@
 'use client';
 import { signIn, useSession } from 'next-auth/react';
 
+import OverLay from '@/components/shared/Overlay';
+
 import UserData from './components/Profile';
 
 export default function DefaultInfo() {
@@ -8,6 +10,6 @@ export default function DefaultInfo() {
   if (status === 'unauthenticated') {
     signIn();
   }
-  if (status === 'loading') <>loading...</>;
+  if (status === 'loading') <OverLay />;
   else return <UserData />;
 }

@@ -1,20 +1,46 @@
-import { Button, Tooltip } from '@mantine/core';
+'use client';
+import { Box, Button, Text, TextInput, Tooltip } from '@mantine/core';
+import { modals } from '@mantine/modals';
 import { RichTextEditor } from '@mantine/tiptap';
 import { IconBrandYoutubeFilled } from '@tabler/icons-react';
 import { Editor } from '@tiptap/react';
 
 const TipTapTextEditor = ({ editor }: { editor: Editor | null }) => {
-  const addYoutubeVideo = () => {
-    const url = prompt('Enter YouTube URL');
-
-    if (editor && url) {
-      editor.commands.setYoutubeVideo({
-        src: url,
-        width: 640,
-        height: 480,
-      });
-    }
-  };
+  let url = '';
+  const openModal = () =>
+    modals.openConfirmModal({
+      title: '유튜브 링크',
+      children: (
+        <Box>
+          <Box display='inline-flex' style={{ alignItems: 'center' }}>
+            <Text size='sm' pb='sm'>
+              유튜브 링크를 입력해주세요.
+            </Text>
+          </Box>
+          <TextInput
+            leftSection={<IconBrandYoutubeFilled />}
+            type='text'
+            onChange={(e) => {
+              url = e.currentTarget.value;
+            }}
+            onBlur={(e) => (url = e.currentTarget.value)}
+          />
+        </Box>
+      ),
+      labels: { confirm: '확인', cancel: '취소' },
+      onConfirm: () => {
+        if (editor && url) {
+          editor.commands.setYoutubeVideo({
+            src: url,
+            width: 640,
+            height: 480,
+          });
+          editor.commands.enter();
+        }
+      },
+      onClose: () => (url = ''),
+      onCancel: () => (url = ''),
+    });
 
   return (
     <RichTextEditor editor={editor} style={{ width: '100%' }}>
@@ -52,7 +78,7 @@ const TipTapTextEditor = ({ editor }: { editor: Editor | null }) => {
             style={{ width: '26px', height: '26px', padding: 0 }}
           >
             <IconBrandYoutubeFilled
-              onClick={addYoutubeVideo}
+              onClick={openModal}
               data-disabled
               size='1rem'
             />

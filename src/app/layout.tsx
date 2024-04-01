@@ -16,7 +16,7 @@ import Providers from '@/providers/StyledComponentsProvider';
 import { GlobalStyle } from '@/styles/globalStyle';
 
 export const metadata: Metadata = {
-  metadataBase: new URL('http://roadmaker.site/'),
+  metadataBase: new URL('https://roadmaker-fe.vercel.app/'),
   title: {
     default: SITE_CONFIG.title,
     template: `%s | ${SITE_CONFIG.title}`,

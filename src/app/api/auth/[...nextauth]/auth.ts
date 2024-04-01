@@ -1,12 +1,19 @@
+import AWS from 'aws-sdk';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GithubProvider from 'next-auth/providers/github';
 
-import { apiRoutes } from '@/constants';
+import { apiRoutes, IS_PROD } from '@/constants';
 import { omit } from '@/utils/shared';
 import { consoleLog } from '@/utils/shared/console-log';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 export const runtime = 'edge';
+
+AWS.config.update({
+  accessKeyId: process.env.NEXT_AWS_ACCESS_KEY_ID,
+  secretAccessKey: process.env.NEXT_AWS_SECRET_ACCESS_KEY,
+  region: process.env.COGNITO_REGION,
+});
 
 interface Member {
   id: number;
@@ -49,6 +56,30 @@ export const {
         },
       },
       async authorize(credentials) {
+        const cognito = new AWS.CognitoIdentityServiceProvider();
+        if (!credentials) return null;
+        if (IS_PROD) {
+          const params = {
+            AuthFlow: 'USER_PASSWORD_AUTH',
+            ClientId: process.env.COGNITO_CLIENT_ID as string,
+            AuthParameters: {
+              EMAIL: credentials.email,
+              PASSWORD: credentials.password,
+            },
+          } as AWS.CognitoIdentityServiceProvider.Types.InitiateAuthRequest;
+          try {
+            const response = await cognito.initiateAuth(params).promise();
+            const user = {
+              id: response.ChallengeParameters?.USER_ID_FOR_SRP as string,
+              email: credentials.email,
+            };
+            return user;
+          } catch (e) {
+            consoleLog(`${e}`);
+            return null;
+          }
+        }
+
         try {
           const res = await Promise.resolve(
             getApiResponse<AuthResponse | null>({

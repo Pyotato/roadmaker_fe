@@ -8,22 +8,35 @@ import {
   Group,
   Image,
   ScrollArea,
+  Text,
   UnstyledButton,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { usePathname, useRouter } from 'next/navigation';
+import { IconHome, IconUser } from '@tabler/icons-react';
 import { useSession } from 'next-auth/react';
+import { usePathname, useRouter } from 'next/navigation';
 
+import { useMemo } from 'react';
 import AuthButton from './AuthButton';
 import HeaderAuthButton from './HeaderAuthButton';
 import RoadmapCreateButton from './RoadmapCreateButton';
 
-const Header = () => {
+const Header = ({ openModal }: { openModal: (fn: () => void) => void }) => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const currPath = usePathname();
   const router = useRouter();
   const { status } = useSession();
+
+  useMemo(() => {
+    if (currPath !== '/roadmap/create') return;
+    if (typeof window !== 'undefined') {
+      window.onbeforeunload = function (e) {
+        e.preventDefault();
+      };
+    }
+  }, [currPath]);
+
   return (
     <Box>
       <header>
@@ -34,6 +47,11 @@ const Header = () => {
               alt='/favicon/android-chrome-384x384.png'
               style={{ width: '30px' }}
               onClick={() => {
+                if (currPath === '/roadmap/create') {
+                  openModal(() => router.push('/'));
+                  closeDrawer();
+                  return;
+                }
                 if (currPath === '/') location.reload();
                 router.push('/');
               }}
@@ -45,7 +63,7 @@ const Header = () => {
             onClick={toggleDrawer}
             hiddenFrom='sm'
           />
-          <HeaderAuthButton />
+          <HeaderAuthButton openModal={openModal} closeDrawer={closeDrawer} />
         </Group>
       </header>
       <Drawer
@@ -55,29 +73,52 @@ const Header = () => {
         padding='md'
         title='Navigation'
         hiddenFrom='sm'
-        zIndex={1000000}
+        zIndex={100000}
       >
         <ScrollArea mx='-md'>
           <Divider my='sm' />
           <Box m='md'>
             <UnstyledButton
+              display='inline-flex'
+              style={{ alignItems: 'center' }}
               onClick={() => {
-                if (currPath === '/') location.reload();
-                closeDrawer();
+                if (currPath === '/roadmap/create') {
+                  openModal(() => router.push('/'));
+                  closeDrawer();
+                  return;
+                }
+                if (currPath === '/') {
+                  location.reload();
+                  closeDrawer();
+                  return;
+                }
                 router.push('/');
+                closeDrawer();
               }}
               className='hvr-text'
             >
-              홈
+              <IconHome />
+              <Text pl='xs'>홈</Text>
             </UnstyledButton>
           </Box>
           {status === 'authenticated' && (
             <Box m='md'>
               <UnstyledButton
                 className='hvr-text'
-                onClick={() => router.replace('/mypage')}
+                display='inline-flex'
+                style={{ alignItems: 'center' }}
+                onClick={() => {
+                  if (currPath === '/roadmap/create') {
+                    openModal(() => router.replace('/mypage'));
+                    closeDrawer();
+                    return;
+                  }
+                  router.replace('/mypage');
+                  closeDrawer();
+                }}
               >
-                마이 페이지
+                <IconUser />
+                <Text pl='xs'> 마이 페이지</Text>
               </UnstyledButton>
             </Box>
           )}
@@ -87,7 +128,7 @@ const Header = () => {
           </Box>
           <Divider my='sm' />
 
-          <AuthButton />
+          <AuthButton openModal={openModal} closeDrawer={closeDrawer} />
         </ScrollArea>
       </Drawer>
     </Box>

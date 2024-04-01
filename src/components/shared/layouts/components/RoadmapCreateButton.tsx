@@ -1,5 +1,6 @@
 'use client';
-import { UnstyledButton } from '@mantine/core';
+import { Text, UnstyledButton } from '@mantine/core';
+import { IconWriting } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 
@@ -11,12 +12,15 @@ const RoadmapCreateButton = ({ closeDrawer }: { closeDrawer: () => void }) => {
       <UnstyledButton
         type='button'
         className='hvr-text'
+        display='inline-flex'
+        style={{ alignItems: 'center' }}
         onClick={() => {
           closeDrawer();
           router.push('/roadmap/create');
         }}
       >
-        로드맵 생성
+        <IconWriting />
+        <Text pl='xs'>로드맵 생성</Text>
       </UnstyledButton>
     );
   }

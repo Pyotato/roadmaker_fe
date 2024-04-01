@@ -4,17 +4,14 @@ import { ReactNode } from 'react';
 interface MyPageProps {
   info: ReactNode;
   roadmaps: ReactNode;
-  children: ReactNode;
 }
 
 const PostLayout = (props: MyPageProps) => {
   return (
-    <>
-      <Container py='xl'>
-        <Container py='xl'>{props.info}</Container>
-        <Container py='xl'>{props.roadmaps}</Container>
-      </Container>
-    </>
+    <Container py='xl'>
+      <Container py='xl'>{props.info}</Container>
+      <Container py='xl'>{props.roadmaps}</Container>
+    </Container>
   );
 };
 

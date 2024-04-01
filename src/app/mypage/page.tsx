@@ -1,7 +1,7 @@
 'use client';
 import { signIn, useSession } from 'next-auth/react';
 
-import OverLay from '@/components/shared/Overlay';
+import { SkeletonCardsGrid } from '@/components/shared/grid/SkeletonGrid';
 
 import MyRoadmapsTabs from './@roadmaps/Tabs';
 
@@ -10,6 +10,6 @@ export default function MyPage() {
   if (status === 'unauthenticated') {
     signIn();
   }
-  if (status === 'loading') <OverLay />;
+  if (status === 'loading') return <SkeletonCardsGrid />;
   if (status === 'authenticated') return <MyRoadmapsTabs />;
 }

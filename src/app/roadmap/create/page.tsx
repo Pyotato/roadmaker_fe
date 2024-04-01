@@ -2,12 +2,12 @@
 
 import { Box, Drawer, ScrollArea } from '@mantine/core';
 import { IconCircleChevronRight } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Edge, Node, ReactFlowProvider } from 'reactflow';
 
-import { siteRoutes } from '@/constants';
+import { IS_PROD, siteRoutes } from '@/constants';
 
 import Flow from './components/Flow';
 import DetailContentEditor from './components/panel/items/DetailContentEditor';
@@ -22,7 +22,11 @@ export default function RoadmapEditorPage() {
   const router = useRouter();
 
   if (status === 'unauthenticated') {
-    return router.replace(siteRoutes.signIn);
+    return router.replace(IS_PROD ? siteRoutes.signIn : siteRoutes.signInDev);
+  }
+
+  if (status === 'loading') {
+    return <></>;
   }
 
   return (

@@ -9,7 +9,7 @@ import { signIn, useSession } from 'next-auth/react';
 import { useMemo, useState } from 'react';
 
 import { ArticlesCardsGrid } from '@/components/shared/grid/ArticlesCardsGrid';
-import OverLay from '@/components/shared/Overlay';
+import { SkeletonCardsGrid } from '@/components/shared/grid/SkeletonGrid';
 
 import { RoadMapInfo } from '@/app/roadmap/post/[...id]/@roadmapInfo/page';
 import { apiRoutes, fail } from '@/constants';
@@ -48,7 +48,6 @@ const InProgressRoadmapList = () => {
     };
   };
 
-  if (status === 'loading') <OverLay />;
   if (status === 'unauthenticated') {
     signIn();
   }
@@ -58,7 +57,7 @@ const InProgressRoadmapList = () => {
     queryFn: loadDataFromApi,
   });
   if (isLoading) {
-    return <OverLay />;
+    return <SkeletonCardsGrid />;
   }
   if (isError) {
     notifications.show({

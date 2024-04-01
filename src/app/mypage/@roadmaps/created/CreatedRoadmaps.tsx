@@ -9,7 +9,7 @@ import { signIn, useSession } from 'next-auth/react';
 import { useMemo, useState } from 'react';
 
 import { ArticlesCardsGrid } from '@/components/shared/grid/ArticlesCardsGrid';
-import OverLay from '@/components/shared/Overlay';
+import { SkeletonCardsGrid } from '@/components/shared/grid/SkeletonGrid';
 
 import { RoadMapInfo } from '@/app/roadmap/post/[...id]/@roadmapInfo/page';
 import { apiRoutes, fail } from '@/constants';
@@ -48,17 +48,16 @@ const CreatedRoadmapList = () => {
     };
   };
 
-  if (status === 'loading') <OverLay />;
-  if (status === 'unauthenticated') {
-    signIn();
-  }
-
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: [`post-created-${nickname}`],
     queryFn: loadDataFromApi,
   });
+
+  if (status === 'unauthenticated') {
+    signIn();
+  }
   if (isLoading) {
-    return <OverLay />;
+    return <SkeletonCardsGrid />;
   }
   if (isError) {
     notifications.show({

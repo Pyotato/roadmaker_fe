@@ -5,14 +5,14 @@ import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-import OverLay from '@/components/shared/Overlay';
+import ProfileSkeleton from '@/components/shared/ProfileSkeleton';
 
-import { apiRoutes, fail, siteRoutes } from '@/constants';
+import { apiRoutes, fail, IS_PROD, siteRoutes } from '@/constants';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
 import UpdateAvatarForm from './forms/Avatar';
@@ -41,11 +41,9 @@ const UserData = () => {
   const [modalContent, setModalContent] = useState('');
 
   if (status === 'unauthenticated') {
-    router.replace(siteRoutes.signIn);
+    router.replace(IS_PROD ? siteRoutes.signIn : siteRoutes.signInDev);
   }
-  if (status === 'loading') {
-    <OverLay />;
-  }
+
   useEffect(() => {
     if (status === 'authenticated') {
       setUser(session?.user as JWT['user']);
@@ -59,7 +57,6 @@ const UserData = () => {
         revalidate: 60 * 24, // 1 hr cache
       }),
     ]);
-    // console.log(userData);
 
     return {
       userData,
@@ -77,7 +74,7 @@ const UserData = () => {
     queryFn: async () => await loadDataFromApi(),
   });
 
-  if (isLoading) return <OverLay />;
+  if (isLoading) return <ProfileSkeleton />;
   if (isError) {
     notifications.show({
       id: fail['500'].id,

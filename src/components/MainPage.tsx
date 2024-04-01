@@ -9,6 +9,7 @@ import { getPageNum } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
 import { ArticlesCardsGrid } from './shared/grid/ArticlesCardsGrid';
+import { SkeletonCardsGrid } from './shared/grid/SkeletonGrid';
 
 import { DataWithPages } from '@/types';
 
@@ -65,6 +66,7 @@ export default function Mainpage() {
     hasNextPage,
     isError,
     status,
+    isLoading,
   } = useInfiniteQuery({
     queryKey: ['mainPosts'],
     queryFn: loadDataFromApi,
@@ -90,6 +92,7 @@ export default function Mainpage() {
       </>
     );
   }
+  if (isLoading) return <SkeletonCardsGrid />;
 
   if (posts)
     return (

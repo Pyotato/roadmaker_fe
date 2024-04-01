@@ -9,7 +9,6 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useMemo, useState } from 'react';
 
 import { Member, Post } from '@/components/MainPage';
-import OverLay from '@/components/shared/Overlay';
 
 import { apiRoutes, success } from '@/constants';
 import { omit, pick } from '@/utils/shared';
@@ -99,7 +98,7 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
     queryFn: async () => await loadDataFromApi(id),
   });
 
-  if (isLoading) return <OverLay />;
+  if (isLoading) return <></>;
   if (isError) return <div>oops something went wrong!🥲</div>;
   if (data === null || !data?.roadMapInfo) {
     router.replace('/error');

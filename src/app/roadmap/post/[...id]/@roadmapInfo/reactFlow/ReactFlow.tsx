@@ -153,7 +153,7 @@ const Wrap = styled.div`
   .react-flow__node.react-flow__node-custom {
     max-width: 15rem !important;
     width: fit-content !important;
-
+    overflow-wrap: anywhere !important;
     :hover {
       cursor: pointer;
     }

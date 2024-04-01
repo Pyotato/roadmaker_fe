@@ -1,24 +1,36 @@
 'use client';
+import { UnstyledButton } from '@mantine/core';
 import { useRouter } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 
-const RoadmapCreateButton = () => {
+const RoadmapCreateButton = ({ closeDrawer }: { closeDrawer: () => void }) => {
   const { status } = useSession();
   const router = useRouter();
   if (status === 'authenticated') {
     return (
-      <button type='button' onClick={() => router.push('/roadmap/create')}>
-        create roadmap
-      </button>
+      <UnstyledButton
+        type='button'
+        className='hvr-text'
+        onClick={() => {
+          closeDrawer();
+          router.push('/roadmap/create');
+        }}
+      >
+        로드맵 생성
+      </UnstyledButton>
     );
   }
 
   return (
-    <>
-      <button type='button' onClick={() => signIn()}>
-        sign in to create roadmap
-      </button>
-    </>
+    <UnstyledButton
+      type='button'
+      onClick={() => {
+        closeDrawer();
+        signIn();
+      }}
+    >
+      sign in to create roadmap
+    </UnstyledButton>
   );
 };
 export default RoadmapCreateButton;

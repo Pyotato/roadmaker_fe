@@ -10,6 +10,8 @@ import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
+import OverLay from '@/components/shared/Overlay';
+
 import { apiRoutes, fail, siteRoutes } from '@/constants';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
@@ -42,7 +44,7 @@ const UserData = () => {
     router.replace(siteRoutes.signIn);
   }
   if (status === 'loading') {
-    <>loading...</>;
+    <OverLay />;
   }
   useEffect(() => {
     if (status === 'authenticated') {
@@ -73,10 +75,9 @@ const UserData = () => {
   } = useQuery({
     queryKey: [`mypage-info-${user?.id}`],
     queryFn: async () => await loadDataFromApi(),
-    // queryFn: loadDataFromApi,
   });
 
-  if (isLoading) return <>loading</>;
+  if (isLoading) return <OverLay />;
   if (isError) {
     notifications.show({
       id: fail['500'].id,

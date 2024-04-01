@@ -9,6 +9,7 @@ import { signIn, useSession } from 'next-auth/react';
 import { useMemo, useState } from 'react';
 
 import { ArticlesCardsGrid } from '@/components/shared/grid/ArticlesCardsGrid';
+import OverLay from '@/components/shared/Overlay';
 
 import { RoadMapInfo } from '@/app/roadmap/post/[...id]/@roadmapInfo/page';
 import { apiRoutes, fail } from '@/constants';
@@ -47,7 +48,7 @@ const CreatedRoadmapList = () => {
     };
   };
 
-  if (status === 'loading') <>loading..</>;
+  if (status === 'loading') <OverLay />;
   if (status === 'unauthenticated') {
     signIn();
   }
@@ -57,7 +58,7 @@ const CreatedRoadmapList = () => {
     queryFn: loadDataFromApi,
   });
   if (isLoading) {
-    return <>loading..</>;
+    return <OverLay />;
   }
   if (isError) {
     notifications.show({

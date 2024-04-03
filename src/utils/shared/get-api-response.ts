@@ -1,7 +1,7 @@
 import { apiRoutes, IS_PROD } from '@/constants';
 import { consoleLog } from '@/utils/shared/console-log';
 
-import { pick } from '.';
+const ErrorStatus = [404, 401];
 
 export const getApiResponse = async <T>({
   apiEndpoint,
@@ -39,11 +39,7 @@ export const getApiResponse = async <T>({
       }
     }
 
-    if (response.status === 404) {
-      return { ...pick(await response.json(), 'error') };
-    }
-
-    if (response.status === 401) {
+    if (ErrorStatus.includes(response.status)) {
       return response.json();
     }
 

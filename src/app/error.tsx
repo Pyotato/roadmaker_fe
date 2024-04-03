@@ -2,6 +2,8 @@
 
 import * as React from 'react';
 
+import NotFound from '@/components/NotFound';
+
 import { consoleLog } from '@/utils/shared/console-log';
 
 export default function ErrorPage({
@@ -14,20 +16,12 @@ export default function ErrorPage({
   React.useEffect(() => {
     consoleLog('error.tsx', error);
   }, [error]);
+  const title = 'Oops, something went wrong!';
+  const { message } = error;
 
   return (
     <main>
-      <section>
-        <div>
-          <h1>Oops, something went wrong!</h1>
-          <h5>change this in app/error.tsx</h5>
-          <h4>{error.message}</h4>
-          <div>
-            <button onClick={reset}>Try again</button>
-          </div>
-          <a href='/'>Back to home</a>
-        </div>
-      </section>
+      <NotFound title={title} message={message} reset={reset} />
     </main>
   );
 }

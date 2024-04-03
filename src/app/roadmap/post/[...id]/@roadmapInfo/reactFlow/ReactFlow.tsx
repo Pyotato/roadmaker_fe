@@ -139,7 +139,7 @@ const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
         >
           <Drawer.Content>
             <Drawer.CloseButton mr='1rem' mt='1rem' ml='1rem' />
-            <Drawer.Body p='1rem' style={{ height: '100vh' }}>
+            <Drawer.Body p='1rem' style={{ height: '100vh', width: '27.6rem' }}>
               <NodeDetails details={openNode} />
             </Drawer.Body>
           </Drawer.Content>

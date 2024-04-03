@@ -1,7 +1,7 @@
-import NextAuth from 'next-auth';
+import NextAuth, { User } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import GithubProvider from 'next-auth/providers/github';
 
+// import GithubProvider from 'next-auth/providers/github';
 import { apiRoutes } from '@/constants';
 import { omit } from '@/utils/shared';
 import { consoleLog } from '@/utils/shared/console-log';
@@ -30,10 +30,10 @@ export const {
   auth,
 } = NextAuth({
   providers: [
-    GithubProvider({
-      clientId: process.env.NEXT_PUBLIC_AUTH_GITHUB_ID,
-      clientSecret: process.env.NEXT_PUBLIC_AUTH_GITHUB_SECRET,
-    }),
+    // GithubProvider({
+    //   clientId: process.env.NEXT_PUBLIC_AUTH_GITHUB_ID,
+    //   clientSecret: process.env.NEXT_PUBLIC_AUTH_GITHUB_SECRET,
+    // }),
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
@@ -61,16 +61,22 @@ export const {
               method: 'POST',
             }),
           );
-          const user = {
-            ...res?.member,
-            ...res?.tokenInfo,
-            provider: 'Credentials',
-          };
-          if (res) {
+
+          if (res.id) {
+            const userInfo = await Promise.resolve(
+              getApiResponse<AuthResponse | null>({
+                headers: { 'Content-Type': 'application/json' },
+                apiEndpoint: `${apiRoutes.userInfoSlash}${res?.id}`,
+              }),
+            );
+            const user = {
+              id: res?.id,
+              ...userInfo,
+              accessToken: res?.accessToken,
+              provider: 'Credentials',
+            } as unknown as User;
             return user;
-          } else {
-            return null;
-          }
+          } else return res;
         } catch (e) {
           consoleLog(`${e}`);
         }

@@ -1,6 +1,6 @@
 'use client';
 
-import { Box } from '@mantine/core';
+import { Box, LoadingOverlay } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
@@ -98,7 +98,7 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
     queryFn: async () => await loadDataFromApi(id),
   });
 
-  if (isLoading) return <></>;
+  if (isLoading || status === 'loading') return <LoadingOverlay />;
   if (isError) return <div>oops something went wrong!🥲</div>;
   if (data === null || !data?.roadMapInfo) {
     router.replace('/error');

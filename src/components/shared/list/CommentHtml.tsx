@@ -12,6 +12,7 @@ import { PropsWithChildren } from 'react';
 import classes from './CommentHtml.module.css';
 
 import { CommentData } from '@/app/roadmap/post/[...id]/@comment/Comments';
+import { randomAvartars, randomNum } from '@/constants/default/avatars';
 import { toTSXString } from '@/utils/shared';
 
 export interface CommentProps extends PropsWithChildren {
@@ -34,7 +35,7 @@ export function CommentHtml({ commentData, innerRef }: CommentProps) {
       >
         <Group>
           <Avatar
-            src='https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png'
+            src={v?.avatarUrl || randomAvartars(randomNum)}
             alt={v?.nickname}
             radius='xl'
           />
@@ -64,7 +65,7 @@ export function CommentHtml({ commentData, innerRef }: CommentProps) {
       >
         <Group>
           <Avatar
-            src='https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png'
+            src={v?.avatarUrl ?? randomAvartars(randomNum)}
             alt={v?.nickname}
             radius='xl'
           />

@@ -6,12 +6,14 @@ import { notifications } from '@mantine/notifications';
 import { IconCheck, IconPhotoPlus, IconX } from '@tabler/icons-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { JWT } from 'next-auth/jwt';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useCallback, useMemo, useState } from 'react';
 
-import { apiRoutes, success } from '@/constants';
+import { apiRoutes, fail, success } from '@/constants';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 import { getItem, removeItem, setItem } from '@/utils/shared/localStorage';
+
+import { ErrorResponse } from './UserInfo';
 
 const UpdateAvatarForm = ({
   close,
@@ -57,12 +59,12 @@ const UpdateAvatarForm = ({
     });
   }, [files, thumbnail]);
 
-  const onSubmitRoadmap = useCallback(async () => {
+  const onSubmitAvatar = useCallback(async () => {
     if (!formData || !files || !thumbnail) {
       return;
     }
     const [response] = await Promise.all([
-      getApiResponse<undefined>({
+      getApiResponse<ErrorResponse | null>({
         requestData: formData,
         apiEndpoint: `${apiRoutes.memberAvatarUpdate}`,
         method: 'POST',
@@ -72,14 +74,15 @@ const UpdateAvatarForm = ({
       }),
     ]);
 
-    if (!response || response.error) {
+    if (response?.errorCode) {
+      const { httpStatus, message, errorCode } = response as ErrorResponse;
       notifications.show({
         id: 'update-profile-image-fail',
         withCloseButton: true,
         autoClose: 5000,
         title: '내 프로필 이미지 변경 실패',
-        message: '🥲 내 프로필 이미지 변경에 실패했습니다',
-        color: 'red',
+        message: `🥲 내 프로필 이미지 변경에 실패했습니다\n${message}`,
+        color: fail[httpStatus].color,
         icon: <IconX style={{ width: '20rem', height: '20rem' }} />,
         className: 'my-notification-class',
         loading: false,
@@ -87,10 +90,11 @@ const UpdateAvatarForm = ({
       removeItem('my-update-profile');
       setThumbnail('');
       setFiles([]);
+      if (errorCode === 'UnAuthenticated') signIn();
       return;
     }
 
-    if (response?.url) {
+    if (response?.avatarUrl) {
       notifications.show({
         id: success.roadmaps.id,
         withCloseButton: false,
@@ -156,7 +160,7 @@ const UpdateAvatarForm = ({
       >
         <Button
           disabled={!files || !thumbnail || !formData}
-          onClick={() => onSubmitRoadmap()}
+          onClick={() => onSubmitAvatar()}
         >
           이미지 변경하기
         </Button>

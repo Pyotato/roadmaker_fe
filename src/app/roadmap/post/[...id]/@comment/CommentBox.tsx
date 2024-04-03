@@ -1,6 +1,11 @@
 'use client';
 
-import { Button, Container } from '@mantine/core';
+import {
+  Button,
+  Container,
+  LoadingOverlay,
+  UnstyledButton,
+} from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconExclamationMark } from '@tabler/icons-react';
 import { useQueryClient } from '@tanstack/react-query';
@@ -16,7 +21,7 @@ import { useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useParams } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
-import { useSession } from 'next-auth/react';
+import { signIn, useSession } from 'next-auth/react';
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
@@ -26,7 +31,7 @@ import { apiRoutes, success, warning } from '@/constants';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
 const CommentBox = () => {
-  const { data: token } = useSession();
+  const { data: token, status } = useSession();
   const params = useParams<{ tag: string; item: string; id: string[] }>();
   const currPostId = params.id;
   const [content, setContent] = useState('');
@@ -46,6 +51,8 @@ const CommentBox = () => {
         inline: false,
         ccLanguage: 'ko',
         interfaceLanguage: 'ko',
+        enableIFrameApi: true,
+        origin: process.env.SITE_URL,
       }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],
@@ -89,12 +96,18 @@ const CommentBox = () => {
   };
 
   const tiptapEditor = useMemo(() => {
+    if (status === 'unauthenticated')
+      return (
+        <UnstyledButton onClick={() => signIn()}>
+          로그인 후 이용 가능합니다.
+        </UnstyledButton>
+      );
     return (
       <EditorWrap>
         <TipTapTextEditor editor={editor} />
       </EditorWrap>
     );
-  }, [editor]);
+  }, [editor, status]);
 
   return (
     <Container py='xl'>
@@ -105,11 +118,7 @@ const CommentBox = () => {
             my='xl'
             type='button'
             onClick={() => {
-              if (
-                content.length <= '<p></p>'.length ||
-                `${editor?.getText()}`.replaceAll(' ', '').replaceAll('\n', '')
-                  .length === 0
-              ) {
+              if (editor?.isEmpty) {
                 notifications.show({
                   id: warning.content.id,
                   withCloseButton: true,
@@ -130,11 +139,15 @@ const CommentBox = () => {
               postResponseFromApi();
             }}
             className='btn'
-            disabled={
-              editor?.getHTML() === '<p></p>' || editor?.getText() === ''
-            }
+            disabled={editor?.isEmpty}
           >
-            댓글 달기
+            {status === 'authenticated' ? (
+              '댓글 달기'
+            ) : status === 'unauthenticated' ? (
+              '로그인 후 이용'
+            ) : (
+              <LoadingOverlay />
+            )}
           </Button>
         </div>
       </EditorWrap>

@@ -13,8 +13,14 @@ import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
 import { useCallback, useMemo, useState } from 'react';
 
-import { apiRoutes, success } from '@/constants';
+import { apiRoutes, fail, FailKeys, success } from '@/constants';
 import { getApiResponse } from '@/utils/shared/get-api-response';
+
+export interface ErrorResponse {
+  httpStatus: FailKeys;
+  message: string;
+  errorCode: string;
+}
 
 const UpdateMemberProfileForm = ({
   close,
@@ -43,7 +49,7 @@ const UpdateMemberProfileForm = ({
       return;
     }
     const [response] = await Promise.all([
-      getApiResponse<undefined>({
+      getApiResponse<ErrorResponse | null>({
         requestData: JSON.stringify({
           memberId: userId,
           nickname,
@@ -58,14 +64,15 @@ const UpdateMemberProfileForm = ({
       }),
     ]);
 
-    if (!response || response.error) {
+    if (response?.errorCode !== undefined) {
+      const { httpStatus, message } = response as ErrorResponse;
       notifications.show({
         id: 'update-my-info-fail',
         withCloseButton: true,
         autoClose: 5000,
         title: '내 프로필 정보 변경 실패',
-        message: '🥲 내 프로필 정보 변경에 실패했습니다',
-        color: 'red',
+        message: `🥲 내 프로필 정보 변경에 실패했습니다\n${message}`,
+        color: fail[httpStatus].color,
         icon: <IconX style={{ width: '20rem', height: '20rem' }} />,
         className: 'my-notification-class',
         loading: false,
@@ -74,22 +81,21 @@ const UpdateMemberProfileForm = ({
       return;
     }
 
-    if (response) {
-      notifications.show({
-        id: success.user.id,
-        withCloseButton: false,
-        autoClose: 800,
-        title: success.user.title,
-        message: `내 프로필 변경에 성공했습니다 🎉`,
-        color: success.roadmaps.color,
-        icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
-        className: 'my-notification-class notification',
-        loading: true,
-      });
-      setTimeout(() => {
-        queryClient.invalidateQueries({ queryKey: [`mypage-info-${userId}`] });
-      }, 700);
-    }
+    notifications.show({
+      id: success.user.id,
+      withCloseButton: false,
+      autoClose: 800,
+      title: success.user.title,
+      message: `내 프로필 변경에 성공했습니다 🎉`,
+      color: success.roadmaps.color,
+      icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+      className: 'my-notification-class notification',
+      loading: true,
+    });
+    setTimeout(() => {
+      queryClient.invalidateQueries({ queryKey: [`mypage-info-${userId}`] });
+    }, 700);
+
     close();
   }, [accessToken, bio, close, nickname, queryClient, userId, userNickName]);
 

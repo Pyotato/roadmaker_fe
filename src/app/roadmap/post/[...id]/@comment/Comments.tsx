@@ -19,6 +19,7 @@ export interface Comment {
   nickname: string;
   createdAt: string | Date;
   updatedAt: string | Date;
+  avatarUrl?: string;
 }
 export interface CommentData extends DataWithPages {
   result: Array<Comment | null>;

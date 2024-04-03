@@ -29,8 +29,7 @@ const Header = ({ openModal }: { openModal: (fn: () => void) => void }) => {
   const { status } = useSession();
 
   useMemo(() => {
-    if (currPath !== '/roadmap/create') return;
-    if (typeof window !== 'undefined') {
+    if (typeof window !== 'undefined' && currPath === '/roadmap/create') {
       window.onbeforeunload = function (e) {
         e.preventDefault();
       };

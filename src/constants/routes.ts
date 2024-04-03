@@ -4,11 +4,11 @@ export const apiRoutes = {
   roadmapPaged: `${process.env.NEXT_PUBLIC_API}/roadmaps?page=`,
   comments: `${process.env.NEXT_PUBLIC_API}/comments`,
   likes: `${process.env.NEXT_PUBLIC_API}/likes/like-roadmap/`,
-  signin: `${process.env.NEXT_PUBLIC_API}/members/signin`,
-  signup: `${process.env.NEXT_PUBLIC_API}/members/signup`,
+  signin: `${process.env.NEXT_PUBLIC_API}/auth/login`,
+  signup: `${process.env.NEXT_PUBLIC_API}/auth/signup`,
   userInfoSlash: `${process.env.NEXT_PUBLIC_API}/members/`,
-  memberInfoUpdate: `${process.env.NEXT_PUBLIC_API}/members/save-profile`,
-  memberAvatarUpdate: `${process.env.NEXT_PUBLIC_API}/members/me/avatar`,
+  memberInfoUpdate: `${process.env.NEXT_PUBLIC_API}/members/profile`,
+  memberAvatarUpdate: `${process.env.NEXT_PUBLIC_API}/members/profile/avatar`,
 };
 
 export const siteRoutes = {

@@ -8,8 +8,9 @@ export const GlobalStyle = createGlobalStyle`
 	body{
 		background-color: ${({ theme }) => theme.white};
 		white-space: pre-wrap;
-		/* color: ${({ theme }) => theme.colors.color_primary}; */
+		/* color: ${({ theme }) => theme.colors.color_grey1}; */
 	}
+ 
 	strong{
 		font-weight: 700;
 	}
@@ -82,10 +83,6 @@ export const GlobalStyle = createGlobalStyle`
 		line-height: normal !important;
 	}
 
-	iframe{
-		/* width: initial !important; */
-
-	}
 
 	.footer {
   margin-top: rem(120px);
@@ -194,5 +191,22 @@ export const GlobalStyle = createGlobalStyle`
   z-index: 100 !important;
 }
 
+iframe {
+    border: 8px solid #000;
+    border-radius: 4px;
+    min-width: 200px;
+    min-height: 200px;
+    display: block;
+    outline: 0px solid transparent;
+  }
+
+  div[data-youtube-video] {
+    cursor: move;
+    padding-right: 24px;
+  }
+
+  .tiptap.ProseMirror{
+    overflow-x: hidden !important;
+  }
 
 `;

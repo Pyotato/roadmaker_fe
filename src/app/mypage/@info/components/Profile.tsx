@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import ProfileSkeleton from '@/components/shared/ProfileSkeleton';
 
 import { apiRoutes, fail, IS_PROD, siteRoutes } from '@/constants';
+import { randomAvartars } from '@/constants/default/avatars';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
 import UpdateAvatarForm from './forms/Avatar';
@@ -103,7 +104,7 @@ const UserData = () => {
           <Avatar
             src={
               userInfo?.userData?.avatarUrl ||
-              'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-7.png'
+              randomAvartars(userInfo?.userData?.id)
             }
             className='hvr'
             radius='100%'

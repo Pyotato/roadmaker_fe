@@ -3,6 +3,7 @@ import { PropsWithChildren } from 'react';
 
 import { Member } from '@/components/MainPage';
 
+import { randomAvartars } from '@/constants/default/avatars';
 import { toTSXString } from '@/utils/shared';
 
 import { AboutInfo } from './page';
@@ -16,7 +17,7 @@ interface CreatorProps extends PropsWithChildren {
 const Creator = ({ creatorInfo }: CreatorProps) => {
   const { member } = creatorInfo;
   const {
-    // id,
+    id,
     // email,
     nickname,
     // bio,
@@ -29,10 +30,7 @@ const Creator = ({ creatorInfo }: CreatorProps) => {
     <>
       <Box style={{ width: '24px' }}>
         <Avatar
-          src={
-            avatarUrl ||
-            'https://raw.githubusercontent.com/mantinedev/mantine/master/.demo/avatars/avatar-2.png'
-          }
+          src={avatarUrl || randomAvartars(id)}
           alt={toTSXString(avatarUrl)}
           radius='xl'
           size='sm'

@@ -7,6 +7,7 @@ import { Editor } from '@tiptap/react';
 
 const TipTapTextEditor = ({ editor }: { editor: Editor | null }) => {
   let url = '';
+  if (!editor) return null;
   const openModal = () =>
     modals.openConfirmModal({
       title: '유튜브 링크',
@@ -29,16 +30,19 @@ const TipTapTextEditor = ({ editor }: { editor: Editor | null }) => {
       ),
       labels: { confirm: '확인', cancel: '취소' },
       onConfirm: () => {
-        if (editor && url) {
-          editor.commands.setYoutubeVideo({
-            src: url,
-            width: 640,
-            height: 480,
-          });
+        if (url) {
+          // editor.commands.setYoutubeVideo({
+          //   src: url,
+          //   width: 640,
+          //   height: 480,
+          // });
+          editor.commands.insertContent(
+            `<div data-youtube-video><iframe src="${url}"></iframe></div>`,
+          );
           editor.commands.enter();
+          // editor.commands.setContent(editor.getHTML());
         }
       },
-      onClose: () => (url = ''),
       onCancel: () => (url = ''),
     });
 

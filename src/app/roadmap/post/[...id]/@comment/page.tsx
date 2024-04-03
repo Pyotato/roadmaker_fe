@@ -1,9 +1,13 @@
+'use client';
 import { Container, Title } from '@mantine/core';
+import { useSession } from 'next-auth/react';
 
 import CommentBox from '@/app/roadmap/post/[...id]/@comment/CommentBox';
 import Comments from '@/app/roadmap/post/[...id]/@comment/Comments';
 
-export default async function CommentSection() {
+export default function CommentSection() {
+  const { status } = useSession();
+  if (status === 'loading') return <></>;
   return (
     <>
       <Container py='l'>

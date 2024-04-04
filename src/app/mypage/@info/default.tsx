@@ -7,6 +7,8 @@ export default function DefaultInfo() {
   const { status } = useSession();
 
   if (status === 'unauthenticated') {
-    signIn();
-  } else return <UserData />;
+    return signIn();
+  }
+  if (status === 'loading') return <></>;
+  if (status === 'authenticated') return <UserData />;
 }

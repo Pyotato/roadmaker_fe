@@ -49,6 +49,8 @@ const DetailContentEditor = ({
         inline: false,
         ccLanguage: 'ko',
         interfaceLanguage: 'ko',
+        enableIFrameApi: true,
+        origin: process.env.SITE_URL,
       }),
       TextAlign.configure({ types: ['heading', 'paragraph'] }),
     ],

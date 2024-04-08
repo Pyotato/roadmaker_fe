@@ -13,14 +13,8 @@ import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
 import { useCallback, useMemo, useState } from 'react';
 
-import { apiRoutes, fail, FailKeys, success } from '@/constants';
-import { getApiResponse } from '@/utils/shared/get-api-response';
-
-export interface ErrorResponse {
-  httpStatus: FailKeys;
-  message: string;
-  errorCode: string;
-}
+import { apiRoutes, fail, success } from '@/constants';
+import { ErrorResponse, getApiResponse } from '@/utils/shared/get-api-response';
 
 const UpdateMemberProfileForm = ({
   close,

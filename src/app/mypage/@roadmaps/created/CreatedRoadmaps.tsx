@@ -13,7 +13,7 @@ import { SkeletonCardsGrid } from '@/components/shared/grid/SkeletonGrid';
 
 import { RoadMapInfo } from '@/app/roadmap/post/[...id]/@roadmapInfo/page';
 import { apiRoutes, fail } from '@/constants';
-import { getApiResponse } from '@/utils/shared/get-api-response';
+import { ErrorResponse, getApiResponse } from '@/utils/shared/get-api-response';
 
 const CreatedRoadmapList = () => {
   const { data: session, status } = useSession();
@@ -31,8 +31,8 @@ const CreatedRoadmapList = () => {
   const loadDataFromApi = async () => {
     let roadMapInfo;
     if (tokenState) {
-      roadMapInfo = await Promise.resolve(
-        getApiResponse<RoadMapInfo>({
+      const res = await Promise.resolve(
+        getApiResponse<RoadMapInfo | ErrorResponse>({
           apiEndpoint: `${apiRoutes.userInfoSlash}${nickname}/roadmaps`,
           revalidate: 60 * 2, // 5 mins cache
           headers: {
@@ -41,6 +41,12 @@ const CreatedRoadmapList = () => {
           },
         }),
       );
+      if (res?.errorCode) {
+        if (res.httpStatus === 401) return signIn();
+        return res;
+      } else {
+        roadMapInfo = res;
+      }
     }
 
     return {

@@ -10,10 +10,8 @@ import { signIn, useSession } from 'next-auth/react';
 import { useCallback, useMemo, useState } from 'react';
 
 import { apiRoutes, fail, success } from '@/constants';
-import { getApiResponse } from '@/utils/shared/get-api-response';
+import { ErrorResponse, getApiResponse } from '@/utils/shared/get-api-response';
 import { getItem, removeItem, setItem } from '@/utils/shared/localStorage';
-
-import { ErrorResponse } from './UserInfo';
 
 const UpdateAvatarForm = ({
   close,

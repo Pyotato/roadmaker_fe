@@ -8,6 +8,7 @@ import { JWT } from 'next-auth/jwt';
 import { signIn, useSession } from 'next-auth/react';
 import { useMemo, useState } from 'react';
 
+import NotFound from '@/components/NotFound';
 import { ArticlesCardsGrid } from '@/components/shared/grid/ArticlesCardsGrid';
 import { SkeletonCardsGrid } from '@/components/shared/grid/SkeletonGrid';
 
@@ -31,7 +32,7 @@ const InProgressRoadmapList = () => {
   const loadDataFromApi = async () => {
     let roadMapInfo;
     if (tokenState) {
-      roadMapInfo = await Promise.resolve(
+      const res = await Promise.resolve(
         getApiResponse<RoadMapInfo>({
           apiEndpoint: `${apiRoutes.userInfoSlash}${nickname}/in-progress-roadmaps`,
           revalidate: 60 * 2, // 5 mins cache
@@ -41,8 +42,13 @@ const InProgressRoadmapList = () => {
           },
         }),
       );
+      if (res?.errorCode) {
+        if (res.httpStatus === 401) return signIn();
+        return res;
+      } else {
+        roadMapInfo = res;
+      }
     }
-
     return {
       roadMapInfo,
     };
@@ -59,22 +65,33 @@ const InProgressRoadmapList = () => {
   if (isLoading) {
     return <SkeletonCardsGrid />;
   }
-  if (isError) {
-    notifications.show({
-      id: fail['409'].id,
-      withCloseButton: true,
-      autoClose: 6000,
-      title: fail['409'].title,
-      message: 'oops...something went wrong',
-      color: fail['409'].color,
-      icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
-    });
-  }
+
   if (isSuccess) {
+    if (data?.roadMapInfo?.errorCode || isError) {
+      const { errorCode, message } = data.roadMapInfo;
+      if (errorCode === 401) {
+        notifications.show({
+          id: fail['401'].id,
+          withCloseButton: true,
+          autoClose: 6000,
+          title: fail['401'].title,
+          message: 'oops...something went wrong',
+          color: fail['401'].color,
+          icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+        });
+        return signIn();
+      }
+      if (errorCode === 500) {
+        return (
+          <NotFound title='oops...something went wrong' message={message} />
+        );
+      }
+    }
+
     if (
       !data?.roadMapInfo ||
       data?.roadMapInfo.length === 0 ||
-      data?.roadMapInfo[0].id === null
+      data?.roadMapInfo[0]?.id === null
     )
       return <Box h='64vh'></Box>;
     return (

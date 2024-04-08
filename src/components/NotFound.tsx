@@ -12,7 +12,7 @@ export default function NotFound({
   reset,
 }: {
   message: string;
-  title: string;
+  title?: string;
   reset?: () => void;
 }) {
   const router = useRouter();
@@ -21,7 +21,9 @@ export default function NotFound({
       <Container className='root'>
         <SimpleGrid spacing={{ base: 40, sm: 80 }} cols={{ base: 1, sm: 2 }}>
           <div>
-            <Title className='title'>{title}</Title>
+            <Title className='title'>
+              {title || 'Something is not right...'}
+            </Title>
             <Text c='dimmed' size='lg'>
               {message}
             </Text>

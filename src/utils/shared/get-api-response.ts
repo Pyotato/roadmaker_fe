@@ -1,7 +1,13 @@
-import { apiRoutes, IS_PROD } from '@/constants';
+import { apiRoutes, FailKeys, IS_PROD } from '@/constants';
 import { consoleLog } from '@/utils/shared/console-log';
 
 const ErrorStatus = [404, 401];
+
+export interface ErrorResponse {
+  httpStatus: FailKeys;
+  message: string;
+  errorCode: string;
+}
 
 export const getApiResponse = async <T>({
   apiEndpoint,

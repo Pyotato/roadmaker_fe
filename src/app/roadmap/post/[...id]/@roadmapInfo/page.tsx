@@ -93,21 +93,24 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
     };
   };
 
-  const { data, isLoading, isError, isSuccess } = useQuery({
+  const { data, isLoading, isSuccess, isError } = useQuery({
     queryKey: [`post${id}-${nickname}`],
     queryFn: async () => await loadDataFromApi(id),
   });
-
   if (isLoading || status === 'loading') return <LoadingOverlay />;
-  if (isError) return <div>oops something went wrong!🥲</div>;
-  if (data === null || !data?.roadMapInfo) {
+
+  if (
+    data === null ||
+    !data?.roadMapInfo ||
+    isError ||
+    (isSuccess && data?.roadMapInfo?.errorCode)
+  ) {
     router.replace('/error');
     return <></>;
   }
 
   if (isSuccess && 'roadMapInfo' in data) {
     const { roadMapInfo } = data;
-
     const reactFlowInfo = pick(
       roadMapInfo,
       'viewport',

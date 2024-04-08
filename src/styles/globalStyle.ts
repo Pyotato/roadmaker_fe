@@ -209,4 +209,15 @@ iframe {
     overflow-x: hidden !important;
   }
 
+  .post-rich-editor{
+    & .mantine-RichTextEditor-content{
+     & .tiptap.ProseMirror{
+    overflow-x: hidden !important;
+    & iframe {
+      max-width: 376px !important;
+     }
+  }
+    }
+  }
+
 `;

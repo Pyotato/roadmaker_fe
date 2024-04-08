@@ -5,4 +5,5 @@ export * from '@/constants/default/nodes';
 export * from '@/constants/default/posts';
 export * from '@/constants/default/viewport';
 export * from '@/constants/env';
+export * from '@/constants/regex';
 export * from '@/constants/routes';

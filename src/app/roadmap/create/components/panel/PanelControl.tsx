@@ -40,7 +40,6 @@ import {
   useState,
 } from 'react';
 import { Connection, Edge, Node } from 'reactflow';
-import useUndoable from 'use-undoable';
 
 import { apiRoutes, success, warning, WarningKeys } from '@/constants';
 import { omit } from '@/utils/shared';
@@ -56,13 +55,26 @@ const PanelItem = ({
   nodes,
   edges,
   getLayoutedElements,
+  undo,
+  canUndo,
+  redo,
+  canRedo,
   setEdges,
+  flow,
   setNodes,
 }: {
   nodes: Node[];
   edges: Edge[];
   onAddNode: () => void;
   getLayoutedElements: (args: Args) => void;
+  undo: () => void;
+  canUndo: boolean;
+  redo: () => void;
+  canRedo: boolean;
+  flow: {
+    nodes: Node[];
+    edges: Edge[];
+  };
   setNodes: Dispatch<SetStateAction<Node[]>>;
   setEdges: Dispatch<SetStateAction<Edge<CustomEdge | Connection | Edge>[]>>;
 }) => {
@@ -75,10 +87,6 @@ const PanelItem = ({
   const [formData, setFormData] = useState<FormData | null>();
   const [isToggled, setIsToggled] = useState(true);
   const [accessToken, setAccessToken] = useState<JWT['token']>(null);
-  const [flow, setFlow, { undo, canUndo, redo, canRedo }] = useUndoable<{
-    nodes: Node[];
-    edges: Edge[];
-  }>({ nodes, edges });
   const { data: token } = useSession();
 
   useMemo(() => {
@@ -92,16 +100,10 @@ const PanelItem = ({
     setFormData(tempFormData);
   }, [files]);
 
-  useMemo(() => {
-    setFlow({ nodes, edges });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [nodes, edges]);
-
-  useMemo(() => {
+  const handleUseUndoable = useCallback(() => {
     setNodes(flow.nodes);
     setEdges(flow.edges);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [flow]);
+  }, [flow, setNodes, setEdges]);
 
   const previews = useCallback(() => {
     const url = thumbnail;
@@ -310,7 +312,10 @@ const PanelItem = ({
             <ActionIcon
               variant='default'
               disabled={!canUndo}
-              onClick={() => undo()}
+              onClick={() => {
+                undo();
+                handleUseUndoable();
+              }}
             >
               <IconArrowBackUp data-disabled size='1rem' />
             </ActionIcon>
@@ -319,7 +324,10 @@ const PanelItem = ({
             <ActionIcon
               variant='default'
               disabled={!canRedo}
-              onClick={() => redo()}
+              onClick={() => {
+                redo();
+                handleUseUndoable();
+              }}
             >
               <IconArrowForwardUp data-disabled size='1rem' />
             </ActionIcon>

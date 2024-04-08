@@ -10,6 +10,7 @@ const NodeColorPicker = ({
   clickedNode,
   setNodes,
   nodes,
+  setClickedNode,
 }: {
   clickedNode: Node;
   setClickedNode: Dispatch<SetStateAction<Node | null>>;
@@ -49,7 +50,7 @@ const NodeColorPicker = ({
             ...omit(currNode[0], 'style'),
             style: newStyle,
           } as Node;
-
+          setClickedNode(temp);
           const newNodes = nodes.reduce((acc, curr) => {
             if (curr.id === temp.id) {
               acc.push(temp);

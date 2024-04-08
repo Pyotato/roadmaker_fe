@@ -19,6 +19,7 @@ import ReactFlow, {
   useReactFlow,
   XYPosition,
 } from 'reactflow';
+import useUndoable from 'use-undoable';
 
 import CustomBezierEdge from '@/components/reactflow/custom/edge/BezierEdge';
 import TextUpdaterNode from '@/components/reactflow/custom/node/TextUpdaterNode';
@@ -62,6 +63,11 @@ const Flow = ({
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   setClickedNode: Dispatch<SetStateAction<Node | null>>;
 }) => {
+  const [flow, setFlow, { undo, canUndo, redo, canRedo }] = useUndoable<{
+    nodes: Node[];
+    edges: Edge[];
+  }>({ nodes, edges });
+
   const onAddNode = useCallback(() => {
     let nodeId = Number(nodes[nodes.length - 1]?.id) || 0;
     const randomColorPickerIndex = Math.floor(
@@ -179,14 +185,17 @@ const Flow = ({
   const onNodesChange = useCallback(
     (changes: NodeChange[]) => {
       setNodes((nds) => applyNodeChanges(changes, nds));
+      setFlow({ nodes, edges });
     },
-    [setNodes],
+    [setNodes, edges, nodes, setFlow],
   );
 
   const onEdgesChange = useCallback(
-    (changes: EdgeChange[]) =>
-      setEdges((eds) => applyEdgeChanges(changes, eds)),
-    [setEdges],
+    (changes: EdgeChange[]) => {
+      setEdges((eds) => applyEdgeChanges(changes, eds));
+      setFlow({ nodes, edges });
+    },
+    [setEdges, edges, nodes, setFlow],
   );
 
   useEffect(() => {
@@ -232,7 +241,12 @@ const Flow = ({
             nodes={nodes}
             edges={edges}
             getLayoutedElements={getLayoutedElements}
+            undo={undo}
+            canUndo={canUndo}
+            redo={redo}
+            canRedo={canRedo}
             setEdges={setEdges}
+            flow={flow}
             setNodes={setNodes}
           />
         </Panel>

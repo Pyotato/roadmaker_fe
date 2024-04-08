@@ -49,7 +49,10 @@ const NodeDetails = ({ details }: NodeDetailsProps) => {
 
   return (
     <RichTextEditor editor={editor} style={{ border: 'none' }}>
-      <RichTextEditor.Content style={{ lineHeight: '2rem' }} />
+      <RichTextEditor.Content
+        className='post-rich-editor'
+        style={{ lineHeight: '2rem' }}
+      />
     </RichTextEditor>
   );
 };

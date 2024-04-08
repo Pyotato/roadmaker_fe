@@ -48,3 +48,8 @@ export const getPageNum = (next: string | null) => {
     return Number(searchNext[0].split('=')[1]);
   } else return null;
 };
+/**
+ * tiptap 에디터의 a 태그로 변환
+ */
+export const newUrl = (url: string) =>
+  `<p><a target="_blank" rel="noopener noreferrer nofollow" href="${url}">${url}</a></p>`;

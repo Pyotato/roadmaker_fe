@@ -47,8 +47,6 @@ const Comments = () => {
     };
   };
 
-  // !!API need to update api :currently fetching all data
-
   const {
     data: comments,
     error,

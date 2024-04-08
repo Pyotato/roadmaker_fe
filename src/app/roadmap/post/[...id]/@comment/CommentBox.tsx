@@ -17,7 +17,7 @@ import Superscript from '@tiptap/extension-superscript';
 import TextAlign from '@tiptap/extension-text-align';
 import Underline from '@tiptap/extension-underline';
 import Youtube from '@tiptap/extension-youtube';
-import { useEditor } from '@tiptap/react';
+import { JSONContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useParams } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
@@ -27,7 +27,15 @@ import styled from 'styled-components';
 
 import TipTapTextEditor from '@/components/shared/tiptap/TipTapTextEditor';
 
-import { apiRoutes, success, warning } from '@/constants';
+import {
+  apiRoutes,
+  EMPTY_YOUTUBE_HTML,
+  REGEX_HTTP,
+  success,
+  warning,
+  YOUTUBE_SEARCH,
+} from '@/constants';
+import { newUrl } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
 const CommentBox = () => {
@@ -43,7 +51,12 @@ const CommentBox = () => {
         placeholder: '댓글을 달아주세요.',
       }),
       Underline,
-      Link,
+      Link.configure({
+        validate: (href) => {
+          if (href.match(YOUTUBE_SEARCH) || href.match(REGEX_HTTP)) return true;
+          else return false;
+        },
+      }),
       Superscript,
       Subscript,
       Highlight,
@@ -58,7 +71,25 @@ const CommentBox = () => {
     ],
     content: content,
     onUpdate(e) {
-      setContent(e.editor.getHTML().replace(' ', '&nbsp'));
+      const contentUrl = e.editor?.getJSON()?.content as JSONContent[];
+      const urlLists = contentUrl.reduce((acc, curr) => {
+        if (curr?.type === 'youtube') {
+          const src = curr?.attrs?.src as string;
+          return [...acc, src];
+        }
+        return acc;
+      }, [] as Array<string>);
+      while (e.editor.getHTML().match(EMPTY_YOUTUBE_HTML)) {
+        e.editor.getHTML().match(EMPTY_YOUTUBE_HTML);
+        urlLists.forEach((v) => {
+          e.editor.commands.setContent(
+            e.editor.getHTML().replace(EMPTY_YOUTUBE_HTML, newUrl(v)),
+          );
+          setContent(e.editor.getHTML().replace(EMPTY_YOUTUBE_HTML, newUrl(v)));
+        });
+        break;
+      }
+      setContent(e.editor.getHTML());
     },
   });
 
@@ -66,7 +97,7 @@ const CommentBox = () => {
 
   const postResponseFromApi = async () => {
     const accessToken = token as unknown as JWT;
-    await Promise.all([
+    await Promise.resolve(
       getApiResponse<undefined>({
         requestData: JSON.stringify({
           content: content,
@@ -79,8 +110,8 @@ const CommentBox = () => {
           'Content-Type': 'application/json',
         },
       }),
-    ]);
-
+    );
+    // !! api update needed for failed comment requests!
     setContent('');
     notifications.show({
       id: success.comment.id,

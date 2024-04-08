@@ -30,6 +30,12 @@ export const warning = {
     message: '로그인 후 이용 가능합니다.',
     color: 'orange',
   },
+  youtube: {
+    id: 'no-youtube-alert',
+    title: '⚠️ 유튜브 링크를 찾지 못했습니다. ⚠️',
+    message: '유튜브 링크 url을 다시 확인해주세요.',
+    color: 'orange',
+  },
 };
 
 export type Warning = typeof warning;

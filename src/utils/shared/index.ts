@@ -53,3 +53,16 @@ export const getPageNum = (next: string | null) => {
  */
 export const newUrl = (url: string) =>
   `<p><a target="_blank" rel="noopener noreferrer nofollow" href="${url}">${url}</a></p>`;
+
+/**
+ * 2024-04-08T02:15:06.503546 형식의 날짜, 시간을
+ * 2024년 4월 8일 월요일 오전 2:15 형태로 변환
+ */
+
+export const toKorDateTime = (time: string | Date) => {
+  const temp = new Date(`${time}`);
+  return new Intl.DateTimeFormat('ko-KR', {
+    dateStyle: 'full',
+    timeStyle: 'short',
+  }).format(temp);
+};

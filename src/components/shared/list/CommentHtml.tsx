@@ -13,7 +13,7 @@ import classes from './CommentHtml.module.css';
 
 import { CommentData } from '@/app/roadmap/post/[...id]/@comment/Comments';
 import { randomAvartars, randomNum } from '@/constants/default/avatars';
-import { toTSXString } from '@/utils/shared';
+import { toKorDateTime, toTSXString } from '@/utils/shared';
 
 export interface CommentProps extends PropsWithChildren {
   commentData: CommentData['result'];
@@ -22,7 +22,6 @@ export interface CommentProps extends PropsWithChildren {
 
 export function CommentHtml({ commentData, innerRef }: CommentProps) {
   if (commentData.length === 0) return <></>;
-
   const comments = commentData.map((v, i) =>
     i === commentData.length - 1 ? (
       <Paper
@@ -35,12 +34,12 @@ export function CommentHtml({ commentData, innerRef }: CommentProps) {
       >
         <Group>
           <Avatar
-            src={v?.avatarUrl || randomAvartars(randomNum)}
-            alt={v?.nickname}
+            src={v?.member?.avatarUrl || randomAvartars(randomNum)}
+            alt={v?.member?.nickname}
             radius='xl'
           />
           <div>
-            <Text fz='sm'>{v?.nickname}</Text>
+            <Text fz='sm'>{v?.member?.nickname}</Text>
             <Text fz='xs' c='dimmed'>
               {toTSXString(v?.createdAt)}
             </Text>
@@ -65,14 +64,14 @@ export function CommentHtml({ commentData, innerRef }: CommentProps) {
       >
         <Group>
           <Avatar
-            src={v?.avatarUrl ?? randomAvartars(randomNum)}
-            alt={v?.nickname}
+            src={v?.member?.avatarUrl ?? randomAvartars(randomNum)}
+            alt={v?.member?.nickname}
             radius='xl'
           />
           <div>
-            <Text fz='sm'>{v?.nickname}</Text>
+            <Text fz='sm'>{v?.member?.nickname}</Text>
             <Text fz='xs' c='dimmed'>
-              {toTSXString(v?.createdAt)}
+              {toKorDateTime(`${v?.createdAt}`)}
             </Text>
           </div>
         </Group>

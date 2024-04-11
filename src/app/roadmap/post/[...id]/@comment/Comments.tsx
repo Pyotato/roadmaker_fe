@@ -16,10 +16,13 @@ import { DataWithPages } from '@/types';
 export interface Comment {
   roadmapId: number;
   content: string;
-  nickname: string;
   createdAt: string | Date;
   updatedAt: string | Date;
-  avatarUrl?: string;
+
+  member: {
+    avatarUrl?: string;
+    nickname: string;
+  };
 }
 export interface CommentData extends DataWithPages {
   result: Array<Comment | null>;
@@ -37,7 +40,7 @@ const Comments = () => {
   const loadDataFromApi = async ({ pageParam }: { pageParam: number }) => {
     const [comments] = await Promise.all([
       getApiResponse<CommentData>({
-        apiEndpoint: `${process.env.NEXT_PUBLIC_API}/roadmaps/load-roadmap/${currPostId[0]}/comments?page=${pageParam}&size=5`,
+        apiEndpoint: `${process.env.NEXT_PUBLIC_API}/roadmaps/${currPostId[0]}/comments?lastCommentId=${pageParam}&size=20`,
         revalidate: 0, // 1 mins cache
       }),
     ]);
@@ -83,6 +86,12 @@ const Comments = () => {
       return <Box my='xl'>아직 댓글이 없습니다.</Box>;
     return (
       <Box py='xl'>
+        {/* 
+        // !! need to update api response : 
+        // !! needs to include following fields: totalPage, previous, next
+            // !! totalPage: 28, 
+            // !! previous: null,
+            // !! next: '/api/roadmaps/1/comments?lastCommentId=1&size=20
         {comments.pages.map(({ comments }, i) =>
           comments?.next ? (
             <CommentHtml
@@ -93,7 +102,45 @@ const Comments = () => {
           ) : (
             <CommentHtml key={i} commentData={comments?.result ?? []} />
           ),
-        )}
+        )} */}
+
+        {/* {comments.pages[0].comments.map(() =>
+          comments?.next ? (
+            <CommentHtml
+              key={i}
+              commentData={comments?.result || []}
+              innerRef={ref}
+            />
+          ) : (
+            <CommentHtml key={i} commentData={comments?.result ?? []} />
+          ),
+        )} */}
+        {/* {comments.pages[0].comments.map((v, i) => (
+          // <div key={v.id}>
+          //   <div>{v.id} </div>
+          //   <div>{v.content} </div>
+          // </div>
+          <CommentHtml key={i} commentData={ ?? []} />
+        ))} */}
+
+        {/* {comments.pages.map(({ comments }, i) =>
+          comments?.next ? (
+            <CommentHtml
+              key={i}
+              innerRef={ref}
+              commentData={comments.pages[0].comments ?? []}
+            />
+          ) : (
+            <CommentHtml
+              key={i}
+              commentData={comments.pages[0].comments ?? []}
+            />
+          ),
+        )} */}
+        <CommentHtml
+          commentData={comments.pages[0].comments ?? []}
+          innerRef={ref}
+        />
       </Box>
     );
   }

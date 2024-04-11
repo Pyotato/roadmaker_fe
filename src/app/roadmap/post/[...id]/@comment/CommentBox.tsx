@@ -30,6 +30,7 @@ import TipTapTextEditor from '@/components/shared/tiptap/TipTapTextEditor';
 import {
   apiRoutes,
   EMPTY_YOUTUBE_HTML,
+  fail,
   REGEX_HTTP,
   success,
   warning,
@@ -97,7 +98,7 @@ const CommentBox = () => {
 
   const postResponseFromApi = async () => {
     const accessToken = token as unknown as JWT;
-    await Promise.resolve(
+    const res = await Promise.resolve(
       getApiResponse<undefined>({
         requestData: JSON.stringify({
           content: content,
@@ -111,7 +112,25 @@ const CommentBox = () => {
         },
       }),
     );
-    // !! api update needed for failed comment requests!
+
+    if (res?.errorCode === 401) {
+      notifications.show({
+        id: fail['401'].id,
+        withCloseButton: true,
+        autoClose: 300,
+        title: fail['401'].title,
+        message: `${res.message}\n로그인 후 이용해주세요.`,
+        color: fail['401'].color,
+        icon: (
+          <IconExclamationMark style={{ width: '20rem', height: '20rem' }} />
+        ),
+      });
+      setTimeout(() => {
+        signIn();
+      }, 400);
+      return;
+    }
+
     setContent('');
     notifications.show({
       id: success.comment.id,

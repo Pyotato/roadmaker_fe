@@ -2,9 +2,8 @@
 import { Card, Container, SimpleGrid, Skeleton } from '@mantine/core';
 import { PropsWithChildren } from 'react';
 
-import classes from './ArticlesCardsGrid.module.css';
-
 import { Postdata } from '@/types/post';
+import { Wrap } from './ItemCard';
 
 const POST = {
   id: 225,
@@ -36,20 +35,20 @@ export function SkeletonCardsGrid() {
   const data = new Array(20).fill(POST);
 
   const cards = data.map((article, i) => (
-    <Card
-      key={article?.id + i}
-      p='md'
-      radius='md'
-      component='a'
-      href={`/roadmap/post/${article?.id}`}
-      className={classes.card}
-    >
-      <Skeleton radius='md' style={{ aspectRatio: '1920 / 1080' }} />
-      <Skeleton height={16} mt='md' width='100%' radius='xl' />
-      <Skeleton height={48} mt='md' width='100%' radius='md' />
-
-      <Skeleton height={16} mt='md' width='25%' radius='xl' />
-    </Card>
+    <Wrap key={article?.id + i}>
+      <Card
+        p='md'
+        radius='md'
+        component='a'
+        href={`/roadmap/post/${article?.id}`}
+        className='card'
+      >
+        <Skeleton radius='md' style={{ aspectRatio: '1920 / 1080' }} />
+        <Skeleton height={16} mt='md' width='100%' radius='xl' />
+        <Skeleton height={48} mt='md' width='100%' radius='md' />
+        <Skeleton height={16} mt='md' width='25%' radius='xl' />
+      </Card>
+    </Wrap>
   ));
 
   return (

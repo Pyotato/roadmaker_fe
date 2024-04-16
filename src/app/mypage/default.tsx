@@ -1,7 +1,7 @@
 'use client';
 import { signIn, useSession } from 'next-auth/react';
 
-import { SkeletonCardsGrid } from '@/components/shared/grid/SkeletonGrid';
+import { SkeletonCardsGrid } from '@/components/shared/SkeletonGrid';
 
 import MyRoadmapsTabs from './@roadmaps/Tabs';
 

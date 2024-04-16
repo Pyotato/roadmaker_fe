@@ -16,7 +16,6 @@ const ProfileSkeleton = () => {
 
       <Box w='80%'>
         <Skeleton height={24} mt='md' width='100%' />
-
         <Skeleton height={48} mt='md' width='100%' />
       </Box>
     </Box>

@@ -10,6 +10,13 @@ export const GlobalStyle = createGlobalStyle`
 		white-space: pre-wrap;
 		/* color: ${({ theme }) => theme.colors.color_grey1}; */
 	}
+
+  
+  .flex-right{
+    display: inline-flex;
+    justify-content: flex-end;
+    width: 100%;
+  }
  
 	strong{
 		font-weight: 700;

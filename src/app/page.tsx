@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import Mainpage from '@/components/MainPage';
+import Mainpage from '@/app/MainPage';
 
 import { SITE_CONFIG } from '@/constants';
 

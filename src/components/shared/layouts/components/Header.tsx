@@ -15,7 +15,6 @@ import { useDisclosure } from '@mantine/hooks';
 import { IconHome, IconUser } from '@tabler/icons-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
-import { useMemo } from 'react';
 
 import AuthButton from './AuthButton';
 import HeaderAuthButton from './HeaderAuthButton';
@@ -28,13 +27,13 @@ const Header = ({ openModal }: { openModal: (fn: () => void) => void }) => {
   const router = useRouter();
   const { status } = useSession();
 
-  useMemo(() => {
-    if (typeof window !== 'undefined' && currPath === '/roadmap/create') {
-      window.onbeforeunload = function (e) {
-        e.preventDefault();
-      };
-    }
-  }, [currPath]);
+  // useMemo(() => {
+  // if (typeof window !== 'undefined' && currPath === '/roadmap/create') {
+  //   window.onbeforeunload = function (e) {
+  //     e.preventDefault();
+  //   };
+  // }
+  // }, [currPath]);
 
   return (
     <Box>

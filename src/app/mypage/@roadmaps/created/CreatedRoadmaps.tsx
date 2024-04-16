@@ -8,13 +8,14 @@ import { JWT } from 'next-auth/jwt';
 import { signIn, useSession } from 'next-auth/react';
 import { useMemo, useState } from 'react';
 
-import { ArticlesCardsGrid } from '@/components/shared/grid/ArticlesCardsGrid';
-import { SkeletonCardsGrid } from '@/components/shared/grid/SkeletonGrid';
+import { ItemsCardsGrid } from '@/components/shared/ItemsCardsGrid';
+import { SkeletonCardsGrid } from '@/components/shared/SkeletonGrid';
 
 import { API_ROUTES, FAIL } from '@/constants';
-import { ErrorResponse, getApiResponse } from '@/utils/get-api-response';
+import { getApiResponse } from '@/utils/get-api-response';
 
 import { RoadMapInfo } from '@/types/post';
+import { ErrorResponse } from '@/types/response';
 
 const CreatedRoadmapList = () => {
   const { data: session, status } = useSession();
@@ -82,7 +83,7 @@ const CreatedRoadmapList = () => {
       return <Box h='64vh'></Box>;
     return (
       <Box style={{ minHeight: '64vh' }}>
-        <ArticlesCardsGrid postData={data.roadMapInfo || []} />
+        <ItemsCardsGrid postData={data.roadMapInfo || []} />
       </Box>
     );
   }

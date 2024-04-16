@@ -5,18 +5,18 @@ import {
   Button,
   Divider,
   PasswordInput,
-  Text,
   TextInput,
   Title,
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconAt, IconCheck, IconPassword, IconUser } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { API_ROUTES, FAIL, SUCCESS } from '@/constants';
 import { getApiResponse } from '@/utils/get-api-response';
+import LoginButton from './components/LoginButton';
 
 export default function AuthPage() {
   const [nickname, setNickname] = useState('');
@@ -162,13 +162,7 @@ export default function AuthPage() {
             leftSection={<IconPassword size={16} />}
             pb='md'
           />
-          <div
-            style={{
-              display: 'inline-flex',
-              justifyContent: 'flex-end',
-              width: '100%',
-            }}
-          >
+          <div className='flex-right'>
             <Button
               disabled={
                 !nickname ||
@@ -196,16 +190,7 @@ export default function AuthPage() {
             </Button>
           </div>
           <Divider my='xs' label='or' labelPosition='center' />
-          <Box mt='lg'>
-            <Text
-              className='hvr txt'
-              onClick={() => signIn()}
-              size='sm'
-              ta='center'
-            >
-              로그인하러 가기
-            </Text>
-          </Box>
+          <LoginButton />
         </Box>
       </Box>
     </div>

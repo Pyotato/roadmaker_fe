@@ -5,13 +5,7 @@ module.exports = {
     node: true,
   },
   plugins: ['@typescript-eslint', 'simple-import-sort', 'unused-imports'],
-  extends: [
-    'eslint:recommended',
-    'next',
-    'next/core-web-vitals',
-    'plugin:@typescript-eslint/recommended',
-    'prettier',
-  ],
+  extends: ['eslint:recommended', 'next', 'next/core-web-vitals', 'plugin:@typescript-eslint/recommended', 'prettier', 'plugin:storybook/recommended'],
   rules: {
     //#region  //*=========== jsx-a11y/label-has-associated-control ===========
     'jsx-a11y/label-has-associated-control': [

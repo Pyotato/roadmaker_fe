@@ -8,8 +8,8 @@ import { API_ROUTES } from '@/constants';
 import { getApiResponse } from '@/utils/get-api-response';
 import { getPageNum } from '@/utils/shared';
 
-import { ArticlesCardsGrid } from './shared/grid/ArticlesCardsGrid';
-import { SkeletonCardsGrid } from './shared/grid/SkeletonGrid';
+import { ItemsCardsGrid } from '../components/shared/ItemsCardsGrid';
+import { SkeletonCardsGrid } from '../components/shared/SkeletonGrid';
 
 import { Postdata } from '@/types/post';
 
@@ -70,16 +70,13 @@ export default function Mainpage() {
         <section>
           {posts.pages.map(({ postData }, index) =>
             postData?.next ? (
-              <ArticlesCardsGrid
+              <ItemsCardsGrid
                 key={index}
                 postData={postData?.result}
                 innerRef={ref}
               />
             ) : (
-              <ArticlesCardsGrid
-                key={index}
-                postData={postData?.result || []}
-              />
+              <ItemsCardsGrid key={index} postData={postData?.result || []} />
             ),
           )}
         </section>

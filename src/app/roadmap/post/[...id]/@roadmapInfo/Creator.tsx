@@ -1,7 +1,7 @@
 import { Avatar, Box, Title } from '@mantine/core';
 import { PropsWithChildren } from 'react';
 
-import { Member } from '@/components/MainPage';
+import { Member } from '@/app/MainPage';
 
 import { randomAvartars } from '@/utils/avatars';
 import { toTSXString } from '@/utils/shared';

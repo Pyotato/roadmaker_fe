@@ -9,8 +9,8 @@ import { signIn, useSession } from 'next-auth/react';
 import { useMemo, useState } from 'react';
 
 import NotFound from '@/components/NotFound';
-import { ArticlesCardsGrid } from '@/components/shared/grid/ArticlesCardsGrid';
-import { SkeletonCardsGrid } from '@/components/shared/grid/SkeletonGrid';
+import { ItemsCardsGrid } from '@/components/shared/ItemsCardsGrid';
+import { SkeletonCardsGrid } from '@/components/shared/SkeletonGrid';
 
 import { API_ROUTES, FAIL } from '@/constants';
 import { getApiResponse } from '@/utils/get-api-response';
@@ -97,7 +97,7 @@ const InProgressRoadmapList = () => {
       return <Box h='64vh'></Box>;
     return (
       <Box style={{ minHeight: '64vh' }}>
-        <ArticlesCardsGrid postData={data.roadMapInfo || []} />
+        <ItemsCardsGrid postData={data.roadMapInfo || []} />
       </Box>
     );
   }

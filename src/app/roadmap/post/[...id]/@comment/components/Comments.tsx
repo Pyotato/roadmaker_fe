@@ -6,27 +6,10 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import { CommentHtml } from '@/components/shared/list/CommentHtml';
-
+import { CommentData } from '@/types/comment';
 import { getApiResponse } from '@/utils/get-api-response';
 import { getPageNum } from '@/utils/shared';
-
-import { DataWithPages } from '@/types';
-
-export interface Comment {
-  roadmapId: number;
-  content: string;
-  createdAt: string | Date;
-  updatedAt: string | Date;
-
-  member: {
-    avatarUrl?: string;
-    nickname: string;
-  };
-}
-export interface CommentData extends DataWithPages {
-  result: Array<Comment | null>;
-}
+import CommentGrid from './CommentGrid';
 
 const Comments = () => {
   const { ref, inView } = useInView();
@@ -137,7 +120,7 @@ const Comments = () => {
             />
           ),
         )} */}
-        <CommentHtml
+        <CommentGrid
           commentData={comments.pages[0].comments ?? []}
           innerRef={ref}
         />

@@ -1,13 +1,8 @@
 'use client';
 
-import { Button, Textarea, TextInput } from '@mantine/core';
+import { Button, Textarea } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
-import {
-  IconCheck,
-  IconFilePencil,
-  IconUser,
-  IconX,
-} from '@tabler/icons-react';
+import { IconCheck, IconFilePencil, IconX } from '@tabler/icons-react';
 import { useQueryClient } from '@tanstack/react-query';
 import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
@@ -29,7 +24,7 @@ const UpdateMemberProfileForm = ({
 }) => {
   const [accessToken, setAccessToken] = useState<JWT['token']>(null);
   const queryClient = useQueryClient();
-  const [nickname, setNickname] = useState(userNickName);
+  const [nickname] = useState(userNickName);
   const [bio, setBio] = useState(userBio);
 
   const { data: token } = useSession();
@@ -95,7 +90,7 @@ const UpdateMemberProfileForm = ({
 
   return (
     <>
-      <TextInput
+      {/* <TextInput
         value={nickname}
         label='닉네임'
         type='text'
@@ -109,7 +104,7 @@ const UpdateMemberProfileForm = ({
         onChange={(event) => setNickname(event.currentTarget.value)}
         leftSection={<IconUser size={16} />}
         pb='md'
-      />
+      /> */}
       <Textarea
         value={bio || ''}
         label='자기 소개'

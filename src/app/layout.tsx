@@ -56,7 +56,6 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        {/* <MantineProvider> */}
         <Provider>
           <PageHeader />
           <Notifications
@@ -66,7 +65,6 @@ export default function RootLayout({
           {children}
           <PageFooter />
         </Provider>
-        {/* </MantineProvider> */}
       </body>
     </html>
   );

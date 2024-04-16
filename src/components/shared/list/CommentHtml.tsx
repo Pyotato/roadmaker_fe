@@ -41,7 +41,7 @@ export function CommentHtml({ commentData, innerRef }: CommentProps) {
           <div>
             <Text fz='sm'>{v?.member?.nickname}</Text>
             <Text fz='xs' c='dimmed'>
-              {toTSXString(v?.createdAt)}
+              {toKorDateTime(`${v?.createdAt}`)}
             </Text>
           </div>
         </Group>

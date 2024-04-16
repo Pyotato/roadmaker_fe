@@ -21,9 +21,8 @@ import ReactFlow, {
 } from 'reactflow';
 import useUndoable from 'use-undoable';
 
-import CustomBezierEdge from '@/components/reactflow/custom/edge/BezierEdge';
-import TextUpdaterNode from '@/components/reactflow/custom/node/TextUpdaterNode';
-
+import CustomBezierEdge from '@/app/roadmap/BezierEdge';
+import TextUpdaterNode from '@/app/roadmap/create/components/TextUpdaterNode';
 import {
   DEFAULT_EDGE_OPTIONS,
   DEFAULT_EDGES,

@@ -12,7 +12,7 @@ import { PropsWithChildren } from 'react';
 
 import classes from './ArticlesCardsGrid.module.css';
 
-import { Postdata } from '@/components/MainPage';
+import { Postdata } from '@/types/post';
 
 export interface PostProps extends PropsWithChildren {
   postData: Postdata['result'];

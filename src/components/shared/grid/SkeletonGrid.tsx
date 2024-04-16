@@ -4,9 +4,28 @@ import { PropsWithChildren } from 'react';
 
 import classes from './ArticlesCardsGrid.module.css';
 
-import { Postdata } from '@/components/MainPage';
+import { Postdata } from '@/types/post';
 
-import { post } from '@/constants';
+const POST = {
+  id: 225,
+  title: 'test',
+  description: 'test',
+  thumbnailUrl:
+    'https://roadmaker-images.s3.amazonaws.com/90cb93d7-bc2a-4ba9-8469-4b24fb87ebba.jpeg',
+  likeCount: 0,
+  joinCount: 1,
+  member: {
+    id: 77,
+    email: 'totoro@naver.com',
+    nickname: 'totoro',
+    bio: null,
+    avatarUrl: null,
+    githubUrl: null,
+    blogUrl: null,
+  },
+  createdAt: '2024. 4. 16',
+  updatedAt: '2024. 4. 16',
+};
 
 export interface PostProps extends PropsWithChildren {
   postData: Postdata['result'];
@@ -14,7 +33,7 @@ export interface PostProps extends PropsWithChildren {
 }
 
 export function SkeletonCardsGrid() {
-  const data = new Array(20).fill(post);
+  const data = new Array(20).fill(POST);
 
   const cards = data.map((article, i) => (
     <Card

@@ -6,3 +6,4 @@ export * from '@/constants/localStorageKey';
 export * from '@/constants/nodes';
 export * from '@/constants/regex';
 export * from '@/constants/routes';
+export * from '@/constants/tabs';

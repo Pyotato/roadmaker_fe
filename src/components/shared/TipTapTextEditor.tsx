@@ -9,7 +9,7 @@ import {
 } from '@tabler/icons-react';
 import { Editor } from '@tiptap/react';
 
-import { warning } from '@/constants';
+import { WARNING } from '@/constants';
 import { getApiResponse } from '@/utils/get-api-response';
 
 const TipTapTextEditor = ({ editor }: { editor: Editor | null }) => {
@@ -48,12 +48,12 @@ const TipTapTextEditor = ({ editor }: { editor: Editor | null }) => {
             editor.commands.enter();
           } else {
             notifications.show({
-              id: warning.youtube.id,
+              id: WARNING.youtube.id,
               withCloseButton: true,
               autoClose: 6000,
-              title: warning.youtube.title,
-              message: warning.youtube.message,
-              color: warning.youtube.color,
+              title: WARNING.youtube.title,
+              message: WARNING.youtube.message,
+              color: WARNING.youtube.color,
               icon: (
                 <IconExclamationMark
                   style={{ width: '20rem', height: '20rem' }}
@@ -66,15 +66,6 @@ const TipTapTextEditor = ({ editor }: { editor: Editor | null }) => {
       onCancel: () => (url = ''),
     });
 
-  // const urlLists = editor?.getJSON()?.content.reduce(
-  //   (acc, curr) => {
-  //     if (curr?.type === 'youtube') return [...acc, curr?.attrs?.src];
-  //     return acc;
-  //   },
-  //   [] as Array<string | null>,
-  // );
-
-  // editor.getHTML().replace(EMPTY_YOUTUBE_HTML, newUrl(urlLists.pop()) || '');
   return (
     <RichTextEditor editor={editor} style={{ width: '100%' }}>
       <RichTextEditor.Toolbar sticky stickyOffset={5}>

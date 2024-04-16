@@ -25,7 +25,7 @@ import { signIn, useSession } from 'next-auth/react';
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
-import TipTapTextEditor from '@/components/shared/tiptap/TipTapTextEditor';
+import TipTapTextEditor from '@/components/shared/TipTapTextEditor';
 
 import {
   API_ROUTES,

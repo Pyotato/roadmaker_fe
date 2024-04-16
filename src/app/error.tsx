@@ -1,6 +1,6 @@
 'use client';
 
-import * as React from 'react';
+import { useEffect } from 'react';
 
 import NotFound from '@/components/NotFound';
 
@@ -13,7 +13,7 @@ export default function ErrorPage({
   error: Error & { digest?: string };
   reset: () => void;
 }>) {
-  React.useEffect(() => {
+  useEffect(() => {
     consoleLog('error.tsx', error);
   }, [error]);
   const title = 'Oops, something went wrong!';

@@ -12,9 +12,8 @@ import ReactFlow, {
 } from 'reactflow';
 import styled from 'styled-components';
 
-import CustomBezierEdge from '@/components/reactflow/custom/edge/BezierEdge';
-import { QuadroHandleNode } from '@/components/reactflow/custom/node/QuadroHandleNode';
-
+import CustomBezierEdge from '@/app/roadmap/BezierEdge';
+import { QuadroHandleNode } from '@/app/roadmap/post/[...id]/@roadmapInfo/reactFlow/QuadroHandleNode';
 import NodeDetails from '@/app/roadmap/post/[...id]/@roadmapInfo/reactFlow/TiptapEditor';
 import { DEFAULT_EDGE_OPTIONS } from '@/constants';
 

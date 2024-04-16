@@ -13,7 +13,7 @@ import StarterKit from '@tiptap/starter-kit';
 import { Dispatch, SetStateAction, useMemo } from 'react';
 import { Node, useUpdateNodeInternals } from 'reactflow';
 
-import TipTapTextEditor from '@/components/shared/tiptap/TipTapTextEditor';
+import TipTapTextEditor from '@/components/shared/TipTapTextEditor';
 
 import { EMPTY_YOUTUBE_HTML, REGEX_HTTP, YOUTUBE_SEARCH } from '@/constants';
 import { newUrl, omit } from '@/utils/shared';

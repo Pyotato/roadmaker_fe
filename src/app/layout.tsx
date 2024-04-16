@@ -55,6 +55,7 @@ export default function RootLayout({
       <head>
         <ColorSchemeScript />
       </head>
+
       <body>
         <Provider>
           <PageHeader />

@@ -13,7 +13,7 @@ import { ArticlesCardsGrid } from '@/components/shared/grid/ArticlesCardsGrid';
 import { SkeletonCardsGrid } from '@/components/shared/grid/SkeletonGrid';
 
 import { RoadMapInfo } from '@/app/roadmap/post/[...id]/@roadmapInfo/page';
-import { apiRoutes, fail } from '@/constants';
+import { apiRoutes, FAIL } from '@/constants';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
 const InProgressRoadmapList = () => {
@@ -71,12 +71,12 @@ const InProgressRoadmapList = () => {
       const { errorCode, message } = data.roadMapInfo;
       if (errorCode === 401) {
         notifications.show({
-          id: fail['401'].id,
+          id: FAIL['401'].id,
           withCloseButton: true,
           autoClose: 6000,
-          title: fail['401'].title,
+          title: FAIL['401'].title,
           message: 'oops...something went wrong',
-          color: fail['401'].color,
+          color: FAIL['401'].color,
           icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
         });
         return signIn();

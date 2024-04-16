@@ -12,7 +12,7 @@ import { ArticlesCardsGrid } from '@/components/shared/grid/ArticlesCardsGrid';
 import { SkeletonCardsGrid } from '@/components/shared/grid/SkeletonGrid';
 
 import { RoadMapInfo } from '@/app/roadmap/post/[...id]/@roadmapInfo/page';
-import { apiRoutes, fail } from '@/constants';
+import { apiRoutes, FAIL } from '@/constants';
 import { ErrorResponse, getApiResponse } from '@/utils/shared/get-api-response';
 
 const CreatedRoadmapList = () => {
@@ -67,12 +67,12 @@ const CreatedRoadmapList = () => {
   }
   if (isError) {
     notifications.show({
-      id: fail['409'].id,
+      id: FAIL['409'].id,
       withCloseButton: true,
       autoClose: 6000,
-      title: fail['409'].title,
+      title: FAIL['409'].title,
       message: 'oops...something went wrong',
-      color: fail['409'].color,
+      color: FAIL['409'].color,
       icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
     });
   }

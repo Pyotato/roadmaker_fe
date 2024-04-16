@@ -8,7 +8,7 @@ import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
 import { PropsWithChildren, useState } from 'react';
 
-import { apiRoutes, success, warning } from '@/constants';
+import { apiRoutes, SUCCESS, WARNING } from '@/constants';
 import { omit } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
@@ -60,9 +60,9 @@ const Join = ({ joinInfo }: JoinProps) => {
       id: 'no-auth-alert',
       withCloseButton: true,
       autoClose: 1000,
-      title: success.join.title,
+      title: SUCCESS.join.title,
       message: `${previousData.roadMapInfo.title} 로드맵에 참여했습니다.\n 🍀 로드맵 활동을 응원합니다.`,
-      color: success.join.color,
+      color: SUCCESS.join.color,
       icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
       className: 'my-notification-class',
       loading: false,
@@ -104,9 +104,9 @@ const Join = ({ joinInfo }: JoinProps) => {
               id: 'no-auth-alert',
               withCloseButton: true,
               autoClose: 1000,
-              title: warning.auth.title,
-              message: warning.auth.message,
-              color: warning.auth.color,
+              title: WARNING.auth.title,
+              message: WARNING.auth.message,
+              color: WARNING.auth.color,
               icon: (
                 <IconExclamationMark
                   style={{ width: '20rem', height: '20rem' }}

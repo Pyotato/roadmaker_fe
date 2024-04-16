@@ -9,7 +9,7 @@ import { JWT } from 'next-auth/jwt';
 import { signIn, useSession } from 'next-auth/react';
 import { useCallback, useMemo, useState } from 'react';
 
-import { apiRoutes, fail, success } from '@/constants';
+import { apiRoutes, FAIL, SUCCESS } from '@/constants';
 import { ErrorResponse, getApiResponse } from '@/utils/shared/get-api-response';
 import { getItem, removeItem, setItem } from '@/utils/shared/localStorage';
 
@@ -75,12 +75,12 @@ const UpdateAvatarForm = ({
     if (response?.errorCode) {
       const { httpStatus, message, errorCode } = response as ErrorResponse;
       notifications.show({
-        id: 'update-profile-image-fail',
+        id: 'update-profile-image-FAIL',
         withCloseButton: true,
         autoClose: 5000,
         title: '내 프로필 이미지 변경 실패',
         message: `🥲 내 프로필 이미지 변경에 실패했습니다\n${message}`,
-        color: fail[httpStatus].color,
+        color: FAIL[httpStatus].color,
         icon: <IconX style={{ width: '20rem', height: '20rem' }} />,
         className: 'my-notification-class',
         loading: false,
@@ -94,12 +94,12 @@ const UpdateAvatarForm = ({
 
     if (response?.avatarUrl) {
       notifications.show({
-        id: success.roadmaps.id,
+        id: SUCCESS.roadmaps.id,
         withCloseButton: false,
         autoClose: 800,
-        title: success.roadmaps.title,
+        title: SUCCESS.roadmaps.title,
         message: `내 프로필 이미지 변경에 성공했습니다 🎉`,
-        color: success.roadmaps.color,
+        color: SUCCESS.roadmaps.color,
         icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
         className: 'my-notification-class notification',
         loading: true,

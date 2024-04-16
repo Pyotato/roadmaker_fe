@@ -8,7 +8,7 @@ import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
 import { useCallback, useMemo, useState } from 'react';
 
-import { apiRoutes, fail, success } from '@/constants';
+import { apiRoutes, FAIL, SUCCESS } from '@/constants';
 import { ErrorResponse, getApiResponse } from '@/utils/shared/get-api-response';
 
 const UpdateMemberProfileForm = ({
@@ -61,7 +61,7 @@ const UpdateMemberProfileForm = ({
         autoClose: 5000,
         title: '내 프로필 정보 변경 실패',
         message: `🥲 내 프로필 정보 변경에 실패했습니다\n${message}`,
-        color: fail[httpStatus].color,
+        color: FAIL[httpStatus].color,
         icon: <IconX style={{ width: '20rem', height: '20rem' }} />,
         className: 'my-notification-class',
         loading: false,
@@ -71,12 +71,12 @@ const UpdateMemberProfileForm = ({
     }
 
     notifications.show({
-      id: success.user.id,
+      id: SUCCESS.user.id,
       withCloseButton: false,
       autoClose: 800,
-      title: success.user.title,
+      title: SUCCESS.user.title,
       message: `내 프로필 변경에 성공했습니다 🎉`,
-      color: success.roadmaps.color,
+      color: SUCCESS.roadmaps.color,
       icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
       className: 'my-notification-class notification',
       loading: true,

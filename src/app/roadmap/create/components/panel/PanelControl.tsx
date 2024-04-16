@@ -29,9 +29,9 @@ import {
   IconSitemap,
   IconX,
 } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import {
   Dispatch,
   SetStateAction,
@@ -41,7 +41,7 @@ import {
 } from 'react';
 import { Connection, Edge, Node } from 'reactflow';
 
-import { apiRoutes, success, warning, WarningKeys } from '@/constants';
+import { apiRoutes, SUCCESS, WARNING, WarningKeys } from '@/constants';
 import { omit } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 import { getItem, removeItem, setItem } from '@/utils/shared/localStorage';
@@ -210,12 +210,12 @@ const PanelItem = ({
         },
       }),
       notifications.show({
-        id: success.roadmaps.id,
+        id: SUCCESS.roadmaps.id,
         withCloseButton: false,
         autoClose: 1000,
-        title: success.roadmaps.title,
+        title: SUCCESS.roadmaps.title,
         message: `🎉 로드맵 ${response}생성에 성공했습니다 🎉`,
-        color: success.roadmaps.color,
+        color: SUCCESS.roadmaps.color,
         icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
         className: 'my-notification-class notification',
         loading: true,
@@ -359,16 +359,16 @@ const PanelItem = ({
                   alerts.forEach((v: WarningKeys, index) => {
                     setTimeout(() => {
                       notifications.show({
-                        title: `${warning[v].title}`,
+                        title: `${WARNING[v].title}`,
                         withCloseButton: true,
                         autoClose: 1000,
-                        message: ` ${warning[v].message}`,
+                        message: ` ${WARNING[v].message}`,
                         icon: (
                           <IconExclamationMark
                             style={{ width: '20rem', height: '20rem' }}
                           />
                         ),
-                        color: warning[v].color,
+                        color: WARNING[v].color,
                       });
                     }, 200 * index);
                   });

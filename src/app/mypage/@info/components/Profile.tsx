@@ -12,27 +12,14 @@ import { useEffect, useState } from 'react';
 
 import ProfileSkeleton from '@/components/shared/ProfileSkeleton';
 
-import { apiRoutes, fail, IS_PROD, siteRoutes } from '@/constants';
+import { apiRoutes, FAIL, IS_PROD, siteRoutes } from '@/constants';
 import { randomAvartars } from '@/constants/default/avatars';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
 import UpdateAvatarForm from './forms/Avatar';
 import UpdateMemberProfileForm from './forms/UserInfo';
 
-interface UserData {
-  avatarUrl?: null | string;
-  baekjoonId?: null | string;
-  bio?: null | string;
-  blogUrl?: null | string;
-  email: null | string;
-  githubUrl?: null | string;
-  id: number;
-  nickname: string;
-}
-
-interface UserDataResponse {
-  userData: UserData | null;
-}
+import { UserDataResponse } from '@/types/user';
 
 const UserData = () => {
   const { data: session, status } = useSession();
@@ -78,12 +65,12 @@ const UserData = () => {
   if (isLoading) return <ProfileSkeleton />;
   if (isError) {
     notifications.show({
-      id: fail['500'].id,
+      id: FAIL['500'].id,
       withCloseButton: true,
       autoClose: 2000,
-      title: fail['500'].title,
+      title: FAIL['500'].title,
       message: `서버에서 예기치 못한 에러가 발생했습니다🥲\n${error}`,
-      color: fail['500'].color,
+      color: FAIL['500'].color,
       icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
     });
     setTimeout(() => {

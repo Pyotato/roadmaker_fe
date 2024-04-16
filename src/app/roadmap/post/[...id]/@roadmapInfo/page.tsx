@@ -10,7 +10,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { Member, Post } from '@/components/MainPage';
 
-import { apiRoutes, success } from '@/constants';
+import { apiRoutes, SUCCESS } from '@/constants';
 import { omit, pick } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
@@ -56,7 +56,7 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
   const [nickname, setNickname] = useState<JWT['user']['nickname']>(null);
 
   useEffect(() => {
-    notifications.hide(success.roadmaps.id);
+    notifications.hide(SUCCESS.roadmaps.id);
   }, []);
 
   useMemo(() => {

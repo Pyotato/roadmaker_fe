@@ -19,9 +19,9 @@ import Underline from '@tiptap/extension-underline';
 import Youtube from '@tiptap/extension-youtube';
 import { JSONContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { useParams } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { signIn, useSession } from 'next-auth/react';
+import { useParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
@@ -30,10 +30,10 @@ import TipTapTextEditor from '@/components/shared/tiptap/TipTapTextEditor';
 import {
   apiRoutes,
   EMPTY_YOUTUBE_HTML,
-  fail,
+  FAIL,
   REGEX_HTTP,
-  success,
-  warning,
+  SUCCESS,
+  WARNING,
   YOUTUBE_SEARCH,
 } from '@/constants';
 import { newUrl } from '@/utils/shared';
@@ -115,12 +115,12 @@ const CommentBox = () => {
 
     if (res?.errorCode === 401) {
       notifications.show({
-        id: fail['401'].id,
+        id: FAIL['401'].id,
         withCloseButton: true,
         autoClose: 300,
-        title: fail['401'].title,
+        title: FAIL['401'].title,
         message: `${res.message}\n로그인 후 이용해주세요.`,
-        color: fail['401'].color,
+        color: FAIL['401'].color,
         icon: (
           <IconExclamationMark style={{ width: '20rem', height: '20rem' }} />
         ),
@@ -133,12 +133,12 @@ const CommentBox = () => {
 
     setContent('');
     notifications.show({
-      id: success.comment.id,
+      id: SUCCESS.comment.id,
       withCloseButton: true,
       autoClose: 1000,
-      title: success.comment.title,
-      message: success.comment.message,
-      color: success.comment.color,
+      title: SUCCESS.comment.title,
+      message: SUCCESS.comment.message,
+      color: SUCCESS.comment.color,
       icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
     }),
       editor?.commands.setContent('');
@@ -170,12 +170,12 @@ const CommentBox = () => {
             onClick={() => {
               if (editor?.isEmpty) {
                 notifications.show({
-                  id: warning.content.id,
+                  id: WARNING.content.id,
                   withCloseButton: true,
                   autoClose: 1000,
-                  title: warning.content.title,
-                  message: warning.content.message,
-                  color: warning.content.color,
+                  title: WARNING.content.title,
+                  message: WARNING.content.message,
+                  color: WARNING.content.color,
                   icon: (
                     <IconExclamationMark
                       style={{ width: '20rem', height: '20rem' }}

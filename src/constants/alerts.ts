@@ -1,4 +1,4 @@
-export const warning = {
+export const WARNING = {
   title: {
     id: 'no-title-alert',
     title: '⚠️ 제목 ⚠️',
@@ -38,10 +38,10 @@ export const warning = {
   },
 };
 
-export type Warning = typeof warning;
+export type Warning = typeof WARNING;
 export type WarningKeys = keyof Warning;
 
-export const success = {
+export const SUCCESS = {
   comment: {
     id: 'roadmap-comment-success',
     title: '댓글 생성!',
@@ -70,10 +70,10 @@ export const success = {
   },
 };
 
-export type Success = typeof success;
+export type Success = typeof SUCCESS;
 export type SuccessKeys = keyof Success;
 
-export const fail = {
+export const FAIL = {
   409: {
     id: 'duplicate-info-error',
     title: '⚠️ 중복 ⚠️',
@@ -91,5 +91,5 @@ export const fail = {
   },
 };
 
-export type Fail = typeof fail;
+export type Fail = typeof FAIL;
 export type FailKeys = keyof Fail;

@@ -8,7 +8,7 @@ import { JWT } from 'next-auth/jwt';
 import { signOut, useSession } from 'next-auth/react';
 import { PropsWithChildren, useState } from 'react';
 
-import { apiRoutes, fail, IS_PROD, siteRoutes, warning } from '@/constants';
+import { apiRoutes, FAIL, IS_PROD, siteRoutes, WARNING } from '@/constants';
 import { omit, toTSXString } from '@/utils/shared';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
@@ -55,12 +55,12 @@ const Likes = ({ likesInfo }: LikeProps) => {
 
     if (likes?.httpStatus === 401) {
       notifications.show({
-        id: fail['401'].id,
+        id: FAIL['401'].id,
         withCloseButton: true,
         autoClose: 1000,
-        title: fail['401'].title,
+        title: FAIL['401'].title,
         message: likes.message,
-        color: fail['401'].color,
+        color: FAIL['401'].color,
         icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
       });
       setTimeout(() => {
@@ -102,9 +102,9 @@ const Likes = ({ likesInfo }: LikeProps) => {
               id: 'no-auth-alert',
               withCloseButton: true,
               autoClose: 1000,
-              title: warning.auth.title,
-              message: warning.auth.message,
-              color: warning.auth.color,
+              title: WARNING.auth.title,
+              message: WARNING.auth.message,
+              color: WARNING.auth.color,
               icon: (
                 <IconExclamationMark
                   style={{ width: '20rem', height: '20rem' }}

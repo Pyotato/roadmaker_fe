@@ -15,7 +15,7 @@ import { useRouter } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import { useState } from 'react';
 
-import { apiRoutes, fail, success } from '@/constants';
+import { apiRoutes, FAIL, SUCCESS } from '@/constants';
 import { getApiResponse } from '@/utils/shared/get-api-response';
 
 export default function AuthPage() {
@@ -50,12 +50,12 @@ export default function AuthPage() {
     );
     if (res?.httpStatus === 409) {
       notifications.show({
-        id: fail['409'].id,
+        id: FAIL['409'].id,
         withCloseButton: true,
         autoClose: 6000,
-        title: fail['409'].title,
+        title: FAIL['409'].title,
         message: res.message,
-        color: fail['409'].color,
+        color: FAIL['409'].color,
         icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
       });
 
@@ -70,12 +70,12 @@ export default function AuthPage() {
     }
     if (res?.httpStatus === 201) {
       notifications.show({
-        id: success.signup.id,
+        id: SUCCESS.signup.id,
         withCloseButton: true,
         autoClose: 6000,
-        title: success.signup.title,
+        title: SUCCESS.signup.title,
         message: res.message,
-        color: success.signup.color,
+        color: SUCCESS.signup.color,
         icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
       });
       await signIn('credentials', {

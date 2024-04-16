@@ -75,7 +75,7 @@ const UpdateAvatarForm = ({
     if (response?.errorCode) {
       const { httpStatus, message, errorCode } = response as ErrorResponse;
       notifications.show({
-        id: 'update-profile-image-FAIL',
+        id: 'update-profile-image-fail',
         withCloseButton: true,
         autoClose: 5000,
         title: '내 프로필 이미지 변경 실패',

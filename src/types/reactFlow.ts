@@ -1,5 +1,7 @@
 import { ElkNode } from 'elkjs/lib/elk-api';
 import { Connection, Node, XYPosition } from 'reactflow';
+
+import { AboutKeys, RoadMapInfo } from './post';
 export interface Position {
   x: number;
   y: number;
@@ -50,3 +52,5 @@ export interface CustomElkNode extends ElkNode {
   data: Node['data'];
   position: XYPosition;
 }
+
+export type ReactFlowInfo = Pick<RoadMapInfo, AboutKeys>;

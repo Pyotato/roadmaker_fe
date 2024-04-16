@@ -4,7 +4,7 @@ import { IconHome2 } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
-import { Illustration } from './Illustration';
+import { Image404 } from './Image404';
 
 export default function NotFound({
   message,
@@ -49,7 +49,7 @@ export default function NotFound({
               <IconHome2 /> 홈으로 이동
             </Button>
           </div>
-          <Illustration className='image' />
+          <Image404 className='image' />
         </SimpleGrid>
       </Container>
     </CustomContainer>

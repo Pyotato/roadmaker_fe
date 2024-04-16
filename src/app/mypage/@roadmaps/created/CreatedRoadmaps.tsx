@@ -11,9 +11,10 @@ import { useMemo, useState } from 'react';
 import { ArticlesCardsGrid } from '@/components/shared/grid/ArticlesCardsGrid';
 import { SkeletonCardsGrid } from '@/components/shared/grid/SkeletonGrid';
 
-import { RoadMapInfo } from '@/app/roadmap/post/[...id]/@roadmapInfo/page';
 import { API_ROUTES, FAIL } from '@/constants';
 import { ErrorResponse, getApiResponse } from '@/utils/get-api-response';
+
+import { RoadMapInfo } from '@/types/post';
 
 const CreatedRoadmapList = () => {
   const { data: session, status } = useSession();

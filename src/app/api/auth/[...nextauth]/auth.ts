@@ -6,20 +6,9 @@ import { API_ROUTES } from '@/constants';
 import { consoleLog } from '@/utils/console-log';
 import { getApiResponse } from '@/utils/get-api-response';
 import { omit } from '@/utils/shared';
-export const runtime = 'edge';
 
-interface Member {
-  id: number;
-  email: string;
-  nickname: string;
-  bio?: null | string;
-  avatarUrl?: null | string;
-  githubUrl?: null | string;
-  blogUrl?: null | string;
-  baekjoonId?: null | string;
-  provider?: string;
-  accessToken?: string;
-}
+import { Member } from '@/types/user';
+export const runtime = 'edge';
 
 interface AuthResponse {
   member?: Member | null;

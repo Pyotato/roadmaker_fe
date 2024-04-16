@@ -1,7 +1,7 @@
 'use client';
 
 import { Drawer, ScrollArea } from '@mantine/core';
-import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import ReactFlow, {
   ConnectionLineType,
   Edge,
@@ -15,19 +15,11 @@ import styled from 'styled-components';
 import CustomBezierEdge from '@/components/reactflow/custom/edge/BezierEdge';
 import { QuadroHandleNode } from '@/components/reactflow/custom/node/QuadroHandleNode';
 
-import { ReactFlowInfo } from '@/app/roadmap/post/[...id]/@roadmapInfo/page';
 import NodeDetails from '@/app/roadmap/post/[...id]/@roadmapInfo/reactFlow/TiptapEditor';
 import { DEFAULT_EDGE_OPTIONS } from '@/constants';
 
-import { CustomEdge, CustomNode } from '@/types/reactFlow';
-interface ReactFlowProps extends PropsWithChildren {
-  reactFlowInfo: ReactFlowInfo;
-}
-
-export interface DetailedContent {
-  id: CustomNode['id'];
-  detailedContent: CustomNode['detailedContent'];
-}
+import { DetailedContent, ReactFlowProps } from '@/types/post';
+import { CustomEdge, ReactFlowInfo } from '@/types/reactFlow';
 
 const proOptions = { hideAttribution: true };
 

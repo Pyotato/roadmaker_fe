@@ -8,8 +8,6 @@ import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
 import { useEffect, useMemo, useState } from 'react';
 
-import { Member, Post } from '@/components/MainPage';
-
 import { API_ROUTES, SUCCESS } from '@/constants';
 import { getApiResponse } from '@/utils/get-api-response';
 import { omit, pick } from '@/utils/shared';
@@ -17,34 +15,9 @@ import { omit, pick } from '@/utils/shared';
 import About from './About';
 import ReactFlow from './reactFlow/ReactFlow';
 
-import { CustomEdge, CustomNode, Viewport } from '@/types/reactFlow';
-
-export interface RoadMapInfo extends Post {
-  [key: string]: unknown;
-  isJoined: boolean;
-  isLiked: boolean;
-  joinCount: number;
-  likeCount: number;
-  member: Member;
-  updatedAt: string;
-  viewport: Viewport;
-  edges: Array<CustomEdge>;
-  nodes: Array<CustomNode>;
-}
-export interface AboutInfo {
-  [key: string]: unknown;
-  isJoined: boolean;
-  isLiked: boolean;
-  joinCount: number;
-  likeCount: number;
-  member: Member;
-  updatedAt: string;
-}
-
-export type AboutKeys = 'viewport' | 'edges' | 'nodes';
-export type ReactFlowInfo = Pick<RoadMapInfo, AboutKeys>;
-
-export type aboutInfoKeys = keyof AboutInfo;
+import { RoadMapInfo } from '@/types/post';
+import { ReactFlowInfo } from '@/types/reactFlow';
+import { AboutInfo } from '@/types/user';
 
 const Roadmap = ({ params }: { params: { id: string } }) => {
   const { id } = params;

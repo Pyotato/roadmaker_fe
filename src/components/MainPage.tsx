@@ -1,7 +1,7 @@
 'use client';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { PropsWithChildren, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
 import { API_ROUTES } from '@/constants';
@@ -11,38 +11,8 @@ import { getPageNum } from '@/utils/shared';
 import { ArticlesCardsGrid } from './shared/grid/ArticlesCardsGrid';
 import { SkeletonCardsGrid } from './shared/grid/SkeletonGrid';
 
-import { DataWithPages } from '@/types';
+import { Postdata } from '@/types/post';
 
-export interface Member {
-  id: number;
-  email: string;
-  nickname: string;
-  bio: string;
-  avatarUrl: null | string;
-  githubUrl: null | string;
-  blogUrl: null | string;
-  baekjoonId: null | string;
-}
-export interface Post {
-  id: number;
-  title: string;
-  description: string;
-  thumbnailUrl: typeof url;
-  likeCount: number;
-  joinCount: number;
-  createdAt: Date | string;
-  updatedAt: Date | string;
-  member: Member;
-}
-export const url = `${API_ROUTES.roadmapPaged}2&order-type=recent`;
-
-export interface Postdata extends DataWithPages {
-  result: Array<Post | null>;
-}
-
-export interface PageProps extends PropsWithChildren {
-  postData: Postdata | null;
-}
 const loadDataFromApi = async ({ pageParam }: { pageParam: number }) => {
   const [postData] = await Promise.all([
     getApiResponse<Postdata>({

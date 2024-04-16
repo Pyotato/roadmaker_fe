@@ -6,7 +6,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
-import { PropsWithChildren, useState } from 'react';
+import { useState } from 'react';
 
 import { API_ROUTES, SUCCESS, WARNING } from '@/constants';
 import { getApiResponse } from '@/utils/get-api-response';
@@ -14,12 +14,7 @@ import { omit } from '@/utils/shared';
 
 import { RoadMapInfoQuery } from './Likes';
 
-interface JoinProps extends PropsWithChildren {
-  joinInfo: {
-    isJoined: boolean;
-    joinCount: number;
-  };
-}
+import { JoinProps } from '@/types/post';
 
 const Join = ({ joinInfo }: JoinProps) => {
   const [isJoined, setIsJoined] = useState(joinInfo.isJoined);

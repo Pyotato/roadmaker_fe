@@ -6,32 +6,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { signOut, useSession } from 'next-auth/react';
-import { PropsWithChildren, useState } from 'react';
+import { useState } from 'react';
 
 import { API_ROUTES, FAIL, IS_PROD, SITE_ROUTES, WARNING } from '@/constants';
 import { getApiResponse } from '@/utils/get-api-response';
 import { omit, toTSXString } from '@/utils/shared';
 
-import { AboutInfo, RoadMapInfo } from './page';
-
-interface LikeProps extends PropsWithChildren {
-  likesInfo: {
-    isLiked: AboutInfo['isLiked'];
-    likeCount: AboutInfo['likeCount'];
-  };
-}
-
-export interface RoadMapInfoQuery {
-  roadMapInfo: RoadMapInfo;
-}
-
-export interface httpResponse {
-  httpStatus: number;
-  message: string;
-  errorCode: string;
-}
-
-type likePostResponse = httpResponse | LikeProps['likesInfo'];
+import { LikePostResponse, LikeProps, RoadMapInfoQuery } from '@/types/post';
 
 const Likes = ({ likesInfo }: LikeProps) => {
   const [likedCount, setLikedCount] = useState(likesInfo.likeCount);
@@ -44,7 +25,7 @@ const Likes = ({ likesInfo }: LikeProps) => {
   const postResponseFromApi = async () => {
     const accessToken = session as unknown as JWT;
     const likes = await Promise.resolve(
-      getApiResponse<likePostResponse>({
+      getApiResponse<LikePostResponse>({
         apiEndpoint: `${API_ROUTES.likes}${params.id}`,
         method: 'POST',
         headers: {

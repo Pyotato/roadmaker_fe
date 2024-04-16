@@ -1,8 +1,8 @@
 'use client';
 import { Group, UnstyledButton } from '@mantine/core';
 import { IconLogout, IconUser, IconWriting } from '@tabler/icons-react';
-import { usePathname, useRouter } from 'next/navigation';
 import { signIn, signOut, useSession } from 'next-auth/react';
+import { usePathname, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
 const HeaderAuthButton = ({
@@ -25,9 +25,8 @@ const HeaderAuthButton = ({
       <Group justify='center' visibleFrom='sm'>
         <UnstyledButton
           variant='default'
-          className='hvr-text'
+          className='hvr-text align-ctr'
           display='inline-flex'
-          style={{ alignItems: 'center' }}
           onClick={() => {
             if (pathName !== '/roadmap/create') {
               router.push('/roadmap/create');
@@ -42,9 +41,8 @@ const HeaderAuthButton = ({
         </UnstyledButton>
         <UnstyledButton
           variant='default'
-          className='hvr-text'
+          className='hvr-text align-ctr'
           display='inline-flex'
-          style={{ alignItems: 'center' }}
           onClick={() => {
             if (pathName !== '/roadmap/create') router.replace('/mypage');
             else {
@@ -58,9 +56,8 @@ const HeaderAuthButton = ({
         </UnstyledButton>
         <UnstyledButton
           variant='default'
-          className='hvr-text'
+          className='hvr-text align-ctr'
           display='inline-flex'
-          style={{ alignItems: 'center' }}
           onClick={() => {
             if (pathName !== '/roadmap/create') signOut();
             else openModal(() => signOut({ callbackUrl: '/' }));

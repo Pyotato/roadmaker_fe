@@ -2,8 +2,8 @@
 
 import { Box, Drawer, ScrollArea } from '@mantine/core';
 import { IconCircleChevronRight } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { Edge, Node, ReactFlowProvider } from 'reactflow';
 
@@ -57,7 +57,7 @@ export default function RoadmapEditorPage() {
             ml='1rem'
             icon={<IconCircleChevronRight size={26} stroke={1.5} />}
           />
-          <Drawer.Body p='1rem' style={{ height: '100vh', width: '27.6rem' }}>
+          <Drawer.Body p='1rem' className='drawer-body'>
             {clickedNode && (
               <Box pb='sm'>
                 <Box pb='sm'>

@@ -86,8 +86,6 @@ const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
       style={{
         height: `${getRangePx(getHeight, 300)}`,
         width: `${getRangePx(getWidth, 396)}`,
-        padding: '1rem',
-        overflowX: 'visible',
       }}
     >
       <ReactFlowProvider>
@@ -130,7 +128,7 @@ const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
         >
           <Drawer.Content>
             <Drawer.CloseButton mr='1rem' mt='1rem' ml='1rem' />
-            <Drawer.Body p='1rem' style={{ height: '100vh', width: '27.6rem' }}>
+            <Drawer.Body p='1rem' className='drawer-body'>
               <NodeDetails details={openNode} />
             </Drawer.Body>
           </Drawer.Content>
@@ -141,6 +139,8 @@ const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
 };
 
 const Wrap = styled.div`
+  padding: 1rem;
+  overflow-x: visible;
   .react-flow__node.react-flow__node-custom {
     max-width: 15rem !important;
     width: fit-content !important;

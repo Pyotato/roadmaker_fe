@@ -80,3 +80,12 @@ export interface HttpResponse {
 }
 
 export type LikePostResponse = HttpResponse | LikeProps['likesInfo'];
+
+export interface AboutProps extends PropsWithChildren {
+  aboutInfo: AboutInfo;
+}
+export interface CreatorProps extends PropsWithChildren {
+  creatorInfo: {
+    member: AboutInfo['member'];
+  };
+}

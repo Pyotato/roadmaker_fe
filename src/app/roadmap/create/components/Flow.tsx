@@ -1,6 +1,6 @@
 'use client';
-import ELK from 'elkjs/lib/elk.bundled.js';
 import { ElkExtendedEdge } from 'elkjs/lib/elk-api';
+import ELK from 'elkjs/lib/elk.bundled.js';
 import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 import ReactFlow, {
   addEdge,
@@ -33,6 +33,7 @@ import {
 import PanelItem from './PanelControl';
 
 import { CustomEdge, CustomElkNode, CustomNode } from '@/types/reactFlow';
+import styled from 'styled-components';
 
 const proOptions = { hideAttribution: true };
 
@@ -199,13 +200,7 @@ const Flow = ({
   }, [setNodes, setEdges]);
 
   return (
-    <div
-      style={{
-        width: '100vw',
-        height: '96vh',
-        backgroundColor: '#EFEFEF',
-      }}
-    >
+    <EditorWrap>
       <ReactFlow
         fitView
         defaultEdgeOptions={DEFAULT_EDGE_OPTIONS}
@@ -247,8 +242,14 @@ const Flow = ({
         <Controls position='bottom-right' />
         <MiniMap zoomable pannable position='bottom-left' />
       </ReactFlow>
-    </div>
+    </EditorWrap>
   );
 };
 
 export default Flow;
+
+const EditorWrap = styled.div`
+  width: 100vw;
+  height: 96vh;
+  background-color: #efefef;
+`;

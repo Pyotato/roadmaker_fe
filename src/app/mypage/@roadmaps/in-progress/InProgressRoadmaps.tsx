@@ -1,6 +1,5 @@
 'use client';
 
-import { Box } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
@@ -16,6 +15,7 @@ import { API_ROUTES, FAIL } from '@/constants';
 import { getApiResponse } from '@/utils/get-api-response';
 
 import { RoadMapInfo } from '@/types/post';
+import styled from 'styled-components';
 
 const InProgressRoadmapList = () => {
   const { data: session, status } = useSession();
@@ -78,7 +78,7 @@ const InProgressRoadmapList = () => {
           title: FAIL['401'].title,
           message: 'oops...something went wrong',
           color: FAIL['401'].color,
-          icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+          icon: <IconCheck className='icon' />,
         });
         return signIn();
       }
@@ -94,14 +94,18 @@ const InProgressRoadmapList = () => {
       data?.roadMapInfo.length === 0 ||
       data?.roadMapInfo[0]?.id === null
     )
-      return <Box h='64vh'></Box>;
+      return <GridWrap></GridWrap>;
     return (
-      <Box style={{ minHeight: '64vh' }}>
+      <GridWrap>
         <ItemsCardsGrid postData={data.roadMapInfo || []} />
-      </Box>
+      </GridWrap>
     );
   }
   return <>in progress roadmap list</>;
 };
 
 export default InProgressRoadmapList;
+
+export const GridWrap = styled.div`
+  min-height: 64vh;
+`;

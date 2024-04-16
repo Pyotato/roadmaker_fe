@@ -29,9 +29,9 @@ import {
   IconSitemap,
   IconX,
 } from '@tabler/icons-react';
-import { useRouter } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import {
   Dispatch,
   SetStateAction,
@@ -49,6 +49,7 @@ import { omit } from '@/utils/shared';
 import { Args } from '@/types';
 import { WarningKeys } from '@/types/alert';
 import { CustomEdge, CustomNode } from '@/types/reactFlow';
+import styled from 'styled-components';
 
 const PanelItem = ({
   onAddNode,
@@ -184,7 +185,7 @@ const PanelItem = ({
         title: '로드맵 생성 실패',
         message: '🥲 로드맵 생성에 실패했습니다',
         color: 'red',
-        icon: <IconX style={{ width: '20rem', height: '20rem' }} />,
+        icon: <IconX className='icon' />,
         className: 'my-notification-class',
         loading: false,
       });
@@ -216,7 +217,7 @@ const PanelItem = ({
         title: SUCCESS.roadmaps.title,
         message: `🎉 로드맵 ${response}생성에 성공했습니다 🎉`,
         color: SUCCESS.roadmaps.color,
-        icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+        icon: <IconCheck className='icon' />,
         className: 'my-notification-class notification',
         loading: true,
       }),
@@ -238,7 +239,7 @@ const PanelItem = ({
   ]);
 
   return (
-    <Box style={{ backgroundColor: 'white', borderRadius: '0.2rem' }} p='md'>
+    <TooltipWrap>
       <Tooltip.Group>
         <Group>
           <Tooltip
@@ -363,11 +364,7 @@ const PanelItem = ({
                         withCloseButton: true,
                         autoClose: 1000,
                         message: ` ${WARNING[v].message}`,
-                        icon: (
-                          <IconExclamationMark
-                            style={{ width: '20rem', height: '20rem' }}
-                          />
-                        ),
+                        icon: <IconExclamationMark className='icon' />,
                         color: WARNING[v].color,
                       });
                     }, 200 * index);
@@ -387,7 +384,7 @@ const PanelItem = ({
         <Box>
           <Box>
             <Box>
-              <Box py='sm' style={{ display: 'inline-flex' }}>
+              <TextWrap>
                 제목{' '}
                 {!title && (
                   <IconExclamationCircle
@@ -397,7 +394,7 @@ const PanelItem = ({
                     fill='white'
                   />
                 )}
-              </Box>
+              </TextWrap>
               <TextInput
                 value={title}
                 autoFocus={!title || !description || !files[0]}
@@ -406,7 +403,7 @@ const PanelItem = ({
               />
             </Box>
             <Box py='xs'>
-              <Box py='sm' style={{ display: 'inline-flex' }}>
+              <TextWrap>
                 설명
                 {!description && (
                   <IconExclamationCircle
@@ -416,7 +413,7 @@ const PanelItem = ({
                     fill='white'
                   />
                 )}
-              </Box>
+              </TextWrap>
 
               <Textarea
                 value={description}
@@ -428,7 +425,7 @@ const PanelItem = ({
               />
             </Box>
           </Box>
-          <Box py='sm' style={{ display: 'inline-flex' }}>
+          <TextWrap>
             썸네일
             {!files[0] && (
               <IconExclamationCircle
@@ -438,8 +435,8 @@ const PanelItem = ({
                 fill='white'
               />
             )}
-          </Box>
-          <Box style={{ border: '1px solid #ced4da' }} className='hvr hvrImg'>
+          </TextWrap>
+          <Box className='hvr hvrImg dropzone-wrap'>
             <Dropzone
               accept={IMAGE_MIME_TYPE}
               onDrop={(e) => {
@@ -458,19 +455,7 @@ const PanelItem = ({
                   <Box>{previews()}</Box>
                 </Tooltip.Floating>
               ) : (
-                <Box
-                  style={{
-                    height: '100%',
-                    width: '100%',
-                    display: 'inline-flex',
-                    alignItems: 'center',
-                    flexDirection: 'column',
-                    justifyContent: 'center',
-                    borderRadius: '0.2rem',
-                  }}
-                  py='sm'
-                  className='input-text'
-                >
+                <Box py='sm' className='input-text dropzone-icon-text-wrap'>
                   <Text ta='center'>
                     <IconPhotoPlus data-disabled size='3rem' />
                   </Text>
@@ -482,23 +467,48 @@ const PanelItem = ({
         </Box>
       )}
       {(!title || !files[0] || !description) && (
-        <div
-          style={{
-            position: 'absolute',
-            top: '0.6rem',
-            translate: '120%',
-            zIndex: 900,
-          }}
-        >
+        <AlertIconWrap>
           <IconExclamationCircle
+            className='icon-alert'
             data-disabled
             size='1rem'
             color='red'
             fill='white'
           />
-        </div>
+        </AlertIconWrap>
       )}
-    </Box>
+    </TooltipWrap>
   );
 };
 export default PanelItem;
+
+const TooltipWrap = styled.div`
+  background-color: white;
+  border-radius: 0.2rem;
+  padding: var(--mantine-spacing-md);
+
+  .dropzone-wrap {
+    border: 1px solid #ced4da;
+  }
+  .dropzone-icon-text-wrap {
+    height: 100%;
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 0.2rem;
+  }
+`;
+
+const AlertIconWrap = styled.div`
+  position: absolute;
+  top: 0.6rem;
+  translate: 120%;
+  z-index: 900;
+`;
+
+const TextWrap = styled.div`
+  padding: var(--mantine-spacing-sm) 0;
+  display: inline-flex;
+`;

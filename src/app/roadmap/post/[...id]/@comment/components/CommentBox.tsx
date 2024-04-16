@@ -19,9 +19,9 @@ import Underline from '@tiptap/extension-underline';
 import Youtube from '@tiptap/extension-youtube';
 import { JSONContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import { useParams } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { signIn, useSession } from 'next-auth/react';
+import { useParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
@@ -121,9 +121,7 @@ const CommentBox = () => {
         title: FAIL['401'].title,
         message: `${res.message}\n로그인 후 이용해주세요.`,
         color: FAIL['401'].color,
-        icon: (
-          <IconExclamationMark style={{ width: '20rem', height: '20rem' }} />
-        ),
+        icon: <IconExclamationMark className='icon' />,
       });
       setTimeout(() => {
         signIn();
@@ -139,7 +137,7 @@ const CommentBox = () => {
       title: SUCCESS.comment.title,
       message: SUCCESS.comment.message,
       color: SUCCESS.comment.color,
-      icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+      icon: <IconCheck className='icon' />,
     }),
       editor?.commands.setContent('');
     queryClient.invalidateQueries({ queryKey: ['comments', currPostId[0]] });
@@ -176,11 +174,7 @@ const CommentBox = () => {
                   title: WARNING.content.title,
                   message: WARNING.content.message,
                   color: WARNING.content.color,
-                  icon: (
-                    <IconExclamationMark
-                      style={{ width: '20rem', height: '20rem' }}
-                    />
-                  ),
+                  icon: <IconExclamationMark className='icon' />,
                 });
                 setContent('');
                 editor?.commands.setContent('');

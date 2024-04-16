@@ -14,7 +14,7 @@ function TextUpdaterNode({ data }: Readonly<{ data: Node['data'] }>) {
   );
 
   return (
-    <Wrap className='text-updater-node' style={{ height: 'fit-content' }}>
+    <Wrap className='text-updater-node'>
       <Handle
         type='target'
         position={Position.Right}
@@ -79,6 +79,7 @@ function TextUpdaterNode({ data }: Readonly<{ data: Node['data'] }>) {
 
 const Wrap = styled.div`
   width: fit-content;
+  height: fit-content !important;
 
   & .label-wrap {
     width: fit-content;

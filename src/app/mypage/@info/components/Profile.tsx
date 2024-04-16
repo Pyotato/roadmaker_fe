@@ -5,9 +5,9 @@ import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import ProfileSkeleton from '@/components/shared/ProfileSkeleton';
@@ -20,6 +20,7 @@ import UpdateMemberProfileForm from './ProfileForm';
 import UpdateAvatarForm from './ProfileImageForm';
 
 import { UserDataResponse } from '@/types/user';
+import styled from 'styled-components';
 
 const UserData = () => {
   const { data: session, status } = useSession();
@@ -71,7 +72,7 @@ const UserData = () => {
       title: FAIL['500'].title,
       message: `서버에서 예기치 못한 에러가 발생했습니다🥲\n${error}`,
       color: FAIL['500'].color,
-      icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+      icon: <IconCheck className='icon' />,
     });
     setTimeout(() => {
       router.replace('/');
@@ -79,14 +80,7 @@ const UserData = () => {
   }
   if (isSuccess) {
     return (
-      <Box
-        style={{
-          display: 'inline-flex',
-          width: '100%',
-          alignItems: 'center',
-          gap: '1.5rem',
-        }}
-      >
+      <AvatarWrap>
         <Tooltip label='이미지 변경'>
           <Avatar
             src={
@@ -124,7 +118,7 @@ const UserData = () => {
               mt='sm'
               truncate='end'
               lineClamp={4}
-              style={{ whiteSpace: 'pre-wrap' }}
+              className='text-area'
             >
               {userInfo?.userData?.bio || '나에 대한 소개를 해볼까요?'}
             </Text>
@@ -142,8 +136,19 @@ const UserData = () => {
             />
           )}
         </Modal>
-      </Box>
+      </AvatarWrap>
     );
   }
 };
 export default UserData;
+
+const AvatarWrap = styled.div`
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  gap: 1.5rem;
+
+  .text-area {
+    white-space: pre-wrap;
+  }
+`;

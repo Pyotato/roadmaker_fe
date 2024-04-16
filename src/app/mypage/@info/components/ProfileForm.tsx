@@ -9,7 +9,8 @@ import { useSession } from 'next-auth/react';
 import { useCallback, useMemo, useState } from 'react';
 
 import { API_ROUTES, FAIL, SUCCESS } from '@/constants';
-import { ErrorResponse, getApiResponse } from '@/utils/get-api-response';
+import { ErrorResponse } from '@/types/response';
+import { getApiResponse } from '@/utils/get-api-response';
 
 const ProfileForm = ({
   close,
@@ -62,7 +63,7 @@ const ProfileForm = ({
         title: '내 프로필 정보 변경 실패',
         message: `🥲 내 프로필 정보 변경에 실패했습니다\n${message}`,
         color: FAIL[httpStatus].color,
-        icon: <IconX style={{ width: '20rem', height: '20rem' }} />,
+        icon: <IconX className='icon' />,
         className: 'my-notification-class',
         loading: false,
       });
@@ -77,7 +78,7 @@ const ProfileForm = ({
       title: SUCCESS.user.title,
       message: `내 프로필 변경에 성공했습니다 🎉`,
       color: SUCCESS.roadmaps.color,
-      icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+      icon: <IconCheck className='icon' />,
       className: 'my-notification-class notification',
       loading: true,
     });

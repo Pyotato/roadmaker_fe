@@ -13,8 +13,8 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconHome, IconUser } from '@tabler/icons-react';
-import { usePathname, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import { usePathname, useRouter } from 'next/navigation';
 
 import AuthButton from './AuthButton';
 import HeaderAuthButton from './HeaderAuthButton';
@@ -43,7 +43,6 @@ const Header = ({ openModal }: { openModal: (fn: () => void) => void }) => {
             <Image
               src='/favicon/android-chrome-384x384.png'
               alt='/favicon/android-chrome-384x384.png'
-              style={{ width: '30px' }}
               onClick={() => {
                 if (currPath === '/roadmap/create') {
                   openModal(() => router.push('/'));
@@ -53,7 +52,7 @@ const Header = ({ openModal }: { openModal: (fn: () => void) => void }) => {
                 if (currPath === '/') location.reload();
                 router.push('/');
               }}
-              className='hvr'
+              className='hvr logo-img'
             />
           </UnstyledButton>
           <Burger
@@ -77,8 +76,7 @@ const Header = ({ openModal }: { openModal: (fn: () => void) => void }) => {
           <Divider my='sm' />
           <Box m='md'>
             <UnstyledButton
-              display='inline-flex'
-              style={{ alignItems: 'center' }}
+              display='inline-flex align-ctr'
               onClick={() => {
                 if (currPath === '/roadmap/create') {
                   openModal(() => router.push('/'));
@@ -93,7 +91,7 @@ const Header = ({ openModal }: { openModal: (fn: () => void) => void }) => {
                 router.push('/');
                 closeDrawer();
               }}
-              className='hvr-text'
+              className='hvr-text align-ctr'
             >
               <IconHome />
               <Text pl='xs'>홈</Text>
@@ -102,9 +100,8 @@ const Header = ({ openModal }: { openModal: (fn: () => void) => void }) => {
           {status === 'authenticated' && (
             <Box m='md'>
               <UnstyledButton
-                className='hvr-text'
+                className='hvr-text align-ctr'
                 display='inline-flex'
-                style={{ alignItems: 'center' }}
                 onClick={() => {
                   if (currPath === '/roadmap/create') {
                     openModal(() => router.replace('/mypage'));

@@ -11,7 +11,11 @@ export const GlobalStyle = createGlobalStyle`
 		/* color: ${({ theme }) => theme.colors.color_grey1}; */
 	}
 
-  
+  .icon {
+    width: 20rem;
+    height: 20rem;
+  }
+
   .flex-right{
     display: inline-flex;
     justify-content: flex-end;
@@ -217,6 +221,7 @@ iframe {
   }
 
   .post-rich-editor{
+    line-height: 2rem !important;
     & .mantine-RichTextEditor-content{
      & .tiptap.ProseMirror{
     overflow-x: hidden !important;
@@ -225,6 +230,59 @@ iframe {
      }
   }
     }
+  }
+
+.drawer-body{
+  height: 100vh !important;
+  width:27.6rem;
+}
+.title-wrap{
+  display: inline-flex;
+   align-items: center; 
+   width: 100%;
+}
+.gap1{
+  gap: 1rem;
+  }
+
+  .flex-items{
+    display: inline-flex; 
+    align-items: center;
+  }
+
+  /* .quadro-handle-node{ */
+  .react-flow__node.react-flow__node-custom.selectable{
+    width: fit-content !important;
+    height: fit-content !important;
+    font-size: 1rem !important;
+    padding: 1rem !important;
+  }
+
+  .aspect-ratio-basic{
+    aspect-ratio: 1920/1080;
+  } 
+
+  .sm_btn{ 
+    width: 26px; 
+    height: 26px; 
+    padding: 0 
+  }
+  .mantine-RichTextEditor-content{
+    min-height: 20em;
+  }
+
+  .mantine-RichTextEditor-root{
+    width: 100%;
+  }
+  .icon-brand{
+    width: 1.125rem; //18px
+    height: 1.125rem
+  }
+  .logo-img{
+    width: 30px;
+  }
+  .align-ctr{
+    align-items: center ;
   }
 
 `;

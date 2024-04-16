@@ -20,13 +20,7 @@ const CommentCard = ({
 }) => {
   return (
     <Wrap>
-      <Paper
-        withBorder
-        radius='md'
-        className='comment'
-        style={{ overflow: 'hidden' }}
-        ref={innerRef}
-      >
+      <Paper withBorder radius='md' className='comment' ref={innerRef}>
         <Group>
           <Avatar
             src={comment?.member?.avatarUrl || randomAvartars(randomNum)}
@@ -56,7 +50,7 @@ export default CommentCard;
 const Wrap = styled.div`
   .comment {
     padding: var(--mantine-spacing-lg) var(--mantine-spacing-xl);
-    overflow: hidden;
+    overflow: hidden !important;
   }
 
   .body {

@@ -1,6 +1,5 @@
 'use client';
 
-import { Box } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
@@ -16,6 +15,7 @@ import { getApiResponse } from '@/utils/get-api-response';
 
 import { RoadMapInfo } from '@/types/post';
 import { ErrorResponse } from '@/types/response';
+import styled from 'styled-components';
 
 const CreatedRoadmapList = () => {
   const { data: session, status } = useSession();
@@ -75,19 +75,23 @@ const CreatedRoadmapList = () => {
       title: FAIL['409'].title,
       message: 'oops...something went wrong',
       color: FAIL['409'].color,
-      icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+      icon: <IconCheck className='icon' />,
     });
   }
   if (isSuccess) {
     if (!data?.roadMapInfo || data?.roadMapInfo.length === 0)
-      return <Box h='64vh'></Box>;
+      return <EmptyBox></EmptyBox>;
     return (
-      <Box style={{ minHeight: '64vh' }}>
+      <EmptyBox>
         <ItemsCardsGrid postData={data.roadMapInfo || []} />
-      </Box>
+      </EmptyBox>
     );
   }
   return <>created roadmap list</>;
 };
 
 export default CreatedRoadmapList;
+
+export const EmptyBox = styled.div`
+  min-height: 64vh;
+`;

@@ -1,11 +1,11 @@
 'use client';
 
-import { Box, LoadingOverlay } from '@mantine/core';
+import { LoadingOverlay } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useQuery } from '@tanstack/react-query';
-import { useRouter } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
 import { API_ROUTES, SUCCESS } from '@/constants';
@@ -18,6 +18,7 @@ import ReactFlow from './reactFlow/ReactFlow';
 import { RoadMapInfo } from '@/types/post';
 import { ReactFlowInfo } from '@/types/reactFlow';
 import { AboutInfo } from '@/types/user';
+import styled from 'styled-components';
 
 const Roadmap = ({ params }: { params: { id: string } }) => {
   const { id } = params;
@@ -101,20 +102,20 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
     return (
       <>
         <About aboutInfo={aboutInfo} />
-        <Box
-          style={{
-            display: 'inline-flex',
-            minWidth: '100%',
-            width: 'fit-content',
-            justifyContent: 'center',
-            backgroundColor: '#EFEFEF',
-          }}
-        >
+        <FlowWrap>
           <ReactFlow reactFlowInfo={reactFlowInfo} />
-        </Box>
+        </FlowWrap>
       </>
     );
   }
 };
 
 export default Roadmap;
+
+const FlowWrap = styled.div`
+  display: inline-flex;
+  min-width: 100%;
+  width: fit-content;
+  justify-content: center;
+  background-color: #efefef;
+`;

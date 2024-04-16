@@ -16,6 +16,7 @@ import { useState } from 'react';
 
 import { API_ROUTES, FAIL, SUCCESS } from '@/constants';
 import { getApiResponse } from '@/utils/get-api-response';
+import styled from 'styled-components';
 import LoginButton from './components/LoginButton';
 
 export default function AuthPage() {
@@ -56,7 +57,7 @@ export default function AuthPage() {
         title: FAIL['409'].title,
         message: res.message,
         color: FAIL['409'].color,
-        icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+        icon: <IconCheck className='icon' />,
       });
 
       if (res.errorCode === 'NicknameAlreadyRegistered') {
@@ -76,7 +77,7 @@ export default function AuthPage() {
         title: SUCCESS.signup.title,
         message: res.message,
         color: SUCCESS.signup.color,
-        icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+        icon: <IconCheck className='icon' />,
       });
       await signIn('credentials', {
         email,
@@ -88,20 +89,10 @@ export default function AuthPage() {
   };
 
   return (
-    <div
-      style={{
-        display: 'inline-flex',
-        justifyContent: 'center',
-        height: '100vh',
-        width: '100%',
-      }}
-    >
-      <Box
-        style={{ display: 'inline-flex', height: '100%', alignItems: 'center' }}
-        p='xl'
-      >
+    <PageWrap>
+      <Box className='auth-box' p='xl'>
         <Box p='xl' className='login-box'>
-          <Title order={1} mb='lg' style={{ textAlign: 'center' }}>
+          <Title order={1} mb='lg' className='txt'>
             회원 가입
           </Title>
           <TextInput
@@ -193,6 +184,22 @@ export default function AuthPage() {
           <LoginButton />
         </Box>
       </Box>
-    </div>
+    </PageWrap>
   );
 }
+
+const PageWrap = styled.div`
+  display: inline-flex;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+
+  .auth-box {
+    display: inline-flex;
+    height: 100%;
+    align-items: center;
+  }
+  .txt {
+    text-align: center;
+  }
+`;

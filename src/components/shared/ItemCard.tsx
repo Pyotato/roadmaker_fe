@@ -32,27 +32,10 @@ const ItemCard = ({
         <Text c='dimmed' size='xs' tt='uppercase' fw={700} mt='md'>
           {`${article?.createdAt}`}
         </Text>
-        <Title
-          mt={5}
-          order={3}
-          style={{
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-          }}
-        >
+        <Title mt={5} order={3} className='description-text'>
           {article?.title}
         </Title>
-        <Text
-          className='title'
-          mt={5}
-          c='dimmed'
-          style={{
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-          }}
-        >
+        <Text className='title description-text' mt={5} c='dimmed'>
           {article?.description}
         </Text>
         {article?.description === '' && <div>'no description'</div>}
@@ -93,5 +76,11 @@ export const Wrap = styled.div`
     margin-top: var(--mantine-spacing-md);
     border-top: rem(1px) solid
       light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
+  }
+
+  .description-text {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
   }
 `;

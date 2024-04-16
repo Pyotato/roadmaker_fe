@@ -3,9 +3,9 @@ import { Box, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconExclamationMark, IconHeart } from '@tabler/icons-react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { signOut, useSession } from 'next-auth/react';
+import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 import { API_ROUTES, FAIL, IS_PROD, SITE_ROUTES, WARNING } from '@/constants';
@@ -42,7 +42,7 @@ const Likes = ({ likesInfo }: LikeProps) => {
         title: FAIL['401'].title,
         message: likes.message,
         color: FAIL['401'].color,
-        icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+        icon: <IconCheck className='icon' />,
       });
       setTimeout(() => {
         signOut({
@@ -75,7 +75,7 @@ const Likes = ({ likesInfo }: LikeProps) => {
   };
 
   return (
-    <Box style={{ display: 'inline-flex', alignItems: 'center', gap: '1rem' }}>
+    <Box className='gap1 flex-items'>
       <IconHeart
         onClick={() => {
           if (status !== 'authenticated') {
@@ -86,11 +86,7 @@ const Likes = ({ likesInfo }: LikeProps) => {
               title: WARNING.auth.title,
               message: WARNING.auth.message,
               color: WARNING.auth.color,
-              icon: (
-                <IconExclamationMark
-                  style={{ width: '20rem', height: '20rem' }}
-                />
-              ),
+              icon: <IconExclamationMark className='icon' />,
               className: 'my-notification-class',
               loading: false,
             });
@@ -99,7 +95,7 @@ const Likes = ({ likesInfo }: LikeProps) => {
           postResponseFromApi();
         }}
         fill={liked ? 'red' : '#ffffff'}
-        style={{ color: 'red' }}
+        color='red'
         className='heart'
       />
       <Title order={6}>{toTSXString(likedCount)}</Title>

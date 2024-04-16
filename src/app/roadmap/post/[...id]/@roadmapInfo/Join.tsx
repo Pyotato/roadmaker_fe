@@ -3,18 +3,17 @@ import { Box, Button, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconExclamationMark, IconUser } from '@tabler/icons-react';
 import { useQueryClient } from '@tanstack/react-query';
-import { useParams } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
+import { useParams } from 'next/navigation';
 import { useState } from 'react';
 
 import { API_ROUTES, SUCCESS, WARNING } from '@/constants';
 import { getApiResponse } from '@/utils/get-api-response';
 import { omit } from '@/utils/shared';
 
-import { RoadMapInfoQuery } from './Likes';
-
-import { JoinProps } from '@/types/post';
+import { JoinProps, RoadMapInfoQuery } from '@/types/post';
+import styled from 'styled-components';
 
 const Join = ({ joinInfo }: JoinProps) => {
   const [isJoined, setIsJoined] = useState(joinInfo.isJoined);
@@ -58,7 +57,7 @@ const Join = ({ joinInfo }: JoinProps) => {
       title: SUCCESS.join.title,
       message: `${previousData.roadMapInfo.title} 로드맵에 참여했습니다.\n 🍀 로드맵 활동을 응원합니다.`,
       color: SUCCESS.join.color,
-      icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+      icon: <IconCheck className='icon' />,
       className: 'my-notification-class',
       loading: false,
     });
@@ -66,23 +65,8 @@ const Join = ({ joinInfo }: JoinProps) => {
   };
 
   return (
-    <Box
-      my='xs'
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        width: '100%',
-        justifyContent: 'space-between',
-      }}
-    >
-      <Box
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '1rem',
-        }}
-      >
+    <JoinInfoWrap>
+      <Box className='gap1 flex'>
         <Box>
           <IconUser />
         </Box>
@@ -102,11 +86,7 @@ const Join = ({ joinInfo }: JoinProps) => {
               title: WARNING.auth.title,
               message: WARNING.auth.message,
               color: WARNING.auth.color,
-              icon: (
-                <IconExclamationMark
-                  style={{ width: '20rem', height: '20rem' }}
-                />
-              ),
+              icon: <IconExclamationMark className='icon' />,
               className: 'my-notification-class',
               loading: false,
             });
@@ -117,7 +97,21 @@ const Join = ({ joinInfo }: JoinProps) => {
       >
         {isJoined ? '참여중' : '참여하기'}
       </Button>
-    </Box>
+    </JoinInfoWrap>
   );
 };
 export default Join;
+
+const JoinInfoWrap = styled.div`
+  margin: var(--mantine-spacing-xs) 0;
+  display: inline-flex;
+  align-items: center;
+  width: 100%;
+  justify-content: space-between;
+
+  .flex {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+`;

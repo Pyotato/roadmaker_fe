@@ -19,8 +19,8 @@ const TipTapTextEditor = ({ editor }: { editor: Editor | null }) => {
     modals.openConfirmModal({
       title: '유튜브 링크',
       children: (
-        <Box>
-          <Box display='inline-flex' style={{ alignItems: 'center' }}>
+        <>
+          <Box display='inline-flex'>
             <Text size='sm' pb='sm'>
               유튜브 링크를 입력해주세요.
             </Text>
@@ -33,7 +33,7 @@ const TipTapTextEditor = ({ editor }: { editor: Editor | null }) => {
             }}
             onBlur={(e) => (url = e.currentTarget.value)}
           />
-        </Box>
+        </>
       ),
       labels: { confirm: '확인', cancel: '취소' },
       onConfirm: async () => {
@@ -54,11 +54,7 @@ const TipTapTextEditor = ({ editor }: { editor: Editor | null }) => {
               title: WARNING.youtube.title,
               message: WARNING.youtube.message,
               color: WARNING.youtube.color,
-              icon: (
-                <IconExclamationMark
-                  style={{ width: '20rem', height: '20rem' }}
-                />
-              ),
+              icon: <IconExclamationMark className='icon' />,
             });
           }
         }
@@ -67,7 +63,7 @@ const TipTapTextEditor = ({ editor }: { editor: Editor | null }) => {
     });
 
   return (
-    <RichTextEditor editor={editor} style={{ width: '100%' }}>
+    <RichTextEditor editor={editor}>
       <RichTextEditor.Toolbar sticky stickyOffset={5}>
         <RichTextEditor.ControlsGroup>
           <RichTextEditor.Bold />
@@ -96,11 +92,7 @@ const TipTapTextEditor = ({ editor }: { editor: Editor | null }) => {
         </RichTextEditor.ControlsGroup>
 
         <Tooltip label='add youtube' position='bottom'>
-          <Button
-            variant='default'
-            className='yt_btn'
-            style={{ width: '26px', height: '26px', padding: 0 }}
-          >
+          <Button variant='default' className='yt_btn sm_btn'>
             <IconBrandYoutubeFilled
               onClick={openModal}
               data-disabled
@@ -121,7 +113,7 @@ const TipTapTextEditor = ({ editor }: { editor: Editor | null }) => {
           <RichTextEditor.AlignRight />
         </RichTextEditor.ControlsGroup>
       </RichTextEditor.Toolbar>
-      <RichTextEditor.Content style={{ minHeight: '20em' }} />
+      <RichTextEditor.Content />
     </RichTextEditor>
   );
 };

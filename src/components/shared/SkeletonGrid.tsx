@@ -43,7 +43,7 @@ export function SkeletonCardsGrid() {
         href={`/roadmap/post/${article?.id}`}
         className='card'
       >
-        <Skeleton radius='md' style={{ aspectRatio: '1920 / 1080' }} />
+        <Skeleton radius='md' className='aspect-ratio-basic' />
         <Skeleton height={16} mt='md' width='100%' radius='xl' />
         <Skeleton height={48} mt='md' width='100%' radius='md' />
         <Skeleton height={16} mt='md' width='25%' radius='xl' />

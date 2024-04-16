@@ -8,3 +8,7 @@ export interface DataWithPages {
   next: string;
   previous: null;
 }
+
+export interface Args {
+  [key: string]: string;
+}

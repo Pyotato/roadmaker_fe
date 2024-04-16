@@ -9,11 +9,11 @@ import { JWT } from 'next-auth/jwt';
 import { signIn, useSession } from 'next-auth/react';
 import { useCallback, useMemo, useState } from 'react';
 
-import { apiRoutes, FAIL, SUCCESS } from '@/constants';
-import { ErrorResponse, getApiResponse } from '@/utils/shared/get-api-response';
-import { getItem, removeItem, setItem } from '@/utils/shared/localStorage';
+import { API_ROUTES, FAIL, SUCCESS } from '@/constants';
+import { ErrorResponse, getApiResponse } from '@/utils/get-api-response';
+import { getItem, removeItem, setItem } from '@/utils/localStorage';
 
-const UpdateAvatarForm = ({
+const ProfileImageForm = ({
   close,
   userId,
 }: {
@@ -64,7 +64,7 @@ const UpdateAvatarForm = ({
     const [response] = await Promise.all([
       getApiResponse<ErrorResponse | null>({
         requestData: formData,
-        apiEndpoint: `${apiRoutes.memberAvatarUpdate}`,
+        apiEndpoint: `${API_ROUTES.memberAvatarUpdate}`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -166,4 +166,4 @@ const UpdateAvatarForm = ({
     </Box>
   );
 };
-export default UpdateAvatarForm;
+export default ProfileImageForm;

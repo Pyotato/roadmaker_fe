@@ -1,5 +1,5 @@
-import { apiRoutes, FailKeys, IS_PROD } from '@/constants';
-import { consoleLog } from '@/utils/shared/console-log';
+import { API_ROUTES, FailKeys, IS_PROD } from '@/constants';
+import { consoleLog } from '@/utils/console-log';
 
 const ErrorStatus = [404, 401];
 
@@ -33,7 +33,7 @@ export const getApiResponse = async <T>({
       },
     });
 
-    if (response.url === `${apiRoutes.signup}`) {
+    if (response.url === `${API_ROUTES.signup}`) {
       if (response.status === 201) {
         return {
           message: `${JSON.parse(`${requestData}`)?.nickname}님 반갑습니다.`,

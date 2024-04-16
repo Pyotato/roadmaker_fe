@@ -3,7 +3,7 @@ import { Box, ColorPicker } from '@mantine/core';
 import { Dispatch, SetStateAction, useMemo, useState } from 'react';
 import { Node, useUpdateNodeInternals } from 'reactflow';
 
-import { defaultNodes } from '@/constants';
+import { DEFAULT_NODES } from '@/constants';
 import { omit } from '@/utils/shared';
 
 const NodeColorPicker = ({
@@ -18,7 +18,7 @@ const NodeColorPicker = ({
   nodes: Node[];
 }) => {
   const [colorValue, setColorValue] = useState(
-    clickedNode?.style?.background ?? defaultNodes[0].style.background,
+    clickedNode?.style?.background ?? DEFAULT_NODES[0].style.background,
   );
   const updateNodeInternals = useUpdateNodeInternals();
 

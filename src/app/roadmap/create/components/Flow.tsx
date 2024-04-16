@@ -1,6 +1,6 @@
 'use client';
 import ELK from 'elkjs/lib/elk.bundled.js';
-import { ElkExtendedEdge, ElkNode } from 'elkjs/lib/elk-api';
+import { ElkExtendedEdge } from 'elkjs/lib/elk-api';
 import { Dispatch, SetStateAction, useCallback, useEffect } from 'react';
 import ReactFlow, {
   addEdge,
@@ -25,21 +25,15 @@ import CustomBezierEdge from '@/components/reactflow/custom/edge/BezierEdge';
 import TextUpdaterNode from '@/components/reactflow/custom/node/TextUpdaterNode';
 
 import {
-  defaultEdges,
-  defaultNodes,
-  edgeOptions,
-  randomNodeColor,
+  DEFAULT_EDGE_OPTIONS,
+  DEFAULT_EDGES,
+  DEFAULT_NODES,
+  RANDOM_NODE_COLORS,
 } from '@/constants';
 
-import PanelItem from './panel/PanelControl';
+import PanelItem from './PanelControl';
 
-import { CustomEdge, CustomNode } from '@/types/reactFlow';
-
-interface CustomElkNode extends ElkNode {
-  id: Node['id'];
-  data: Node['data'];
-  position: XYPosition;
-}
+import { CustomEdge, CustomElkNode, CustomNode } from '@/types/reactFlow';
 
 const proOptions = { hideAttribution: true };
 
@@ -71,7 +65,7 @@ const Flow = ({
   const onAddNode = useCallback(() => {
     let nodeId = Number(nodes[nodes.length - 1]?.id) || 0;
     const randomColorPickerIndex = Math.floor(
-      Math.random() * randomNodeColor.length,
+      Math.random() * RANDOM_NODE_COLORS.length,
     );
     const id = `${++nodeId}`;
     const newNode = {
@@ -88,7 +82,7 @@ const Flow = ({
       },
       type: 'textUpdater',
       style: {
-        background: randomNodeColor[randomColorPickerIndex],
+        background: RANDOM_NODE_COLORS[randomColorPickerIndex],
         border: '1px solid black',
         borderRadius: 15,
         fontSize: 24,
@@ -199,8 +193,8 @@ const Flow = ({
   );
 
   useEffect(() => {
-    const tempNodes = defaultNodes as Node[];
-    const tempEdge = defaultEdges as Edge[];
+    const tempNodes = DEFAULT_NODES as Node[];
+    const tempEdge = DEFAULT_EDGES as Edge[];
     setNodes(tempNodes);
     setEdges(tempEdge);
   }, [setNodes, setEdges]);
@@ -215,9 +209,9 @@ const Flow = ({
     >
       <ReactFlow
         fitView
-        defaultEdgeOptions={edgeOptions}
+        defaultEdgeOptions={DEFAULT_EDGE_OPTIONS}
         connectionLineType={ConnectionLineType.SmoothStep}
-        connectionLineStyle={{ stroke: edgeOptions.style.stroke }}
+        connectionLineStyle={{ stroke: DEFAULT_EDGE_OPTIONS.style.stroke }}
         nodes={nodes}
         nodeTypes={nodeTypes}
         edges={edges}

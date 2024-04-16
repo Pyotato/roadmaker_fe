@@ -13,8 +13,8 @@ import { ArticlesCardsGrid } from '@/components/shared/grid/ArticlesCardsGrid';
 import { SkeletonCardsGrid } from '@/components/shared/grid/SkeletonGrid';
 
 import { RoadMapInfo } from '@/app/roadmap/post/[...id]/@roadmapInfo/page';
-import { apiRoutes, FAIL } from '@/constants';
-import { getApiResponse } from '@/utils/shared/get-api-response';
+import { API_ROUTES, FAIL } from '@/constants';
+import { getApiResponse } from '@/utils/get-api-response';
 
 const InProgressRoadmapList = () => {
   const { data: session, status } = useSession();
@@ -34,7 +34,7 @@ const InProgressRoadmapList = () => {
     if (tokenState) {
       const res = await Promise.resolve(
         getApiResponse<RoadMapInfo>({
-          apiEndpoint: `${apiRoutes.userInfoSlash}${nickname}/in-progress-roadmaps`,
+          apiEndpoint: `${API_ROUTES.userInfoSlash}${nickname}/in-progress-roadmaps`,
           revalidate: 60 * 2, // 5 mins cache
           headers: {
             Authorization: `Bearer ${tokenState}`,

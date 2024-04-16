@@ -13,7 +13,7 @@ import { Content, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { PropsWithChildren, useMemo } from 'react';
 
-import { DetailedContent } from '../ReactFlow';
+import { DetailedContent } from './ReactFlow';
 
 export interface NodeDetailsProps extends PropsWithChildren {
   details: DetailedContent;

@@ -4,9 +4,9 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { PropsWithChildren, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import { apiRoutes } from '@/constants';
+import { API_ROUTES } from '@/constants';
+import { getApiResponse } from '@/utils/get-api-response';
 import { getPageNum } from '@/utils/shared';
-import { getApiResponse } from '@/utils/shared/get-api-response';
 
 import { ArticlesCardsGrid } from './shared/grid/ArticlesCardsGrid';
 import { SkeletonCardsGrid } from './shared/grid/SkeletonGrid';
@@ -34,7 +34,7 @@ export interface Post {
   updatedAt: Date | string;
   member: Member;
 }
-export const url = `${apiRoutes.roadmapPaged}2&order-type=recent`;
+export const url = `${API_ROUTES.roadmapPaged}2&order-type=recent`;
 
 export interface Postdata extends DataWithPages {
   result: Array<Post | null>;
@@ -46,7 +46,7 @@ export interface PageProps extends PropsWithChildren {
 const loadDataFromApi = async ({ pageParam }: { pageParam: number }) => {
   const [postData] = await Promise.all([
     getApiResponse<Postdata>({
-      apiEndpoint: `${apiRoutes.roadmapPaged}${pageParam}&order-type=recent`,
+      apiEndpoint: `${API_ROUTES.roadmapPaged}${pageParam}&order-type=recent`,
       revalidate: 60 * 12, // 30 mins cache
     }),
   ]);

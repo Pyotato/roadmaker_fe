@@ -19,16 +19,16 @@ import Underline from '@tiptap/extension-underline';
 import Youtube from '@tiptap/extension-youtube';
 import { JSONContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import { useParams } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { signIn, useSession } from 'next-auth/react';
-import { useParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import TipTapTextEditor from '@/components/shared/tiptap/TipTapTextEditor';
 
 import {
-  apiRoutes,
+  API_ROUTES,
   EMPTY_YOUTUBE_HTML,
   FAIL,
   REGEX_HTTP,
@@ -36,8 +36,8 @@ import {
   WARNING,
   YOUTUBE_SEARCH,
 } from '@/constants';
+import { getApiResponse } from '@/utils/get-api-response';
 import { newUrl } from '@/utils/shared';
-import { getApiResponse } from '@/utils/shared/get-api-response';
 
 const CommentBox = () => {
   const { data: token, status } = useSession();
@@ -104,7 +104,7 @@ const CommentBox = () => {
           content: content,
           roadmapId: Number(currPostId[0]),
         }),
-        apiEndpoint: `${apiRoutes.comments}`,
+        apiEndpoint: `${API_ROUTES.comments}`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${accessToken?.token}`,

@@ -7,11 +7,11 @@ import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { Edge, Node, ReactFlowProvider } from 'reactflow';
 
-import { IS_PROD, siteRoutes } from '@/constants';
+import { IS_PROD, SITE_ROUTES } from '@/constants';
 
+import DetailContentEditor from './components/DetailContentEditor';
 import Flow from './components/Flow';
-import DetailContentEditor from './components/panel/items/DetailContentEditor';
-import NodeColorPicker from './components/panel/items/NodeColorPicker';
+import NodeColorPicker from './components/NodeColorPicker';
 
 export default function RoadmapEditorPage() {
   const [nodes, setNodes] = useState<Node[]>([]);
@@ -22,7 +22,7 @@ export default function RoadmapEditorPage() {
   const router = useRouter();
 
   if (status === 'unauthenticated') {
-    return router.replace(IS_PROD ? siteRoutes.signIn : siteRoutes.signInDev);
+    return router.replace(IS_PROD ? SITE_ROUTES.signIn : SITE_ROUTES.signInDev);
   }
 
   if (status === 'loading') {

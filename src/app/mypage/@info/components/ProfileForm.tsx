@@ -8,10 +8,10 @@ import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
 import { useCallback, useMemo, useState } from 'react';
 
-import { apiRoutes, FAIL, SUCCESS } from '@/constants';
-import { ErrorResponse, getApiResponse } from '@/utils/shared/get-api-response';
+import { API_ROUTES, FAIL, SUCCESS } from '@/constants';
+import { ErrorResponse, getApiResponse } from '@/utils/get-api-response';
 
-const UpdateMemberProfileForm = ({
+const ProfileForm = ({
   close,
   userNickName,
   userBio,
@@ -44,7 +44,7 @@ const UpdateMemberProfileForm = ({
           nickname,
           bio,
         }),
-        apiEndpoint: `${apiRoutes.memberInfoUpdate}`,
+        apiEndpoint: `${API_ROUTES.memberInfoUpdate}`,
         method: 'PATCH',
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -128,4 +128,4 @@ const UpdateMemberProfileForm = ({
     </>
   );
 };
-export default UpdateMemberProfileForm;
+export default ProfileForm;

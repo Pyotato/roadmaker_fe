@@ -4,14 +4,14 @@ import { CustomEdge } from '@/types/reactFlow';
 
 export const edgeType = 'smoothstep';
 
-export const edgeOptions = {
+export const DEFAULT_EDGE_OPTIONS = {
   animated: true,
   style: {
     stroke: '#000000',
   },
 };
 
-export const defaultEdges: Edge<CustomEdge | Edge | Connection>[] = [
+export const DEFAULT_EDGES: Edge<CustomEdge | Edge | Connection>[] = [
   {
     animated: true,
     id: 'reactflow__edge-bottom1-top2',

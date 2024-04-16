@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface UserData {
   avatarUrl?: null | string;
   baekjoonId?: null | string;
@@ -11,4 +13,9 @@ export interface UserData {
 
 export interface UserDataResponse {
   userData: UserData | null;
+}
+
+export interface MyPageProps {
+  info: ReactNode;
+  roadmaps: ReactNode;
 }

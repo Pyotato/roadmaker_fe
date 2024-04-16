@@ -1,6 +1,6 @@
 import { CustomNode } from '@/types/reactFlow';
 
-export const defaultNodes: CustomNode[] = [
+export const DEFAULT_NODES: CustomNode[] = [
   {
     id: '1',
     data: { label: '내용을 입력해주세요.' },
@@ -34,7 +34,7 @@ export const defaultNodes: CustomNode[] = [
   },
 ];
 
-export const randomNodeColor = [
+export const RANDOM_NODE_COLORS = [
   '#EEF5DB',
   '#C7EFCF',
   '#C7EFCF',

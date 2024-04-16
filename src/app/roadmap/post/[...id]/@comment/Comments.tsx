@@ -8,8 +8,8 @@ import { useInView } from 'react-intersection-observer';
 
 import { CommentHtml } from '@/components/shared/list/CommentHtml';
 
+import { getApiResponse } from '@/utils/get-api-response';
 import { getPageNum } from '@/utils/shared';
-import { getApiResponse } from '@/utils/shared/get-api-response';
 
 import { DataWithPages } from '@/types';
 

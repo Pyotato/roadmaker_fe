@@ -18,9 +18,7 @@ import TipTapTextEditor from '@/components/shared/tiptap/TipTapTextEditor';
 import { EMPTY_YOUTUBE_HTML, REGEX_HTTP, YOUTUBE_SEARCH } from '@/constants';
 import { newUrl, omit } from '@/utils/shared';
 
-interface CustomNodeWithDetails extends Node {
-  detailedContent?: string;
-}
+import { CustomNodeWithDetails } from '@/types/reactFlow';
 
 const DetailContentEditor = ({
   clickedNode,

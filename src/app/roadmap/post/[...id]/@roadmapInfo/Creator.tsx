@@ -3,7 +3,7 @@ import { PropsWithChildren } from 'react';
 
 import { Member } from '@/components/MainPage';
 
-import { randomAvartars } from '@/constants/default/avatars';
+import { randomAvartars } from '@/utils/avatars';
 import { toTSXString } from '@/utils/shared';
 
 import { AboutInfo } from './page';

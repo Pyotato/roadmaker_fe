@@ -29,9 +29,9 @@ import {
   IconSitemap,
   IconX,
 } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import {
   Dispatch,
   SetStateAction,
@@ -41,15 +41,15 @@ import {
 } from 'react';
 import { Connection, Edge, Node } from 'reactflow';
 
-import { apiRoutes, SUCCESS, WARNING, WarningKeys } from '@/constants';
+import { API_ROUTES, SUCCESS, WARNING } from '@/constants';
+import { getApiResponse } from '@/utils/get-api-response';
+import { getItem, removeItem, setItem } from '@/utils/localStorage';
 import { omit } from '@/utils/shared';
-import { getApiResponse } from '@/utils/shared/get-api-response';
-import { getItem, removeItem, setItem } from '@/utils/shared/localStorage';
 
+import { Args } from '@/types';
+import { WarningKeys } from '@/types/alert';
 import { CustomEdge, CustomNode } from '@/types/reactFlow';
-interface Args {
-  [key: string]: string;
-}
+
 const PanelItem = ({
   onAddNode,
   nodes,
@@ -168,7 +168,7 @@ const PanelItem = ({
           edges: tempEdges,
           viewport: { x: 0, y: 0, zoom: 0.45 },
         }),
-        apiEndpoint: `${apiRoutes.roadmaps}`,
+        apiEndpoint: `${API_ROUTES.roadmaps}`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -194,7 +194,7 @@ const PanelItem = ({
     await Promise.all([
       getApiResponse<undefined>({
         requestData: formData,
-        apiEndpoint: `${apiRoutes.roadmapsSlash}${response}/thumbnails`,
+        apiEndpoint: `${API_ROUTES.roadmapsSlash}${response}/thumbnails`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -202,7 +202,7 @@ const PanelItem = ({
       }),
       getApiResponse<undefined>({
         requestData: JSON.stringify({}),
-        apiEndpoint: `${apiRoutes.roadmapsSlash}${response}/join`,
+        apiEndpoint: `${API_ROUTES.roadmapsSlash}${response}/join`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${accessToken}`,

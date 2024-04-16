@@ -15,8 +15,8 @@ import { useRouter } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import { useState } from 'react';
 
-import { apiRoutes, FAIL, SUCCESS } from '@/constants';
-import { getApiResponse } from '@/utils/shared/get-api-response';
+import { API_ROUTES, FAIL, SUCCESS } from '@/constants';
+import { getApiResponse } from '@/utils/get-api-response';
 
 export default function AuthPage() {
   const [nickname, setNickname] = useState('');
@@ -41,7 +41,7 @@ export default function AuthPage() {
           nickname: nickname,
           password: password,
         }),
-        apiEndpoint: `${apiRoutes.signup}`,
+        apiEndpoint: `${API_ROUTES.signup}`,
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

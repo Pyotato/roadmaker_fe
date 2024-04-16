@@ -38,9 +38,6 @@ export const WARNING = {
   },
 };
 
-export type Warning = typeof WARNING;
-export type WarningKeys = keyof Warning;
-
 export const SUCCESS = {
   comment: {
     id: 'roadmap-comment-success',
@@ -70,9 +67,6 @@ export const SUCCESS = {
   },
 };
 
-export type Success = typeof SUCCESS;
-export type SuccessKeys = keyof Success;
-
 export const FAIL = {
   409: {
     id: 'duplicate-info-error',
@@ -90,6 +84,3 @@ export const FAIL = {
     color: 'red',
   },
 };
-
-export type Fail = typeof FAIL;
-export type FailKeys = keyof Fail;

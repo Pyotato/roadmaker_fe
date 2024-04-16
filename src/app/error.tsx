@@ -4,7 +4,7 @@ import * as React from 'react';
 
 import NotFound from '@/components/NotFound';
 
-import { consoleLog } from '@/utils/shared/console-log';
+import { consoleLog } from '@/utils/console-log';
 
 export default function ErrorPage({
   error,

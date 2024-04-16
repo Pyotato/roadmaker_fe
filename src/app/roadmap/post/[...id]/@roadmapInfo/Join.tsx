@@ -8,9 +8,9 @@ import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
 import { PropsWithChildren, useState } from 'react';
 
-import { apiRoutes, SUCCESS, WARNING } from '@/constants';
+import { API_ROUTES, SUCCESS, WARNING } from '@/constants';
+import { getApiResponse } from '@/utils/get-api-response';
 import { omit } from '@/utils/shared';
-import { getApiResponse } from '@/utils/shared/get-api-response';
 
 import { RoadMapInfoQuery } from './Likes';
 
@@ -32,7 +32,7 @@ const Join = ({ joinInfo }: JoinProps) => {
     const accessToken = session as unknown as JWT;
     const res = await Promise.resolve(
       getApiResponse<number>({
-        apiEndpoint: `${apiRoutes.roadmapsSlash}${params.id}/join`,
+        apiEndpoint: `${API_ROUTES.roadmapsSlash}${params.id}/join`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${accessToken?.token}`,

@@ -10,7 +10,7 @@ import {
 import { Editor } from '@tiptap/react';
 
 import { warning } from '@/constants';
-import { getApiResponse } from '@/utils/shared/get-api-response';
+import { getApiResponse } from '@/utils/get-api-response';
 
 const TipTapTextEditor = ({ editor }: { editor: Editor | null }) => {
   let url = '';

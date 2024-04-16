@@ -4,7 +4,7 @@ import { IconCircleFilled, IconRectangleFilled } from '@tabler/icons-react';
 import { Dispatch, SetStateAction, useMemo } from 'react';
 import { Node, useUpdateNodeInternals } from 'reactflow';
 
-import { defaultNodes } from '@/constants';
+import { DEFAULT_NODES } from '@/constants';
 import { omit, pick } from '@/utils/shared';
 
 import { NodeStyle } from '@/types/reactFlow';
@@ -39,7 +39,7 @@ const NodeShapePicker = ({
             ) as Omit<NodeStyle, 'borderRadius'>;
             const defaultStyle = {
               ...styleWithoutBorderRadius,
-              borderRadius: defaultNodes[0].style.borderRadius,
+              borderRadius: DEFAULT_NODES[0].style.borderRadius,
               aspectRatio: 'auto',
             };
             const currNode = nodes.filter((v) => v.id == clickedNode.id);

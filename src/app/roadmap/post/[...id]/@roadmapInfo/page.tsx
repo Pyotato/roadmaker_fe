@@ -10,9 +10,9 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { Member, Post } from '@/components/MainPage';
 
-import { apiRoutes, SUCCESS } from '@/constants';
+import { API_ROUTES, SUCCESS } from '@/constants';
+import { getApiResponse } from '@/utils/get-api-response';
 import { omit, pick } from '@/utils/shared';
-import { getApiResponse } from '@/utils/shared/get-api-response';
 
 import About from './About';
 import ReactFlow from './reactFlow/ReactFlow';
@@ -72,7 +72,7 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
     if (tokenState) {
       roadMapInfo = await Promise.resolve(
         getApiResponse<RoadMapInfo>({
-          apiEndpoint: `${apiRoutes.roadmaps}/${pageParam}`,
+          apiEndpoint: `${API_ROUTES.roadmaps}/${pageParam}`,
           revalidate: 60 * 2, // 5 mins cache
           headers: {
             Authorization: `Bearer ${tokenState}`,
@@ -82,7 +82,7 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
     } else {
       roadMapInfo = await Promise.resolve(
         getApiResponse<RoadMapInfo>({
-          apiEndpoint: `${apiRoutes.roadmaps}/${pageParam}`,
+          apiEndpoint: `${API_ROUTES.roadmaps}/${pageParam}`,
           revalidate: 60 * 2, // 5 mins cache
         }),
       );

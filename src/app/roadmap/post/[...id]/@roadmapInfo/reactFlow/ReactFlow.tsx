@@ -16,8 +16,8 @@ import CustomBezierEdge from '@/components/reactflow/custom/edge/BezierEdge';
 import { QuadroHandleNode } from '@/components/reactflow/custom/node/QuadroHandleNode';
 
 import { ReactFlowInfo } from '@/app/roadmap/post/[...id]/@roadmapInfo/page';
-import NodeDetails from '@/app/roadmap/post/[...id]/@roadmapInfo/reactFlow/nodeDetail/TiptapEditor';
-import { edgeOptions } from '@/constants';
+import NodeDetails from '@/app/roadmap/post/[...id]/@roadmapInfo/reactFlow/TiptapEditor';
+import { DEFAULT_EDGE_OPTIONS } from '@/constants';
 
 import { CustomEdge, CustomNode } from '@/types/reactFlow';
 interface ReactFlowProps extends PropsWithChildren {
@@ -102,9 +102,9 @@ const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
       <ReactFlowProvider>
         <ReactFlow
           fitView
-          defaultEdgeOptions={edgeOptions}
+          defaultEdgeOptions={DEFAULT_EDGE_OPTIONS}
           connectionLineType={ConnectionLineType.SmoothStep}
-          connectionLineStyle={{ stroke: edgeOptions.style.stroke }}
+          connectionLineStyle={{ stroke: DEFAULT_EDGE_OPTIONS.style.stroke }}
           preventScrolling={false}
           nodes={nodeState}
           nodeTypes={nodeTypes}

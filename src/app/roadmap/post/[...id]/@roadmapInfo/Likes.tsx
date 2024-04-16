@@ -8,9 +8,9 @@ import { JWT } from 'next-auth/jwt';
 import { signOut, useSession } from 'next-auth/react';
 import { PropsWithChildren, useState } from 'react';
 
-import { apiRoutes, FAIL, IS_PROD, siteRoutes, WARNING } from '@/constants';
+import { API_ROUTES, FAIL, IS_PROD, SITE_ROUTES, WARNING } from '@/constants';
+import { getApiResponse } from '@/utils/get-api-response';
 import { omit, toTSXString } from '@/utils/shared';
-import { getApiResponse } from '@/utils/shared/get-api-response';
 
 import { AboutInfo, RoadMapInfo } from './page';
 
@@ -45,7 +45,7 @@ const Likes = ({ likesInfo }: LikeProps) => {
     const accessToken = session as unknown as JWT;
     const likes = await Promise.resolve(
       getApiResponse<likePostResponse>({
-        apiEndpoint: `${apiRoutes.likes}${params.id}`,
+        apiEndpoint: `${API_ROUTES.likes}${params.id}`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${accessToken?.token}`,
@@ -65,7 +65,7 @@ const Likes = ({ likesInfo }: LikeProps) => {
       });
       setTimeout(() => {
         signOut({
-          callbackUrl: IS_PROD ? siteRoutes.signIn : siteRoutes.signInDev,
+          callbackUrl: IS_PROD ? SITE_ROUTES.signIn : SITE_ROUTES.signInDev,
         });
       }, 1100);
 

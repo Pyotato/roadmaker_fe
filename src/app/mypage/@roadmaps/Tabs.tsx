@@ -4,7 +4,7 @@ import { IconPencil, IconPhoto } from '@tabler/icons-react';
 import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
-import { getItem, setItem } from '@/utils/shared/localStorage';
+import { getItem, setItem } from '@/utils/localStorage';
 
 import CreatedRoadmapList from './created/CreatedRoadmaps';
 import InProgressRoadmapList from './in-progress/InProgressRoadmaps';

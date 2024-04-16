@@ -12,12 +12,12 @@ import { useEffect, useState } from 'react';
 
 import ProfileSkeleton from '@/components/shared/ProfileSkeleton';
 
-import { apiRoutes, FAIL, IS_PROD, siteRoutes } from '@/constants';
-import { randomAvartars } from '@/constants/default/avatars';
-import { getApiResponse } from '@/utils/shared/get-api-response';
+import { API_ROUTES, FAIL, IS_PROD, SITE_ROUTES } from '@/constants';
+import { randomAvartars } from '@/utils/avatars';
+import { getApiResponse } from '@/utils/get-api-response';
 
-import UpdateAvatarForm from './forms/Avatar';
-import UpdateMemberProfileForm from './forms/UserInfo';
+import UpdateMemberProfileForm from './ProfileForm';
+import UpdateAvatarForm from './ProfileImageForm';
 
 import { UserDataResponse } from '@/types/user';
 
@@ -29,7 +29,7 @@ const UserData = () => {
   const [modalContent, setModalContent] = useState('');
 
   if (status === 'unauthenticated') {
-    router.replace(IS_PROD ? siteRoutes.signIn : siteRoutes.signInDev);
+    router.replace(IS_PROD ? SITE_ROUTES.signIn : SITE_ROUTES.signInDev);
   }
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const UserData = () => {
   const loadDataFromApi = async () => {
     const [userData] = await Promise.all([
       getApiResponse<UserDataResponse>({
-        apiEndpoint: `${apiRoutes.userInfoSlash}${user?.id}`,
+        apiEndpoint: `${API_ROUTES.userInfoSlash}${user?.id}`,
         revalidate: 60 * 24, // 1 hr cache
       }),
     ]);

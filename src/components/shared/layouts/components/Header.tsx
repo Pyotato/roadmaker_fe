@@ -76,7 +76,8 @@ const Header = ({ openModal }: { openModal: (fn: () => void) => void }) => {
           <Divider my='sm' />
           <Box m='md'>
             <UnstyledButton
-              display='inline-flex align-ctr'
+              display='inline-flex'
+              className='hvr-text align-ctr'
               onClick={() => {
                 if (currPath === '/roadmap/create') {
                   openModal(() => router.push('/'));
@@ -91,7 +92,6 @@ const Header = ({ openModal }: { openModal: (fn: () => void) => void }) => {
                 router.push('/');
                 closeDrawer();
               }}
-              className='hvr-text align-ctr'
             >
               <IconHome />
               <Text pl='xs'>홈</Text>

@@ -96,11 +96,11 @@ export const GlobalStyle = createGlobalStyle`
 
 
 	.footer {
-  margin-top: rem(120px);
-  padding-top: calc(var(--mantine-spacing-xl) * 2);
-  background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
-  border-top: rem(1px) solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
-}
+    margin-top: 2rem !important;
+    padding-top: calc(var(--mantine-spacing-xl) * 2);
+    background-color: light-dark(var(--mantine-color-gray-0), var(--mantine-color-dark-6));
+    border-top: rem(1px) solid light-dark(var(--mantine-color-gray-2), var(--mantine-color-dark-5));
+  }
 
 .logo {
   max-width: rem(200px);
@@ -280,6 +280,7 @@ iframe {
   }
   .logo-img{
     width: 30px;
+    height: 30px;
   }
   .align-ctr{
     align-items: center ;

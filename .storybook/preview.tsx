@@ -1,47 +1,46 @@
+import { MantineProvider } from '@mantine/core';
+
 import { withThemeFromJSXProvider } from '@storybook/addon-themes';
-import { createGlobalStyle, ThemeProvider } from 'styled-components';
-
-// Import styles of packages that you've installed.
-// All packages except `@mantine/hooks` require styles imports
-import '@mantine/core/styles.css';
-
-import { MantineProvider, useMantineColorScheme } from '@mantine/core';
 import { addons } from '@storybook/preview-api';
-import React, { useEffect } from 'react';
-import { DARK_MODE_EVENT_NAME } from 'storybook-dark-mode';
-// theme.ts file from previous step
-import { theme } from '../src/theme';
+
+import React from 'react';
+import { GlobalStyle } from '../src/styles/globalStyle';
+
+import { ModalsProvider } from '@mantine/modals';
+import '@mantine/tiptap/styles.css';
+import { QueryCache } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
+import 'reactflow/dist/style.css';
+import { ThemeProvider } from 'styled-components';
+import SessionWrapper from '../src/providers/SessionProvider';
+import StyledComponentsProvider from '../src/providers/StyledComponentsProvider';
+import { theme as colortheme } from '../src/styles/theme';
+
+const queryCache = new QueryCache();
+
+export const parameters = {
+  actions: { argTypesRegex: '^on[A-Z].*' },
+};
 
 const channel = addons.getChannel();
 
-const GlobalStyles = createGlobalStyle`
-  body {
-    font-family: "Nunito Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  }
-`;
-
-function ColorSchemeWrapper({ children }: { children: React.ReactNode }) {
-  const { setColorScheme } = useMantineColorScheme();
-  const handleColorScheme = (value: boolean) =>
-    setColorScheme(value ? 'dark' : 'light');
-
-  useEffect(() => {
-    channel.on(DARK_MODE_EVENT_NAME, handleColorScheme);
-    return () => channel.off(DARK_MODE_EVENT_NAME, handleColorScheme);
-  }, [channel]);
-
-  return <>{children}</>;
-}
+const GlobalStyles = GlobalStyle;
+const session = useSession();
 
 export const decorators = [
   (renderStory: any) => (
-    <ColorSchemeWrapper>{renderStory()}</ColorSchemeWrapper>
-  ),
-  (renderStory: any) => (
-    <MantineProvider theme={theme}>{renderStory()}</MantineProvider>
+    <ThemeProvider theme={colortheme}>
+      <MantineProvider>
+        <SessionWrapper>
+          <ModalsProvider>
+            <StyledComponentsProvider>{renderStory()}</StyledComponentsProvider>
+          </ModalsProvider>
+        </SessionWrapper>
+      </MantineProvider>
+    </ThemeProvider>
   ),
   withThemeFromJSXProvider({
-    GlobalStyles, // Adds your GlobalStyle component to all stories
     Provider: ThemeProvider,
+    GlobalStyles,
   }),
 ];

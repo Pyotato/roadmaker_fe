@@ -9,9 +9,10 @@ const config: StorybookConfig = {
     '@chromatic-com/storybook',
     '@storybook/addon-interactions',
     '@storybook/addon-styling-webpack',
-    'storybook-addon-react-router-v6',
     'storybook-dark-mode',
+    '@storybook/addon-styling',
     'storybook-addon-mantine',
+    '@tomfreudenberg/next-auth-mock/storybook',
   ],
   framework: {
     name: '@storybook/nextjs',

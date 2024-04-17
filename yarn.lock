@@ -3926,6 +3926,11 @@
     "@tiptap/extension-strike" "^2.3.0"
     "@tiptap/extension-text" "^2.3.0"
 
+"@tomfreudenberg/next-auth-mock@^0.5.6":
+  version "0.5.6"
+  resolved "https://registry.yarnpkg.com/@tomfreudenberg/next-auth-mock/-/next-auth-mock-0.5.6.tgz#d4490f2408b6d7e8f471463c006fb990563a0311"
+  integrity sha512-fSZJY5rUyj8GIcJI450ZV7FV/CMzpjUUGhPiaRyQo9l7l5mLvrnNe1MymzOnLpgXIkFja+CF/UHFGW807QcwmA==
+
 "@tootallnate/once@2":
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"

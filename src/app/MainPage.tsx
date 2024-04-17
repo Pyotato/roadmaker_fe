@@ -1,15 +1,17 @@
 'use client';
 
 import { useInfiniteQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
+
+import PageFooter from '@/components/shared/layouts/PageFooter';
+import { SkeletonCardsGrid } from '@/components/shared/SkeletonGrid';
 
 import { API_ROUTES } from '@/constants';
 import { getApiResponse } from '@/utils/get-api-response';
 import { getPageNum } from '@/utils/shared';
 
 import { ItemsCardsGrid } from '../components/shared/ItemsCardsGrid';
-import { SkeletonCardsGrid } from '../components/shared/SkeletonGrid';
 
 import { Postdata } from '@/types/post';
 
@@ -62,24 +64,27 @@ export default function Mainpage() {
       </>
     );
   }
-  if (isLoading) return <SkeletonCardsGrid />;
-
+  // if (isLoading) return <SkeletonCardsGrid />;
+  if (isLoading) return <></>;
   if (posts)
     return (
       <main>
         <section>
-          {posts.pages.map(({ postData }, index) =>
-            postData?.next ? (
-              <ItemsCardsGrid
-                key={index}
-                postData={postData?.result}
-                innerRef={ref}
-              />
-            ) : (
-              <ItemsCardsGrid key={index} postData={postData?.result || []} />
-            ),
-          )}
+          <Suspense fallback={<SkeletonCardsGrid />}>
+            {posts.pages.map(({ postData }, index) =>
+              postData?.next ? (
+                <ItemsCardsGrid
+                  key={index}
+                  postData={postData?.result}
+                  innerRef={ref}
+                />
+              ) : (
+                <ItemsCardsGrid key={index} postData={postData?.result || []} />
+              ),
+            )}
+          </Suspense>
         </section>
+        {!hasNextPage && <PageFooter />}
       </main>
     );
 }

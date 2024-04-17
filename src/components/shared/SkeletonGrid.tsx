@@ -14,7 +14,7 @@ export interface PostProps extends PropsWithChildren {
 }
 
 export function SkeletonCardsGrid() {
-  const data = new Array(20).fill(POST);
+  const data = new Array(6).fill(POST);
 
   const cards = data.map((article, i) => (
     <Wrap key={article?.id + i}>

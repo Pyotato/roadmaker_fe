@@ -2,7 +2,9 @@
 import { Tabs, TabsList, TabsPanel, TabsTab } from '@mantine/core';
 import { IconPencil, IconPhoto } from '@tabler/icons-react';
 import { usePathname } from 'next/navigation';
-import { useEffect, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
+
+import { SkeletonCardsGrid } from '@/components/shared/SkeletonGrid';
 
 import { ROADMAKER_MYPAGE_TAB } from '@/constants';
 import { CREATED_TAB, IN_PROGRESS_TAB } from '@/constants/tabs';
@@ -53,6 +55,7 @@ export default function MyRoadmapsTabs() {
         >
           <IconPhoto size='0.8rem' /> 진행 중인 로드맵
         </TabsTab>
+
         <TabsTab
           value={CREATED_TAB}
           onClick={() => {
@@ -69,7 +72,9 @@ export default function MyRoadmapsTabs() {
         <InProgressRoadmapList />
       </TabsPanel>
       <TabsPanel value={CREATED_TAB}>
-        <CreatedRoadmapList />
+        <Suspense fallback={<SkeletonCardsGrid />}>
+          <CreatedRoadmapList />
+        </Suspense>
       </TabsPanel>
     </Tabs>
   );

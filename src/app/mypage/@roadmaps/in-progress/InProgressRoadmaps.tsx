@@ -5,7 +5,7 @@ import { IconCheck } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { JWT } from 'next-auth/jwt';
 import { signIn, useSession } from 'next-auth/react';
-import { useMemo, useState } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import styled from 'styled-components';
 
 import NotFound from '@/components/NotFound';
@@ -97,7 +97,9 @@ const InProgressRoadmapList = () => {
       return <GridWrap></GridWrap>;
     return (
       <GridWrap>
-        <ItemsCardsGrid postData={data.roadMapInfo || []} />
+        <Suspense fallback={<SkeletonCardsGrid />}>
+          <ItemsCardsGrid postData={data.roadMapInfo || []} />
+        </Suspense>
       </GridWrap>
     );
   }

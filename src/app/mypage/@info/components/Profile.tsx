@@ -8,7 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import ProfileSkeleton from '@/components/shared/ProfileSkeleton';
@@ -81,61 +81,63 @@ const UserData = () => {
   if (isSuccess) {
     return (
       <AvatarWrap>
-        <Tooltip label='이미지 변경'>
-          <Avatar
-            src={
-              userInfo?.userData?.avatarUrl ||
-              randomAvartars(userInfo?.userData?.id)
-            }
-            className='hvr'
-            radius='100%'
-            size='xl'
-            onClick={() => {
-              open();
-              setModalContent('avatar');
-            }}
-          />
-        </Tooltip>
-        <Tooltip.Floating label='내 정보 수정'>
-          <Box
-            className='hvr'
-            onClick={() => {
-              open();
-              setModalContent('myInfo');
-            }}
-          >
-            <Text
-              fz='xl'
-              gradient={{ from: 'violet', to: 'cyan', deg: 62 }}
+        <Suspense fallback={<ProfileSkeleton />}>
+          <Tooltip label='이미지 변경'>
+            <Avatar
+              src={
+                userInfo?.userData?.avatarUrl ||
+                randomAvartars(userInfo?.userData?.id)
+              }
+              className='hvr'
+              radius='100%'
               size='xl'
-              fw={900}
-              variant='gradient'
-            >
-              {userInfo?.userData?.nickname}
-            </Text>
-            <Text
-              size='md'
-              mt='sm'
-              truncate='end'
-              lineClamp={4}
-              className='text-area'
-            >
-              {userInfo?.userData?.bio || '나에 대한 소개를 해볼까요?'}
-            </Text>
-          </Box>
-        </Tooltip.Floating>
-        <Modal opened={opened} onClose={close} centered>
-          {modalContent === 'avatar' ? (
-            <UpdateAvatarForm close={close} userId={userInfo?.userData?.id} />
-          ) : (
-            <UpdateMemberProfileForm
-              close={close}
-              userId={userInfo?.userData?.id}
-              userNickName={userInfo?.userData?.nickname}
-              userBio={userInfo?.userData?.bio}
+              onClick={() => {
+                open();
+                setModalContent('avatar');
+              }}
             />
-          )}
-        </Modal>
+          </Tooltip>
+          <Tooltip.Floating label='내 정보 수정'>
+            <Box
+              className='hvr'
+              onClick={() => {
+                open();
+                setModalContent('myInfo');
+              }}
+            >
+              <Text
+                fz='xl'
+                gradient={{ from: 'violet', to: 'cyan', deg: 62 }}
+                size='xl'
+                fw={900}
+                variant='gradient'
+              >
+                {userInfo?.userData?.nickname}
+              </Text>
+              <Text
+                size='md'
+                mt='sm'
+                truncate='end'
+                lineClamp={4}
+                className='text-area'
+              >
+                {userInfo?.userData?.bio || '나에 대한 소개를 해볼까요?'}
+              </Text>
+            </Box>
+          </Tooltip.Floating>
+          <Modal opened={opened} onClose={close} centered>
+            {modalContent === 'avatar' ? (
+              <UpdateAvatarForm close={close} userId={userInfo?.userData?.id} />
+            ) : (
+              <UpdateMemberProfileForm
+                close={close}
+                userId={userInfo?.userData?.id}
+                userNickName={userInfo?.userData?.nickname}
+                userBio={userInfo?.userData?.bio}
+              />
+            )}
+          </Modal>
+        </Suspense>
       </AvatarWrap>
     );
   }

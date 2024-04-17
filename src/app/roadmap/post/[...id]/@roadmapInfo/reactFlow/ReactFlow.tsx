@@ -1,7 +1,7 @@
 'use client';
 
 import { Drawer, ScrollArea } from '@mantine/core';
-import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import ReactFlow, {
   ConnectionLineType,
   Edge,
@@ -12,22 +12,13 @@ import ReactFlow, {
 } from 'reactflow';
 import styled from 'styled-components';
 
-import CustomBezierEdge from '@/components/reactflow/custom/edge/BezierEdge';
-import { QuadroHandleNode } from '@/components/reactflow/custom/node/QuadroHandleNode';
+import CustomBezierEdge from '@/app/roadmap/BezierEdge';
+import { QuadroHandleNode } from '@/app/roadmap/post/[...id]/@roadmapInfo/reactFlow/QuadroHandleNode';
+import NodeDetails from '@/app/roadmap/post/[...id]/@roadmapInfo/reactFlow/TiptapEditor';
+import { DEFAULT_EDGE_OPTIONS } from '@/constants';
 
-import { ReactFlowInfo } from '@/app/roadmap/post/[...id]/@roadmapInfo/page';
-import NodeDetails from '@/app/roadmap/post/[...id]/@roadmapInfo/reactFlow/nodeDetail/TiptapEditor';
-import { edgeOptions } from '@/constants';
-
-import { CustomEdge, CustomNode } from '@/types/reactFlow';
-interface ReactFlowProps extends PropsWithChildren {
-  reactFlowInfo: ReactFlowInfo;
-}
-
-export interface DetailedContent {
-  id: CustomNode['id'];
-  detailedContent: CustomNode['detailedContent'];
-}
+import { DetailedContent, ReactFlowProps } from '@/types/post';
+import { CustomEdge, ReactFlowInfo } from '@/types/reactFlow';
 
 const proOptions = { hideAttribution: true };
 
@@ -95,16 +86,14 @@ const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
       style={{
         height: `${getRangePx(getHeight, 300)}`,
         width: `${getRangePx(getWidth, 396)}`,
-        padding: '1rem',
-        overflowX: 'visible',
       }}
     >
       <ReactFlowProvider>
         <ReactFlow
           fitView
-          defaultEdgeOptions={edgeOptions}
+          defaultEdgeOptions={DEFAULT_EDGE_OPTIONS}
           connectionLineType={ConnectionLineType.SmoothStep}
-          connectionLineStyle={{ stroke: edgeOptions.style.stroke }}
+          connectionLineStyle={{ stroke: DEFAULT_EDGE_OPTIONS.style.stroke }}
           preventScrolling={false}
           nodes={nodeState}
           nodeTypes={nodeTypes}
@@ -139,7 +128,7 @@ const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
         >
           <Drawer.Content>
             <Drawer.CloseButton mr='1rem' mt='1rem' ml='1rem' />
-            <Drawer.Body p='1rem' style={{ height: '100vh', width: '27.6rem' }}>
+            <Drawer.Body p='1rem' className='drawer-body'>
               <NodeDetails details={openNode} />
             </Drawer.Body>
           </Drawer.Content>
@@ -150,6 +139,8 @@ const ReactFlowRoadmap = ({ reactFlowInfo }: ReactFlowProps) => {
 };
 
 const Wrap = styled.div`
+  padding: 1rem;
+  overflow-x: visible;
   .react-flow__node.react-flow__node-custom {
     max-width: 15rem !important;
     width: fit-content !important;

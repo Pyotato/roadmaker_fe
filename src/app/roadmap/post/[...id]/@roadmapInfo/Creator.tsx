@@ -1,18 +1,10 @@
-import { Avatar, Box, Title } from '@mantine/core';
-import { PropsWithChildren } from 'react';
+import { Avatar, Title } from '@mantine/core';
 
-import { Member } from '@/components/MainPage';
-
-import { randomAvartars } from '@/constants/default/avatars';
+import { randomAvartars } from '@/utils/avatars';
 import { toTSXString } from '@/utils/shared';
 
-import { AboutInfo } from './page';
-
-interface CreatorProps extends PropsWithChildren {
-  creatorInfo: {
-    member: AboutInfo['member'];
-  };
-}
+import { CreatorProps } from '@/types/post';
+import { Member } from '@/types/user';
 
 const Creator = ({ creatorInfo }: CreatorProps) => {
   const { member } = creatorInfo;
@@ -28,14 +20,12 @@ const Creator = ({ creatorInfo }: CreatorProps) => {
   } = member as Member;
   return (
     <>
-      <Box style={{ width: '24px' }}>
-        <Avatar
-          src={avatarUrl || randomAvartars(id)}
-          alt={toTSXString(avatarUrl)}
-          radius='xl'
-          size='sm'
-        />
-      </Box>
+      <Avatar
+        src={avatarUrl || randomAvartars(id)}
+        alt={toTSXString(avatarUrl)}
+        radius='xl'
+        size='sm'
+      />
       <Title order={6}>{toTSXString(nickname)}</Title>
     </>
   );

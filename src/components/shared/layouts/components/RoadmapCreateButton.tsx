@@ -11,9 +11,8 @@ const RoadmapCreateButton = ({ closeDrawer }: { closeDrawer: () => void }) => {
     return (
       <UnstyledButton
         type='button'
-        className='hvr-text'
+        className='hvr-text align-ctr'
         display='inline-flex'
-        style={{ alignItems: 'center' }}
         onClick={() => {
           closeDrawer();
           router.push('/roadmap/create');

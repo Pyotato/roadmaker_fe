@@ -9,30 +9,18 @@ import { useRouter } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import ProfileSkeleton from '@/components/shared/ProfileSkeleton';
 
-import { apiRoutes, fail, IS_PROD, siteRoutes } from '@/constants';
-import { randomAvartars } from '@/constants/default/avatars';
-import { getApiResponse } from '@/utils/shared/get-api-response';
+import { API_ROUTES, FAIL, IS_PROD, SITE_ROUTES } from '@/constants';
+import { randomAvartars } from '@/utils/avatars';
+import { getApiResponse } from '@/utils/get-api-response';
 
-import UpdateAvatarForm from './forms/Avatar';
-import UpdateMemberProfileForm from './forms/UserInfo';
+import UpdateMemberProfileForm from './ProfileForm';
+import UpdateAvatarForm from './ProfileImageForm';
 
-interface UserData {
-  avatarUrl?: null | string;
-  baekjoonId?: null | string;
-  bio?: null | string;
-  blogUrl?: null | string;
-  email: null | string;
-  githubUrl?: null | string;
-  id: number;
-  nickname: string;
-}
-
-interface UserDataResponse {
-  userData: UserData | null;
-}
+import { UserDataResponse } from '@/types/user';
 
 const UserData = () => {
   const { data: session, status } = useSession();
@@ -42,7 +30,7 @@ const UserData = () => {
   const [modalContent, setModalContent] = useState('');
 
   if (status === 'unauthenticated') {
-    router.replace(IS_PROD ? siteRoutes.signIn : siteRoutes.signInDev);
+    router.replace(IS_PROD ? SITE_ROUTES.signIn : SITE_ROUTES.signInDev);
   }
 
   useEffect(() => {
@@ -54,7 +42,7 @@ const UserData = () => {
   const loadDataFromApi = async () => {
     const [userData] = await Promise.all([
       getApiResponse<UserDataResponse>({
-        apiEndpoint: `${apiRoutes.userInfoSlash}${user?.id}`,
+        apiEndpoint: `${API_ROUTES.userInfoSlash}${user?.id}`,
         revalidate: 60 * 24, // 1 hr cache
       }),
     ]);
@@ -78,13 +66,13 @@ const UserData = () => {
   if (isLoading) return <ProfileSkeleton />;
   if (isError) {
     notifications.show({
-      id: fail['500'].id,
+      id: FAIL['500'].id,
       withCloseButton: true,
       autoClose: 2000,
-      title: fail['500'].title,
+      title: FAIL['500'].title,
       message: `서버에서 예기치 못한 에러가 발생했습니다🥲\n${error}`,
-      color: fail['500'].color,
-      icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+      color: FAIL['500'].color,
+      icon: <IconCheck className='icon' />,
     });
     setTimeout(() => {
       router.replace('/');
@@ -92,14 +80,7 @@ const UserData = () => {
   }
   if (isSuccess) {
     return (
-      <Box
-        style={{
-          display: 'inline-flex',
-          width: '100%',
-          alignItems: 'center',
-          gap: '1.5rem',
-        }}
-      >
+      <AvatarWrap>
         <Tooltip label='이미지 변경'>
           <Avatar
             src={
@@ -137,7 +118,7 @@ const UserData = () => {
               mt='sm'
               truncate='end'
               lineClamp={4}
-              style={{ whiteSpace: 'pre-wrap' }}
+              className='text-area'
             >
               {userInfo?.userData?.bio || '나에 대한 소개를 해볼까요?'}
             </Text>
@@ -155,8 +136,19 @@ const UserData = () => {
             />
           )}
         </Modal>
-      </Box>
+      </AvatarWrap>
     );
   }
 };
 export default UserData;
+
+const AvatarWrap = styled.div`
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  gap: 1.5rem;
+
+  .text-area {
+    white-space: pre-wrap;
+  }
+`;

@@ -6,32 +6,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { signOut, useSession } from 'next-auth/react';
-import { PropsWithChildren, useState } from 'react';
+import { useState } from 'react';
 
-import { apiRoutes, fail, IS_PROD, siteRoutes, warning } from '@/constants';
+import { API_ROUTES, FAIL, IS_PROD, SITE_ROUTES, WARNING } from '@/constants';
+import { getApiResponse } from '@/utils/get-api-response';
 import { omit, toTSXString } from '@/utils/shared';
-import { getApiResponse } from '@/utils/shared/get-api-response';
 
-import { AboutInfo, RoadMapInfo } from './page';
-
-interface LikeProps extends PropsWithChildren {
-  likesInfo: {
-    isLiked: AboutInfo['isLiked'];
-    likeCount: AboutInfo['likeCount'];
-  };
-}
-
-export interface RoadMapInfoQuery {
-  roadMapInfo: RoadMapInfo;
-}
-
-export interface httpResponse {
-  httpStatus: number;
-  message: string;
-  errorCode: string;
-}
-
-type likePostResponse = httpResponse | LikeProps['likesInfo'];
+import { LikePostResponse, LikeProps, RoadMapInfoQuery } from '@/types/post';
 
 const Likes = ({ likesInfo }: LikeProps) => {
   const [likedCount, setLikedCount] = useState(likesInfo.likeCount);
@@ -44,8 +25,8 @@ const Likes = ({ likesInfo }: LikeProps) => {
   const postResponseFromApi = async () => {
     const accessToken = session as unknown as JWT;
     const likes = await Promise.resolve(
-      getApiResponse<likePostResponse>({
-        apiEndpoint: `${apiRoutes.likes}${params.id}`,
+      getApiResponse<LikePostResponse>({
+        apiEndpoint: `${API_ROUTES.likes}${params.id}`,
         method: 'POST',
         headers: {
           Authorization: `Bearer ${accessToken?.token}`,
@@ -55,17 +36,17 @@ const Likes = ({ likesInfo }: LikeProps) => {
 
     if (likes?.httpStatus === 401) {
       notifications.show({
-        id: fail['401'].id,
+        id: FAIL['401'].id,
         withCloseButton: true,
         autoClose: 1000,
-        title: fail['401'].title,
+        title: FAIL['401'].title,
         message: likes.message,
-        color: fail['401'].color,
-        icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+        color: FAIL['401'].color,
+        icon: <IconCheck className='icon' />,
       });
       setTimeout(() => {
         signOut({
-          callbackUrl: IS_PROD ? siteRoutes.signIn : siteRoutes.signInDev,
+          callbackUrl: IS_PROD ? SITE_ROUTES.signIn : SITE_ROUTES.signInDev,
         });
       }, 1100);
 
@@ -94,7 +75,7 @@ const Likes = ({ likesInfo }: LikeProps) => {
   };
 
   return (
-    <Box style={{ display: 'inline-flex', alignItems: 'center', gap: '1rem' }}>
+    <Box className='gap1 flex-items'>
       <IconHeart
         onClick={() => {
           if (status !== 'authenticated') {
@@ -102,14 +83,10 @@ const Likes = ({ likesInfo }: LikeProps) => {
               id: 'no-auth-alert',
               withCloseButton: true,
               autoClose: 1000,
-              title: warning.auth.title,
-              message: warning.auth.message,
-              color: warning.auth.color,
-              icon: (
-                <IconExclamationMark
-                  style={{ width: '20rem', height: '20rem' }}
-                />
-              ),
+              title: WARNING.auth.title,
+              message: WARNING.auth.message,
+              color: WARNING.auth.color,
+              icon: <IconExclamationMark className='icon' />,
               className: 'my-notification-class',
               loading: false,
             });
@@ -118,7 +95,7 @@ const Likes = ({ likesInfo }: LikeProps) => {
           postResponseFromApi();
         }}
         fill={liked ? 'red' : '#ffffff'}
-        style={{ color: 'red' }}
+        color='red'
         className='heart'
       />
       <Title order={6}>{toTSXString(likedCount)}</Title>

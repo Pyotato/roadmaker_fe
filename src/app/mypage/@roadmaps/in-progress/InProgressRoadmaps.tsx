@@ -1,20 +1,21 @@
 'use client';
 
-import { Box } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { JWT } from 'next-auth/jwt';
 import { signIn, useSession } from 'next-auth/react';
 import { useMemo, useState } from 'react';
+import styled from 'styled-components';
 
 import NotFound from '@/components/NotFound';
-import { ArticlesCardsGrid } from '@/components/shared/grid/ArticlesCardsGrid';
-import { SkeletonCardsGrid } from '@/components/shared/grid/SkeletonGrid';
+import { ItemsCardsGrid } from '@/components/shared/ItemsCardsGrid';
+import { SkeletonCardsGrid } from '@/components/shared/SkeletonGrid';
 
-import { RoadMapInfo } from '@/app/roadmap/post/[...id]/@roadmapInfo/page';
-import { apiRoutes, fail } from '@/constants';
-import { getApiResponse } from '@/utils/shared/get-api-response';
+import { API_ROUTES, FAIL } from '@/constants';
+import { getApiResponse } from '@/utils/get-api-response';
+
+import { RoadMapInfo } from '@/types/post';
 
 const InProgressRoadmapList = () => {
   const { data: session, status } = useSession();
@@ -34,7 +35,7 @@ const InProgressRoadmapList = () => {
     if (tokenState) {
       const res = await Promise.resolve(
         getApiResponse<RoadMapInfo>({
-          apiEndpoint: `${apiRoutes.userInfoSlash}${nickname}/in-progress-roadmaps`,
+          apiEndpoint: `${API_ROUTES.userInfoSlash}${nickname}/in-progress-roadmaps`,
           revalidate: 60 * 2, // 5 mins cache
           headers: {
             Authorization: `Bearer ${tokenState}`,
@@ -71,13 +72,13 @@ const InProgressRoadmapList = () => {
       const { errorCode, message } = data.roadMapInfo;
       if (errorCode === 401) {
         notifications.show({
-          id: fail['401'].id,
+          id: FAIL['401'].id,
           withCloseButton: true,
           autoClose: 6000,
-          title: fail['401'].title,
+          title: FAIL['401'].title,
           message: 'oops...something went wrong',
-          color: fail['401'].color,
-          icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+          color: FAIL['401'].color,
+          icon: <IconCheck className='icon' />,
         });
         return signIn();
       }
@@ -93,14 +94,18 @@ const InProgressRoadmapList = () => {
       data?.roadMapInfo.length === 0 ||
       data?.roadMapInfo[0]?.id === null
     )
-      return <Box h='64vh'></Box>;
+      return <GridWrap></GridWrap>;
     return (
-      <Box style={{ minHeight: '64vh' }}>
-        <ArticlesCardsGrid postData={data.roadMapInfo || []} />
-      </Box>
+      <GridWrap>
+        <ItemsCardsGrid postData={data.roadMapInfo || []} />
+      </GridWrap>
     );
   }
   return <>in progress roadmap list</>;
 };
 
 export default InProgressRoadmapList;
+
+export const GridWrap = styled.div`
+  min-height: 64vh;
+`;

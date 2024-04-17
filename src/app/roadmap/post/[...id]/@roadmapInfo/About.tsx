@@ -1,17 +1,13 @@
 import { Box, Container, Title } from '@mantine/core';
 import { IconCalendarMonth } from '@tabler/icons-react';
-import { PropsWithChildren } from 'react';
 
 import { toTSXString } from '@/utils/shared';
 
 import Creator from './Creator';
 import Join from './Join';
 import Likes from './Likes';
-import { AboutInfo } from './page';
 
-interface AboutProps extends PropsWithChildren {
-  aboutInfo: AboutInfo;
-}
+import { AboutProps } from '@/types/post';
 
 const About = ({ aboutInfo }: AboutProps) => {
   const {
@@ -27,33 +23,16 @@ const About = ({ aboutInfo }: AboutProps) => {
 
   return (
     <Container px='xl' my='xl'>
-      <Box
-        style={{ display: 'inline-flex', alignItems: 'center', width: '100%' }}
-      >
+      <Box className='title-wrap'>
         <Title order={1}>{toTSXString(title)}</Title>{' '}
       </Box>
       <Box my='md' className='txt-height'>
         {toTSXString(description)}
       </Box>
-      <Box
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          width: '100%',
-          gap: '1rem',
-        }}
-        mt='xs'
-      >
+      <Box className='title-wrap gap1' mt='xs'>
         <Creator creatorInfo={{ member }} />
       </Box>
-      <Box
-        style={{
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '1rem',
-        }}
-        my='xs'
-      >
+      <Box className='title-wrap gap1' my='xs'>
         <IconCalendarMonth />
         <Box>{toTSXString(createdAt)}</Box>
       </Box>

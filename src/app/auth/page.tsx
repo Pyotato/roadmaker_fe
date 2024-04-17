@@ -5,7 +5,6 @@ import {
   Button,
   Divider,
   PasswordInput,
-  Text,
   TextInput,
   Title,
 } from '@mantine/core';
@@ -14,9 +13,12 @@ import { IconAt, IconCheck, IconPassword, IconUser } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import { useState } from 'react';
+import styled from 'styled-components';
 
-import { apiRoutes, fail, success } from '@/constants';
-import { getApiResponse } from '@/utils/shared/get-api-response';
+import { API_ROUTES, FAIL, SUCCESS } from '@/constants';
+import { getApiResponse } from '@/utils/get-api-response';
+
+import LoginButton from './components/LoginButton';
 
 export default function AuthPage() {
   const [nickname, setNickname] = useState('');
@@ -41,7 +43,7 @@ export default function AuthPage() {
           nickname: nickname,
           password: password,
         }),
-        apiEndpoint: `${apiRoutes.signup}`,
+        apiEndpoint: `${API_ROUTES.signup}`,
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -50,13 +52,13 @@ export default function AuthPage() {
     );
     if (res?.httpStatus === 409) {
       notifications.show({
-        id: fail['409'].id,
+        id: FAIL['409'].id,
         withCloseButton: true,
         autoClose: 6000,
-        title: fail['409'].title,
+        title: FAIL['409'].title,
         message: res.message,
-        color: fail['409'].color,
-        icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+        color: FAIL['409'].color,
+        icon: <IconCheck className='icon' />,
       });
 
       if (res.errorCode === 'NicknameAlreadyRegistered') {
@@ -70,13 +72,13 @@ export default function AuthPage() {
     }
     if (res?.httpStatus === 201) {
       notifications.show({
-        id: success.signup.id,
+        id: SUCCESS.signup.id,
         withCloseButton: true,
         autoClose: 6000,
-        title: success.signup.title,
+        title: SUCCESS.signup.title,
         message: res.message,
-        color: success.signup.color,
-        icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+        color: SUCCESS.signup.color,
+        icon: <IconCheck className='icon' />,
       });
       await signIn('credentials', {
         email,
@@ -88,20 +90,10 @@ export default function AuthPage() {
   };
 
   return (
-    <div
-      style={{
-        display: 'inline-flex',
-        justifyContent: 'center',
-        height: '100vh',
-        width: '100%',
-      }}
-    >
-      <Box
-        style={{ display: 'inline-flex', height: '100%', alignItems: 'center' }}
-        p='xl'
-      >
+    <PageWrap>
+      <Box className='auth-box' p='xl'>
         <Box p='xl' className='login-box'>
-          <Title order={1} mb='lg' style={{ textAlign: 'center' }}>
+          <Title order={1} mb='lg' className='txt'>
             회원 가입
           </Title>
           <TextInput
@@ -162,13 +154,7 @@ export default function AuthPage() {
             leftSection={<IconPassword size={16} />}
             pb='md'
           />
-          <div
-            style={{
-              display: 'inline-flex',
-              justifyContent: 'flex-end',
-              width: '100%',
-            }}
-          >
+          <div className='flex-right'>
             <Button
               disabled={
                 !nickname ||
@@ -196,18 +182,25 @@ export default function AuthPage() {
             </Button>
           </div>
           <Divider my='xs' label='or' labelPosition='center' />
-          <Box mt='lg'>
-            <Text
-              className='hvr txt'
-              onClick={() => signIn()}
-              size='sm'
-              ta='center'
-            >
-              로그인하러 가기
-            </Text>
-          </Box>
+          <LoginButton />
         </Box>
       </Box>
-    </div>
+    </PageWrap>
   );
 }
+
+const PageWrap = styled.div`
+  display: inline-flex;
+  justify-content: center;
+  height: 100vh;
+  width: 100%;
+
+  .auth-box {
+    display: inline-flex;
+    height: 100%;
+    align-items: center;
+  }
+  .txt {
+    text-align: center;
+  }
+`;

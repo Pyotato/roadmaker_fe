@@ -11,6 +11,7 @@ module.exports = {
     'next/core-web-vitals',
     'plugin:@typescript-eslint/recommended',
     'prettier',
+    'plugin:storybook/recommended',
   ],
   rules: {
     //#region  //*=========== jsx-a11y/label-has-associated-control ===========

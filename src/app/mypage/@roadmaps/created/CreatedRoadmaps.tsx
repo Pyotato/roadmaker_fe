@@ -1,19 +1,21 @@
 'use client';
 
-import { Box } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { JWT } from 'next-auth/jwt';
 import { signIn, useSession } from 'next-auth/react';
 import { useMemo, useState } from 'react';
+import styled from 'styled-components';
 
-import { ArticlesCardsGrid } from '@/components/shared/grid/ArticlesCardsGrid';
-import { SkeletonCardsGrid } from '@/components/shared/grid/SkeletonGrid';
+import { ItemsCardsGrid } from '@/components/shared/ItemsCardsGrid';
+import { SkeletonCardsGrid } from '@/components/shared/SkeletonGrid';
 
-import { RoadMapInfo } from '@/app/roadmap/post/[...id]/@roadmapInfo/page';
-import { apiRoutes, fail } from '@/constants';
-import { ErrorResponse, getApiResponse } from '@/utils/shared/get-api-response';
+import { API_ROUTES, FAIL } from '@/constants';
+import { getApiResponse } from '@/utils/get-api-response';
+
+import { RoadMapInfo } from '@/types/post';
+import { ErrorResponse } from '@/types/response';
 
 const CreatedRoadmapList = () => {
   const { data: session, status } = useSession();
@@ -33,7 +35,7 @@ const CreatedRoadmapList = () => {
     if (tokenState) {
       const res = await Promise.resolve(
         getApiResponse<RoadMapInfo | ErrorResponse>({
-          apiEndpoint: `${apiRoutes.userInfoSlash}${nickname}/roadmaps`,
+          apiEndpoint: `${API_ROUTES.userInfoSlash}${nickname}/roadmaps`,
           revalidate: 60 * 2, // 5 mins cache
           headers: {
             Authorization: `Bearer ${tokenState}`,
@@ -67,25 +69,29 @@ const CreatedRoadmapList = () => {
   }
   if (isError) {
     notifications.show({
-      id: fail['409'].id,
+      id: FAIL['409'].id,
       withCloseButton: true,
       autoClose: 6000,
-      title: fail['409'].title,
+      title: FAIL['409'].title,
       message: 'oops...something went wrong',
-      color: fail['409'].color,
-      icon: <IconCheck style={{ width: '20rem', height: '20rem' }} />,
+      color: FAIL['409'].color,
+      icon: <IconCheck className='icon' />,
     });
   }
   if (isSuccess) {
     if (!data?.roadMapInfo || data?.roadMapInfo.length === 0)
-      return <Box h='64vh'></Box>;
+      return <EmptyBox></EmptyBox>;
     return (
-      <Box style={{ minHeight: '64vh' }}>
-        <ArticlesCardsGrid postData={data.roadMapInfo || []} />
-      </Box>
+      <EmptyBox>
+        <ItemsCardsGrid postData={data.roadMapInfo || []} />
+      </EmptyBox>
     );
   }
   return <>created roadmap list</>;
 };
 
 export default CreatedRoadmapList;
+
+export const EmptyBox = styled.div`
+  min-height: 64vh;
+`;

@@ -13,7 +13,7 @@ const PageHeader = () => {
     modals.openConfirmModal({
       title: '페이지를 벗어나시겠습니까?',
       children: (
-        <Box display='inline-flex' style={{ alignItems: 'center' }}>
+        <Box display='inline-flex'>
           <IconExclamationCircle />
           <Text size='sm' pl='sm'>
             페이지를 벗어나면 작업 내용을 잃을 수 있습니다.

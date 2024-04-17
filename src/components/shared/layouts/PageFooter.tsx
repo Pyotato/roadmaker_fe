@@ -1,5 +1,5 @@
 'use client';
-import { ActionIcon, Container, Group, Image, rem, Text } from '@mantine/core';
+import { ActionIcon, Container, Group, Image, Text } from '@mantine/core';
 import { IconBrandGithub } from '@tabler/icons-react';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -14,7 +14,7 @@ export function PageFooter() {
           <Image
             src='/favicon/android-chrome-384x384.png'
             alt='/favicon/android-chrome-384x384.png'
-            style={{ width: '30px' }}
+            className='logo-img'
           />
           <Text size='xs' c='dimmed' className='description'>
             Create, set and share tangible steps to achieve your ultimate goals,
@@ -34,7 +34,7 @@ export function PageFooter() {
               onClick={() =>
                 router.replace('https://github.com/Pyotato/roadmaker_fe')
               }
-              style={{ width: rem(18), height: rem(18) }}
+              className='icon-brand'
               stroke={1.5}
             />
           </ActionIcon>

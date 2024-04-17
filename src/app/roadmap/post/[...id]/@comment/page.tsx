@@ -2,8 +2,8 @@
 import { Container, Title } from '@mantine/core';
 import { useSession } from 'next-auth/react';
 
-import CommentBox from '@/app/roadmap/post/[...id]/@comment/CommentBox';
-import Comments from '@/app/roadmap/post/[...id]/@comment/Comments';
+import CommentBox from '@/app/roadmap/post/[...id]/@comment/components/CommentBox';
+import Comments from '@/app/roadmap/post/[...id]/@comment/components/Comments';
 
 export default function CommentSection() {
   const { status } = useSession();

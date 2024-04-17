@@ -4,7 +4,9 @@ import { IconPencil, IconPhoto } from '@tabler/icons-react';
 import { usePathname } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 
-import { getItem, setItem } from '@/utils/shared/localStorage';
+import { ROADMAKER_MYPAGE_TAB } from '@/constants';
+import { CREATED_TAB, IN_PROGRESS_TAB } from '@/constants/tabs';
+import { getItem, setItem } from '@/utils/localStorage';
 
 import CreatedRoadmapList from './created/CreatedRoadmaps';
 import InProgressRoadmapList from './in-progress/InProgressRoadmaps';
@@ -13,27 +15,27 @@ export default function MyRoadmapsTabs() {
   const pathName = usePathname();
   const [activeTab, setActiveTab] = useState<string | null>(
     JSON.parse(
-      `${getItem('roadmaker-mypage-tab') ? getItem('roadmaker-mypage-tab') : JSON.stringify({ tab: pathName === '/mypage' ? 'in-progress' : pathName.slice(pathName.lastIndexOf('/') + 1) })}`,
-    )?.tab || 'in-progress',
+      `${getItem(ROADMAKER_MYPAGE_TAB) ? getItem(ROADMAKER_MYPAGE_TAB) : JSON.stringify({ tab: pathName === '/mypage' ? IN_PROGRESS_TAB : pathName.slice(pathName.lastIndexOf('/') + 1) })}`,
+    )?.tab || IN_PROGRESS_TAB,
   );
 
   useMemo(() => {
     if (pathName === '/mypage') {
-      setActiveTab('in-progress');
-      setItem('roadmaker-mypage-tab', {
-        tab: 'in-progress',
+      setActiveTab(IN_PROGRESS_TAB);
+      setItem(ROADMAKER_MYPAGE_TAB, {
+        tab: IN_PROGRESS_TAB,
       });
     } else if (pathName.slice(pathName.lastIndexOf('/') + 1)) {
       setActiveTab(pathName.slice(pathName.lastIndexOf('/') + 1));
-      setItem('roadmaker-mypage-tab', {
+      setItem(ROADMAKER_MYPAGE_TAB, {
         tab: pathName.slice(pathName.lastIndexOf('/') + 1),
       });
     }
   }, [pathName]);
 
   useEffect(() => {
-    if (getItem('roadmaker-mypage-tab')) {
-      const { tab } = JSON.parse(`${getItem('roadmaker-mypage-tab')}`);
+    if (getItem(ROADMAKER_MYPAGE_TAB)) {
+      const { tab } = JSON.parse(`${getItem(ROADMAKER_MYPAGE_TAB)}`);
       setActiveTab(tab);
     }
   }, []);
@@ -42,31 +44,31 @@ export default function MyRoadmapsTabs() {
     <Tabs onChange={setActiveTab} value={activeTab}>
       <TabsList grow>
         <TabsTab
-          value='in-progress'
+          value={IN_PROGRESS_TAB}
           onClick={() => {
-            setActiveTab('in-progress');
-            setItem('roadmaker-mypage-tab', { tab: 'in-progress' });
-            window.history.pushState({}, '', `/mypage/in-progress`);
+            setActiveTab(IN_PROGRESS_TAB);
+            setItem(ROADMAKER_MYPAGE_TAB, { tab: IN_PROGRESS_TAB });
+            window.history.pushState({}, '', `/mypage/${IN_PROGRESS_TAB}`);
           }}
         >
           <IconPhoto size='0.8rem' /> 진행 중인 로드맵
         </TabsTab>
         <TabsTab
-          value='created'
+          value={CREATED_TAB}
           onClick={() => {
-            setActiveTab('created');
-            setItem('roadmaker-mypage-tab', { tab: 'created' });
-            window.history.pushState({}, '', `/mypage/created`);
+            setActiveTab(CREATED_TAB);
+            setItem(ROADMAKER_MYPAGE_TAB, { tab: CREATED_TAB });
+            window.history.pushState({}, '', `/mypage/${CREATED_TAB}`);
           }}
         >
           <IconPencil size='0.8rem' /> 내가 만든 로드맵
         </TabsTab>
       </TabsList>
 
-      <TabsPanel value='in-progress'>
+      <TabsPanel value={IN_PROGRESS_TAB}>
         <InProgressRoadmapList />
       </TabsPanel>
-      <TabsPanel value='created'>
+      <TabsPanel value={CREATED_TAB}>
         <CreatedRoadmapList />
       </TabsPanel>
     </Tabs>

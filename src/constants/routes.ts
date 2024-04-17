@@ -1,4 +1,4 @@
-export const apiRoutes = {
+export const API_ROUTES = {
   roadmaps: `${process.env.NEXT_PUBLIC_API}/roadmaps`,
   roadmapsSlash: `${process.env.NEXT_PUBLIC_API}/roadmaps/`,
   roadmapPaged: `${process.env.NEXT_PUBLIC_API}/roadmaps?page=`,
@@ -11,7 +11,7 @@ export const apiRoutes = {
   memberAvatarUpdate: `${process.env.NEXT_PUBLIC_API}/members/profile/avatar`,
 };
 
-export const siteRoutes = {
+export const SITE_ROUTES = {
   signIn: '/api/auth/signin?callbackUrl=https://roadmaker-fe.vercel.app/',
   signInDev: `/api/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F`,
 };

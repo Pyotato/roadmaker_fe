@@ -1,4 +1,4 @@
-import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+import { ColorSchemeScript } from '@mantine/core';
 import { Notifications } from '@mantine/notifications';
 import { Metadata } from 'next';
 import * as React from 'react';
@@ -12,8 +12,6 @@ import PageHeader from '@/components/shared/layouts/PageHeader';
 
 import { SITE_CONFIG } from '@/constants';
 import Provider from '@/providers';
-import Providers from '@/providers/StyledComponentsProvider';
-import { GlobalStyle } from '@/styles/globalStyle';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://roadmaker-fe.vercel.app/'),
@@ -58,23 +56,17 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
 
-      <Providers>
-        <GlobalStyle />
-
-        <body>
-          <MantineProvider>
-            <Provider>
-              <PageHeader />
-              <Notifications
-                className='description title closeButton notification'
-                position='bottom-right'
-              />
-              {children}
-              <PageFooter />
-            </Provider>
-          </MantineProvider>
-        </body>
-      </Providers>
+      <body>
+        <Provider>
+          <PageHeader />
+          <Notifications
+            className='description title closeButton notification'
+            position='bottom-right'
+          />
+          {children}
+          <PageFooter />
+        </Provider>
+      </body>
     </html>
   );
 }

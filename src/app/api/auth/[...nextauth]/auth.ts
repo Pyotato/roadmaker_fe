@@ -2,24 +2,13 @@ import NextAuth, { User } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 
 // import GithubProvider from 'next-auth/providers/github';
-import { apiRoutes } from '@/constants';
+import { API_ROUTES } from '@/constants';
+import { consoleLog } from '@/utils/console-log';
+import { getApiResponse } from '@/utils/get-api-response';
 import { omit } from '@/utils/shared';
-import { consoleLog } from '@/utils/shared/console-log';
-import { getApiResponse } from '@/utils/shared/get-api-response';
-export const runtime = 'edge';
 
-interface Member {
-  id: number;
-  email: string;
-  nickname: string;
-  bio?: null | string;
-  avatarUrl?: null | string;
-  githubUrl?: null | string;
-  blogUrl?: null | string;
-  baekjoonId?: null | string;
-  provider?: string;
-  accessToken?: string;
-}
+import { Member } from '@/types/user';
+export const runtime = 'edge';
 
 interface AuthResponse {
   member?: Member | null;
@@ -57,7 +46,7 @@ export const {
                 password: credentials.password,
               }),
               headers: { 'Content-Type': 'application/json' },
-              apiEndpoint: `${apiRoutes.signin}`,
+              apiEndpoint: `${API_ROUTES.signin}`,
               method: 'POST',
             }),
           );
@@ -66,7 +55,7 @@ export const {
             const userInfo = await Promise.resolve(
               getApiResponse<AuthResponse | null>({
                 headers: { 'Content-Type': 'application/json' },
-                apiEndpoint: `${apiRoutes.userInfoSlash}${res?.id}`,
+                apiEndpoint: `${API_ROUTES.userInfoSlash}${res?.id}`,
               }),
             );
             const user = {

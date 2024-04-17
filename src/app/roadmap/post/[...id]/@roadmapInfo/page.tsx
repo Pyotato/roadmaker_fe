@@ -1,50 +1,24 @@
 'use client';
 
-import { Box, LoadingOverlay } from '@mantine/core';
+import { LoadingOverlay } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
 import { useEffect, useMemo, useState } from 'react';
+import styled from 'styled-components';
 
-import { Member, Post } from '@/components/MainPage';
-
-import { apiRoutes, success } from '@/constants';
+import { API_ROUTES, SUCCESS } from '@/constants';
+import { getApiResponse } from '@/utils/get-api-response';
 import { omit, pick } from '@/utils/shared';
-import { getApiResponse } from '@/utils/shared/get-api-response';
 
 import About from './About';
 import ReactFlow from './reactFlow/ReactFlow';
 
-import { CustomEdge, CustomNode, Viewport } from '@/types/reactFlow';
-
-export interface RoadMapInfo extends Post {
-  [key: string]: unknown;
-  isJoined: boolean;
-  isLiked: boolean;
-  joinCount: number;
-  likeCount: number;
-  member: Member;
-  updatedAt: string;
-  viewport: Viewport;
-  edges: Array<CustomEdge>;
-  nodes: Array<CustomNode>;
-}
-export interface AboutInfo {
-  [key: string]: unknown;
-  isJoined: boolean;
-  isLiked: boolean;
-  joinCount: number;
-  likeCount: number;
-  member: Member;
-  updatedAt: string;
-}
-
-export type AboutKeys = 'viewport' | 'edges' | 'nodes';
-export type ReactFlowInfo = Pick<RoadMapInfo, AboutKeys>;
-
-export type aboutInfoKeys = keyof AboutInfo;
+import { RoadMapInfo } from '@/types/post';
+import { ReactFlowInfo } from '@/types/reactFlow';
+import { AboutInfo } from '@/types/user';
 
 const Roadmap = ({ params }: { params: { id: string } }) => {
   const { id } = params;
@@ -56,7 +30,7 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
   const [nickname, setNickname] = useState<JWT['user']['nickname']>(null);
 
   useEffect(() => {
-    notifications.hide(success.roadmaps.id);
+    notifications.hide(SUCCESS.roadmaps.id);
   }, []);
 
   useMemo(() => {
@@ -72,7 +46,7 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
     if (tokenState) {
       roadMapInfo = await Promise.resolve(
         getApiResponse<RoadMapInfo>({
-          apiEndpoint: `${apiRoutes.roadmaps}/${pageParam}`,
+          apiEndpoint: `${API_ROUTES.roadmaps}/${pageParam}`,
           revalidate: 60 * 2, // 5 mins cache
           headers: {
             Authorization: `Bearer ${tokenState}`,
@@ -82,7 +56,7 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
     } else {
       roadMapInfo = await Promise.resolve(
         getApiResponse<RoadMapInfo>({
-          apiEndpoint: `${apiRoutes.roadmaps}/${pageParam}`,
+          apiEndpoint: `${API_ROUTES.roadmaps}/${pageParam}`,
           revalidate: 60 * 2, // 5 mins cache
         }),
       );
@@ -128,20 +102,20 @@ const Roadmap = ({ params }: { params: { id: string } }) => {
     return (
       <>
         <About aboutInfo={aboutInfo} />
-        <Box
-          style={{
-            display: 'inline-flex',
-            minWidth: '100%',
-            width: 'fit-content',
-            justifyContent: 'center',
-            backgroundColor: '#EFEFEF',
-          }}
-        >
+        <FlowWrap>
           <ReactFlow reactFlowInfo={reactFlowInfo} />
-        </Box>
+        </FlowWrap>
       </>
     );
   }
 };
 
 export default Roadmap;
+
+const FlowWrap = styled.div`
+  display: inline-flex;
+  min-width: 100%;
+  width: fit-content;
+  justify-content: center;
+  background-color: #efefef;
+`;

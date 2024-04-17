@@ -1,10 +1,6 @@
 import { Container } from '@mantine/core';
-import { ReactNode } from 'react';
 
-interface MyPageProps {
-  info: ReactNode;
-  roadmaps: ReactNode;
-}
+import { MyPageProps } from '@/types/user';
 
 const PostLayout = (props: MyPageProps) => {
   return (

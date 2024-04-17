@@ -24,10 +24,11 @@ const ItemCard = ({
       >
         <AspectRatio ratio={1920 / 1080}>
           <Image
+            radius={'md'}
             src={article?.thumbnailUrl || null}
             alt={`${article?.thumbnailUrl} 이미지`}
             fallbackSrc='https://placehold.co/600x400?text=No Image'
-            loading='lazy'
+            // loading='lazy'
           />
         </AspectRatio>
         <Text c='dimmed' size='xs' tt='uppercase' fw={700} mt='md'>
@@ -87,6 +88,5 @@ export const Wrap = styled.div`
 
   .card-img {
     width: 6rem;
-    border-radius
   }
 `;

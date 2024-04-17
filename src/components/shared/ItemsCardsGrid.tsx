@@ -2,8 +2,9 @@
 import { Container, SimpleGrid } from '@mantine/core';
 import { PropsWithChildren } from 'react';
 
-import { Postdata } from '@/types/post';
 import ItemCard from './ItemCard';
+
+import { Postdata } from '@/types/post';
 
 export interface PostProps extends PropsWithChildren {
   postData: Postdata['result'];

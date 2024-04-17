@@ -10,13 +10,14 @@ import {
 } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconAt, IconCheck, IconPassword, IconUser } from '@tabler/icons-react';
-import { signIn, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { signIn, useSession } from 'next-auth/react';
 import { useState } from 'react';
+import styled from 'styled-components';
 
 import { API_ROUTES, FAIL, SUCCESS } from '@/constants';
 import { getApiResponse } from '@/utils/get-api-response';
-import styled from 'styled-components';
+
 import LoginButton from './components/LoginButton';
 
 export default function AuthPage() {

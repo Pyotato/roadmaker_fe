@@ -3,10 +3,11 @@ import { IconCalendarMonth } from '@tabler/icons-react';
 
 import { toTSXString } from '@/utils/shared';
 
-import { AboutProps } from '@/types/post';
 import Creator from './Creator';
 import Join from './Join';
 import Likes from './Likes';
+
+import { AboutProps } from '@/types/post';
 
 const About = ({ aboutInfo }: AboutProps) => {
   const {

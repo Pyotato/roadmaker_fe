@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { JWT } from 'next-auth/jwt';
 import { signIn, useSession } from 'next-auth/react';
 import { useMemo, useState } from 'react';
+import styled from 'styled-components';
 
 import NotFound from '@/components/NotFound';
 import { ItemsCardsGrid } from '@/components/shared/ItemsCardsGrid';
@@ -15,7 +16,6 @@ import { API_ROUTES, FAIL } from '@/constants';
 import { getApiResponse } from '@/utils/get-api-response';
 
 import { RoadMapInfo } from '@/types/post';
-import styled from 'styled-components';
 
 const InProgressRoadmapList = () => {
   const { data: session, status } = useSession();

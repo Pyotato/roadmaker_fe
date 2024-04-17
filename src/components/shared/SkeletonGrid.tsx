@@ -3,8 +3,10 @@ import { Card, Container, SimpleGrid, Skeleton } from '@mantine/core';
 import { PropsWithChildren } from 'react';
 
 import { POST } from '@/constants';
-import { Postdata } from '@/types/post';
+
 import { Wrap } from './ItemCard';
+
+import { Postdata } from '@/types/post';
 
 export interface PostProps extends PropsWithChildren {
   postData: Postdata['result'];

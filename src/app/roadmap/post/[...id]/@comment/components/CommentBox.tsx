@@ -19,9 +19,9 @@ import Underline from '@tiptap/extension-underline';
 import Youtube from '@tiptap/extension-youtube';
 import { JSONContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
+import { useParams } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { signIn, useSession } from 'next-auth/react';
-import { useParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import styled from 'styled-components';
 

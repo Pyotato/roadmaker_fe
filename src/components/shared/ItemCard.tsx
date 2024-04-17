@@ -1,7 +1,8 @@
 'use client';
-import { Post } from '@/types/post';
 import { AspectRatio, Card, Image, Text, Title } from '@mantine/core';
 import styled from 'styled-components';
+
+import { Post } from '@/types/post';
 
 const ItemCard = ({
   article,

@@ -8,12 +8,13 @@ import { useQueryClient } from '@tanstack/react-query';
 import { JWT } from 'next-auth/jwt';
 import { signIn, useSession } from 'next-auth/react';
 import { useCallback, useMemo, useState } from 'react';
+import styled from 'styled-components';
 
 import { API_ROUTES, FAIL, SUCCESS } from '@/constants';
-import { ErrorResponse } from '@/types/response';
 import { getApiResponse } from '@/utils/get-api-response';
 import { getItem, removeItem, setItem } from '@/utils/localStorage';
-import styled from 'styled-components';
+
+import { ErrorResponse } from '@/types/response';
 
 const ProfileImageForm = ({
   close,

@@ -1,8 +1,8 @@
 'use client';
 import { Group, UnstyledButton } from '@mantine/core';
 import { IconLogout, IconUser, IconWriting } from '@tabler/icons-react';
-import { signIn, signOut, useSession } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
+import { signIn, signOut, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
 
 const HeaderAuthButton = ({

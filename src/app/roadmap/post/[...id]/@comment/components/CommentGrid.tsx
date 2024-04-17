@@ -1,7 +1,9 @@
 'use client';
-import { CommentProps } from '@/types/comment';
 import { Box, SimpleGrid } from '@mantine/core';
+
 import CommentCard from './CommentCard';
+
+import { CommentProps } from '@/types/comment';
 
 const CommentGrid = ({ commentData, innerRef }: CommentProps) => {
   if (commentData.length === 0) return <></>;

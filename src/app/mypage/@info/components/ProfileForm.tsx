@@ -9,8 +9,9 @@ import { useSession } from 'next-auth/react';
 import { useCallback, useMemo, useState } from 'react';
 
 import { API_ROUTES, FAIL, SUCCESS } from '@/constants';
-import { ErrorResponse } from '@/types/response';
 import { getApiResponse } from '@/utils/get-api-response';
+
+import { ErrorResponse } from '@/types/response';
 
 const ProfileForm = ({
   close,

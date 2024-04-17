@@ -1,6 +1,5 @@
 'use client';
 
-import { DetailedContent } from '@/types/post';
 import { RichTextEditor } from '@mantine/tiptap';
 import { Highlight } from '@tiptap/extension-highlight';
 import { Link } from '@tiptap/extension-link';
@@ -13,6 +12,8 @@ import Youtube from '@tiptap/extension-youtube';
 import { Content, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { PropsWithChildren, useMemo } from 'react';
+
+import { DetailedContent } from '@/types/post';
 
 export interface NodeDetailsProps extends PropsWithChildren {
   details: DetailedContent;

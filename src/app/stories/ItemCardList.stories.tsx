@@ -1,10 +1,13 @@
-import { ItemsCardsGrid } from '@/components/shared/ItemsCardsGrid';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import { ItemsCardsGrid } from '@/components/shared/ItemsCardsGrid';
+
+import { Stories } from '@/types/stories';
 
 const queryClient = new QueryClient();
 
-export const decorators = [
-  (story: any) => (
+export const Decorators = [
+  (story: Stories) => (
     <QueryClientProvider client={queryClient}>{story()}</QueryClientProvider>
   ),
 ];
@@ -19,7 +22,7 @@ export default {
   },
   layout: 'fullscreen',
   tags: ['autodocs'],
-  decorators,
+  decorators: Decorators,
 };
 
 export const Default = {};

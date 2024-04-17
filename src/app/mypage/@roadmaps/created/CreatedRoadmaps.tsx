@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { JWT } from 'next-auth/jwt';
 import { signIn, useSession } from 'next-auth/react';
 import { useMemo, useState } from 'react';
+import styled from 'styled-components';
 
 import { ItemsCardsGrid } from '@/components/shared/ItemsCardsGrid';
 import { SkeletonCardsGrid } from '@/components/shared/SkeletonGrid';
@@ -15,7 +16,6 @@ import { getApiResponse } from '@/utils/get-api-response';
 
 import { RoadMapInfo } from '@/types/post';
 import { ErrorResponse } from '@/types/response';
-import styled from 'styled-components';
 
 const CreatedRoadmapList = () => {
   const { data: session, status } = useSession();

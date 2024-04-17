@@ -29,9 +29,9 @@ import {
   IconSitemap,
   IconX,
 } from '@tabler/icons-react';
+import { useRouter } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import {
   Dispatch,
   SetStateAction,
@@ -40,6 +40,7 @@ import {
   useState,
 } from 'react';
 import { Connection, Edge, Node } from 'reactflow';
+import styled from 'styled-components';
 
 import { API_ROUTES, SUCCESS, WARNING } from '@/constants';
 import { getApiResponse } from '@/utils/get-api-response';
@@ -49,7 +50,6 @@ import { omit } from '@/utils/shared';
 import { Args } from '@/types';
 import { WarningKeys } from '@/types/alert';
 import { CustomEdge, CustomNode } from '@/types/reactFlow';
-import styled from 'styled-components';
 
 const PanelItem = ({
   onAddNode,

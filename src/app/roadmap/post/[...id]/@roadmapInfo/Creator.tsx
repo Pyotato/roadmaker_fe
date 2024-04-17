@@ -1,9 +1,10 @@
 import { Avatar, Title } from '@mantine/core';
 
-import { CreatorProps } from '@/types/post';
-import { Member } from '@/types/user';
 import { randomAvartars } from '@/utils/avatars';
 import { toTSXString } from '@/utils/shared';
+
+import { CreatorProps } from '@/types/post';
+import { Member } from '@/types/user';
 
 const Creator = ({ creatorInfo }: CreatorProps) => {
   const { member } = creatorInfo;

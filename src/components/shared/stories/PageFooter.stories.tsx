@@ -1,13 +1,15 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import { withThemeFromJSXProvider } from '@storybook/addon-themes';
+import { SessionProvider } from 'next-auth/react';
 
 import { GlobalStyle } from '@/styles/globalStyle';
 import { theme } from '@/styles/theme';
-import { withThemeFromJSXProvider } from '@storybook/addon-themes';
-import { SessionProvider } from 'next-auth/react';
+
 import PageFooter from '../layouts/PageFooter';
 
-export const decorators = [
-  (story: any) => <SessionProvider>{story()}</SessionProvider>,
+import { Stories } from '@/types/stories';
+
+export const Decorators = [
+  (story: Stories) => <SessionProvider>{story()}</SessionProvider>,
   withThemeFromJSXProvider({
     GlobalStyles: GlobalStyle,
     themes: theme,
@@ -25,14 +27,14 @@ export default {
   },
   // args: { primary: true, label: '로그인하러 가기' },
   tags: ['autodocs'],
-  decorators,
+  decorators: Decorators,
 };
 
-export const meta: Meta<typeof PageFooter> = {
-  component: PageFooter,
-};
+// export const meta: Meta<typeof PageFooter> = {
+//   component: PageFooter,
+// };
 
-type Story = StoryObj<typeof PageFooter>;
+// type Story = StoryObj<typeof PageFooter>;
 
 export const Default = {
   args: {},

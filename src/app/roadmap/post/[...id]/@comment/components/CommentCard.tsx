@@ -1,7 +1,4 @@
 'use client';
-import { Comment } from '@/types/comment';
-import { randomAvartars, randomNum } from '@/utils/avatars';
-import { toKorDateTime, toTSXString } from '@/utils/shared';
 import {
   Avatar,
   Group,
@@ -10,6 +7,11 @@ import {
   TypographyStylesProvider,
 } from '@mantine/core';
 import styled from 'styled-components';
+
+import { randomAvartars, randomNum } from '@/utils/avatars';
+import { toKorDateTime, toTSXString } from '@/utils/shared';
+
+import { Comment } from '@/types/comment';
 
 const CommentCard = ({
   comment,

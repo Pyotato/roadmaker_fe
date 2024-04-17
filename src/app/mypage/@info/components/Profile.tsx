@@ -5,10 +5,11 @@ import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IconCheck } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import ProfileSkeleton from '@/components/shared/ProfileSkeleton';
 
@@ -20,7 +21,6 @@ import UpdateMemberProfileForm from './ProfileForm';
 import UpdateAvatarForm from './ProfileImageForm';
 
 import { UserDataResponse } from '@/types/user';
-import styled from 'styled-components';
 
 const UserData = () => {
   const { data: session, status } = useSession();

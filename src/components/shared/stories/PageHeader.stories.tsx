@@ -1,11 +1,15 @@
-import { GlobalStyle } from '@/styles/globalStyle';
-import { theme } from '@/styles/theme';
 import { withThemeFromJSXProvider } from '@storybook/addon-themes';
 import { SessionProvider } from 'next-auth/react';
+
+import { GlobalStyle } from '@/styles/globalStyle';
+import { theme } from '@/styles/theme';
+
 import PageHeader from '../layouts/PageHeader';
 
-export const decorators = [
-  (story: any) => <SessionProvider>{story()}</SessionProvider>,
+import { Stories } from '@/types/stories';
+
+export const Decorators = [
+  (story: Stories) => <SessionProvider>{story()}</SessionProvider>,
   withThemeFromJSXProvider({
     GlobalStyles: GlobalStyle,
     themes: theme,
@@ -17,7 +21,7 @@ export default {
   component: PageHeader,
   args: {},
   tags: ['autodocs'],
-  decorators,
+  decorators: Decorators,
 };
 
 export const Default = {};

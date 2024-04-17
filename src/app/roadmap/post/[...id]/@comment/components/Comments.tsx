@@ -6,10 +6,12 @@ import { useParams, useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useInView } from 'react-intersection-observer';
 
-import { CommentData } from '@/types/comment';
 import { getApiResponse } from '@/utils/get-api-response';
 import { getPageNum } from '@/utils/shared';
+
 import CommentGrid from './CommentGrid';
+
+import { CommentData } from '@/types/comment';
 
 const Comments = () => {
   const { ref, inView } = useInView();

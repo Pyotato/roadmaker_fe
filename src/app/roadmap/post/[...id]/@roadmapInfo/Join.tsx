@@ -3,17 +3,17 @@ import { Box, Button, Title } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { IconCheck, IconExclamationMark, IconUser } from '@tabler/icons-react';
 import { useQueryClient } from '@tanstack/react-query';
+import { useParams } from 'next/navigation';
 import { JWT } from 'next-auth/jwt';
 import { useSession } from 'next-auth/react';
-import { useParams } from 'next/navigation';
 import { useState } from 'react';
+import styled from 'styled-components';
 
 import { API_ROUTES, SUCCESS, WARNING } from '@/constants';
 import { getApiResponse } from '@/utils/get-api-response';
 import { omit } from '@/utils/shared';
 
 import { JoinProps, RoadMapInfoQuery } from '@/types/post';
-import styled from 'styled-components';
 
 const Join = ({ joinInfo }: JoinProps) => {
   const [isJoined, setIsJoined] = useState(joinInfo.isJoined);

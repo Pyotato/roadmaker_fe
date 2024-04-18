@@ -1,8 +1,10 @@
 'use client';
-import { AspectRatio, Card, Image, Text, Title } from '@mantine/core';
+import { AspectRatio, Card, Text, Title } from '@mantine/core';
 import styled from 'styled-components';
 
 import { Post } from '@/types/post';
+import Image from 'next/image';
+import FallbackImage from './FallbackImage';
 
 const ItemCard = ({
   article,
@@ -23,13 +25,18 @@ const ItemCard = ({
         className='card'
       >
         <AspectRatio ratio={1920 / 1080}>
-          <Image
-            radius={'md'}
-            src={article?.thumbnailUrl || null}
-            alt={`${article?.thumbnailUrl} 이미지`}
-            fallbackSrc='https://placehold.co/600x400?text=No Image'
-            fetchPriority={'high'}
-          />
+          {!article?.thumbnailUrl ? (
+            <FallbackImage />
+          ) : (
+            <Image
+              src={`${article?.thumbnailUrl}`}
+              alt={`${article?.thumbnailUrl} 이미지`}
+              priority={true}
+              width={100}
+              height={100}
+              className='item-card-img'
+            />
+          )}
         </AspectRatio>
         <Text c='dimmed' size='xs' tt='uppercase' fw={700} mt='md'>
           {`${article?.createdAt}`}
@@ -88,5 +95,8 @@ export const Wrap = styled.div`
 
   .card-img {
     width: 6rem;
+  }
+  .item-card-img {
+    border-radius: var(--mantine-radius-md);
   }
 `;

@@ -11,13 +11,6 @@ const nextConfig = {
     styledComponents: true,
   },
 
-  // Uncoment to add domain whitelist
-  // images: {
-  //   domains: [
-  //     'res.cloudinary.com',
-  //   ],
-  // },
-
   // rewrites: {
   //   beforeFiles: {
   //     source: '/api/:path*',
@@ -25,11 +18,18 @@ const nextConfig = {
   //   },
   // },
 
+  // domain whitelist
   images: {
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'avatars.githubusercontent.com',
+      },
+    ],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'roadmaker-images.s3.amazonaws.com',
       },
     ],
   },

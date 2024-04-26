@@ -18,7 +18,7 @@ export default function MyRoadmapsTabs() {
   const pathName = usePathname();
   const [activeTab, setActiveTab] = useState<string | null>(
     JSON.parse(
-      `${getItem(ROADMAKER_MYPAGE_TAB) ? getItem(ROADMAKER_MYPAGE_TAB) : JSON.stringify({ tab: pathName === '/mypage' ? IN_PROGRESS_TAB : pathName.slice(pathName.lastIndexOf('/') + 1) })}`,
+      `${getItem(ROADMAKER_MYPAGE_TAB) ? getItem(ROADMAKER_MYPAGE_TAB) : JSON.stringify({ tab: pathName === '/mypage' ? IN_PROGRESS_TAB : pathName?.slice(pathName.lastIndexOf('/') + 1) })}`,
     )?.tab || IN_PROGRESS_TAB,
   );
 
@@ -28,7 +28,7 @@ export default function MyRoadmapsTabs() {
       setItem(ROADMAKER_MYPAGE_TAB, {
         tab: IN_PROGRESS_TAB,
       });
-    } else if (pathName.slice(pathName.lastIndexOf('/') + 1)) {
+    } else if (pathName && pathName.slice(pathName.lastIndexOf('/') + 1)) {
       setActiveTab(pathName.slice(pathName.lastIndexOf('/') + 1));
       setItem(ROADMAKER_MYPAGE_TAB, {
         tab: pathName.slice(pathName.lastIndexOf('/') + 1),
@@ -52,7 +52,6 @@ export default function MyRoadmapsTabs() {
             setActiveTab(IN_PROGRESS_TAB);
             setItem(ROADMAKER_MYPAGE_TAB, { tab: IN_PROGRESS_TAB });
             pushShallowUrl(`/mypage/${IN_PROGRESS_TAB}`);
-            // window.history.pushState({}, '', `/mypage/${IN_PROGRESS_TAB}`);
           }}
         >
           <IconPhoto size='0.8rem' /> 진행 중인 로드맵

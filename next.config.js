@@ -17,6 +17,10 @@ const nextConfig = {
   //     destination: 'https://main.dmb5wiywaiaet.amplifyapp.com/api/:path*',
   //   },
   // },
+  // headers: {
+  //   key: 'X-DNS-Prefetch-Control',
+  //   value: 'on',
+  // },
 
   // domain whitelist
   images: {
@@ -25,8 +29,6 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'avatars.githubusercontent.com',
       },
-    ],
-    remotePatterns: [
       {
         protocol: 'https',
         hostname: 'roadmaker-images.s3.amazonaws.com',

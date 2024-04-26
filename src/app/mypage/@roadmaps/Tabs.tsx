@@ -9,6 +9,7 @@ import { SkeletonCardsGrid } from '@/components/shared/SkeletonGrid';
 import { ROADMAKER_MYPAGE_TAB } from '@/constants';
 import { CREATED_TAB, IN_PROGRESS_TAB } from '@/constants/tabs';
 import { getItem, setItem } from '@/utils/localStorage';
+import { pushShallowUrl } from '@/utils/push-shallow-url';
 
 import CreatedRoadmapList from './created/CreatedRoadmaps';
 import InProgressRoadmapList from './in-progress/InProgressRoadmaps';
@@ -50,7 +51,8 @@ export default function MyRoadmapsTabs() {
           onClick={() => {
             setActiveTab(IN_PROGRESS_TAB);
             setItem(ROADMAKER_MYPAGE_TAB, { tab: IN_PROGRESS_TAB });
-            window.history.pushState({}, '', `/mypage/${IN_PROGRESS_TAB}`);
+            pushShallowUrl(`/mypage/${IN_PROGRESS_TAB}`);
+            // window.history.pushState({}, '', `/mypage/${IN_PROGRESS_TAB}`);
           }}
         >
           <IconPhoto size='0.8rem' /> 진행 중인 로드맵
@@ -61,7 +63,7 @@ export default function MyRoadmapsTabs() {
           onClick={() => {
             setActiveTab(CREATED_TAB);
             setItem(ROADMAKER_MYPAGE_TAB, { tab: CREATED_TAB });
-            window.history.pushState({}, '', `/mypage/${CREATED_TAB}`);
+            pushShallowUrl(`/mypage/${CREATED_TAB}`);
           }}
         >
           <IconPencil size='0.8rem' /> 내가 만든 로드맵

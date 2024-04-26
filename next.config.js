@@ -10,6 +10,7 @@ const nextConfig = {
   compiler: {
     styledComponents: true,
   },
+  // env: {},
 
   // rewrites: {
   //   beforeFiles: {
@@ -69,4 +70,10 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const withBundleAnalyzer = require('@next/bundle-analyzer')();
+
+// module.exports = nextConfig;
+
+module.exports =
+  process.env.ANALYZE === 'true' ? withBundleAnalyzer(nextConfig) : nextConfig;

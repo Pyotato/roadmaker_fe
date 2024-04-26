@@ -12,6 +12,7 @@ export const API_ROUTES = {
 };
 
 export const SITE_ROUTES = {
+  CREATE_ROADMAP: '/roadmap/create',
   signIn: '/api/auth/signin?callbackUrl=https://roadmaker-fe.vercel.app/',
   signInDev: `/api/auth/signin?callbackUrl=http%3A%2F%2Flocalhost%3A3000%2F`,
 };

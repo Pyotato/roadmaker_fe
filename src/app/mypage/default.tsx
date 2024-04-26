@@ -1,15 +1,21 @@
 'use client';
 import { signIn, useSession } from 'next-auth/react';
-
-import { SkeletonCardsGrid } from '@/components/shared/SkeletonGrid';
+import { useEffect } from 'react';
 
 import MyRoadmapsTabs from './@roadmaps/Tabs';
 
 export default function MyPage() {
-  const { status } = useSession();
-  if (status === 'unauthenticated') {
-    signIn();
-  }
-  if (status === 'loading') return <SkeletonCardsGrid />;
+  const { status, data: session } = useSession();
+  useEffect(() => {
+    // console.log(session);
+    if (!session) {
+      signIn();
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // console.log(session);
+  // if (status === 'loading') return <SkeletonCardsGrid />;
   if (status === 'authenticated') return <MyRoadmapsTabs />;
 }

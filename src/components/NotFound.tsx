@@ -1,53 +1,42 @@
 'use client';
-import { Button, Container, SimpleGrid, Text, Title } from '@mantine/core';
+import { Container, SimpleGrid, Text, Title } from '@mantine/core';
 import { IconHome2 } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import styled from 'styled-components';
 
+import ErrorButton from '@/app/ErrorButton';
+
 import { Image404 } from './Image404';
 
 export default function NotFound({
-  message,
-  title,
-  reset,
+  message = 'Page you are trying to open does not exist. You may have mistyped the address, or the page has been moved to another URL. If you think this is an error contact support.',
+  title = 'Something is not right...',
 }: {
-  message: string;
+  message?: string;
   title?: string;
-  reset?: () => void;
 }) {
   const router = useRouter();
+
   return (
     <CustomContainer>
       <Container className='root'>
         <SimpleGrid spacing={{ base: 40, sm: 80 }} cols={{ base: 1, sm: 2 }}>
           <div>
-            <Title className='title'>
-              {title || 'Something is not right...'}
-            </Title>
+            <Title className='title'>{title}</Title>
             <Text c='dimmed' size='lg'>
               {message}
             </Text>
-            {reset && (
-              <Button
-                variant='default'
-                size='md'
-                mt='xl'
-                className='control'
-                onClick={reset}
-                mr='lg'
-              >
-                새로고침
-              </Button>
-            )}
-            <Button
-              variant='default'
-              size='md'
-              mt='xl'
-              className='control'
-              onClick={() => router.replace('/')}
-            >
-              <IconHome2 /> 홈으로 이동
-            </Button>
+
+            <ErrorButton reset={() => router.refresh()} errorMsg='새로 고침' />
+
+            <ErrorButton
+              navigate={() => router.replace('/')}
+              errorMsg={
+                <>
+                  <IconHome2 /> 홈으로 이동
+                </>
+              }
+            />
           </div>
           <Image404 className='image' />
         </SimpleGrid>

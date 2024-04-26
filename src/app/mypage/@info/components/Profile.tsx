@@ -13,7 +13,7 @@ import styled from 'styled-components';
 
 import ProfileSkeleton from '@/components/shared/ProfileSkeleton';
 
-import { API_ROUTES, FAIL, IS_PROD, SITE_ROUTES } from '@/constants';
+import { API_ROUTES, FAIL } from '@/constants';
 import { randomAvartars } from '@/utils/avatars';
 import { getApiResponse } from '@/utils/get-api-response';
 
@@ -29,9 +29,9 @@ const UserData = () => {
   const [opened, { open, close }] = useDisclosure(false);
   const [modalContent, setModalContent] = useState('');
 
-  if (status === 'unauthenticated') {
-    router.replace(IS_PROD ? SITE_ROUTES.signIn : SITE_ROUTES.signInDev);
-  }
+  // if (status === 'unauthenticated') {
+  //   router.replace(IS_PROD ? SITE_ROUTES.signIn : SITE_ROUTES.signInDev);
+  // }
 
   useEffect(() => {
     if (status === 'authenticated') {

@@ -3,10 +3,12 @@ import { ActionIcon, Container, Group, Image, Text } from '@mantine/core';
 import { IconBrandGithub } from '@tabler/icons-react';
 import { usePathname, useRouter } from 'next/navigation';
 
+import { SITE_ROUTES } from '@/constants';
+
 export function PageFooter() {
   const router = useRouter();
   const path = usePathname();
-  if (path === '/roadmap/create') return <></>;
+  if (path === SITE_ROUTES.CREATE_ROADMAP) return <></>;
   return (
     <footer className='footer'>
       <Container className='inner' px='xl'>

@@ -1,8 +1,8 @@
-import LoginButton from '@/app/auth/components/LoginButton';
+import AuthButton from '@/app/auth/components/AuthButton';
 
 export default {
   title: '회원가입/로그인하러 가기',
-  component: LoginButton,
+  component: AuthButton,
   args: { primary: true, label: '로그인하러 가기' },
   tags: ['autodocs'],
 };

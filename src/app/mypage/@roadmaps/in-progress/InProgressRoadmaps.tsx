@@ -55,9 +55,9 @@ const InProgressRoadmapList = () => {
     };
   };
 
-  if (status === 'unauthenticated') {
-    signIn();
-  }
+  // if (status === 'unauthenticated') {
+  //   signIn();
+  // }
 
   const { data, isLoading, isError, isSuccess } = useQuery({
     queryKey: [`post-inprogress-${nickname}`],

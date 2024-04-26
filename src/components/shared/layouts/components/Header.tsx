@@ -14,26 +14,27 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { IconHome, IconUser } from '@tabler/icons-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
+import { Session } from 'next-auth';
+
+import { SITE_ROUTES } from '@/constants';
 
 import AuthButton from './AuthButton';
 import HeaderAuthButton from './HeaderAuthButton';
 import RoadmapCreateButton from './RoadmapCreateButton';
 
-const Header = ({ openModal }: { openModal: (fn: () => void) => void }) => {
+const Header = ({
+  openModal,
+  session,
+  status,
+}: {
+  openModal: (fn: () => void) => void;
+  session: Session | null;
+  status: 'authenticated' | 'loading' | 'unauthenticated';
+}) => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
   const currPath = usePathname();
   const router = useRouter();
-  const { status } = useSession();
-
-  // useMemo(() => {
-  // if (typeof window !== 'undefined' && currPath === '/roadmap/create') {
-  //   window.onbeforeunload = function (e) {
-  //     e.preventDefault();
-  //   };
-  // }
-  // }, [currPath]);
 
   return (
     <Box>
@@ -44,7 +45,7 @@ const Header = ({ openModal }: { openModal: (fn: () => void) => void }) => {
               src='/favicon/android-chrome-384x384.png'
               alt='/favicon/android-chrome-384x384.png'
               onClick={() => {
-                if (currPath === '/roadmap/create') {
+                if (currPath === SITE_ROUTES.CREATE_ROADMAP) {
                   openModal(() => router.push('/'));
                   closeDrawer();
                   return;
@@ -60,7 +61,11 @@ const Header = ({ openModal }: { openModal: (fn: () => void) => void }) => {
             onClick={toggleDrawer}
             hiddenFrom='sm'
           />
-          <HeaderAuthButton openModal={openModal} closeDrawer={closeDrawer} />
+          <HeaderAuthButton
+            session={session}
+            openModal={openModal}
+            closeDrawer={closeDrawer}
+          />
         </Group>
       </header>
       <Drawer
@@ -79,7 +84,7 @@ const Header = ({ openModal }: { openModal: (fn: () => void) => void }) => {
               display='inline-flex'
               className='hvr-text align-ctr'
               onClick={() => {
-                if (currPath === '/roadmap/create') {
+                if (currPath === SITE_ROUTES.CREATE_ROADMAP) {
                   openModal(() => router.push('/'));
                   closeDrawer();
                   return;
@@ -103,7 +108,7 @@ const Header = ({ openModal }: { openModal: (fn: () => void) => void }) => {
                 className='hvr-text align-ctr'
                 display='inline-flex'
                 onClick={() => {
-                  if (currPath === '/roadmap/create') {
+                  if (currPath === SITE_ROUTES.CREATE_ROADMAP) {
                     openModal(() => router.replace('/mypage'));
                     closeDrawer();
                     return;
@@ -119,11 +124,15 @@ const Header = ({ openModal }: { openModal: (fn: () => void) => void }) => {
           )}
 
           <Box m='md'>
-            <RoadmapCreateButton closeDrawer={closeDrawer} />
+            <RoadmapCreateButton closeDrawer={closeDrawer} status={status} />
           </Box>
           <Divider my='sm' />
 
-          <AuthButton openModal={openModal} closeDrawer={closeDrawer} />
+          <AuthButton
+            openModal={openModal}
+            closeDrawer={closeDrawer}
+            session={session}
+          />
         </ScrollArea>
       </Drawer>
     </Box>

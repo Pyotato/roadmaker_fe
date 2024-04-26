@@ -1,6 +1,6 @@
 import { isWindowLoaded } from './check-window';
 
-export const pushWindowHistory = (url: string) => {
+export const pushShallowUrl = (url: string) => {
   if (isWindowLoaded()) {
     window.history.pushState({}, '', url);
   }

@@ -50,6 +50,9 @@ export const {
               method: 'POST',
             }),
           );
+          if (res?.httpStatus === 401) {
+            return;
+          }
 
           if (res.id) {
             const userInfo = await Promise.resolve(
@@ -106,5 +109,9 @@ export const {
         };
       return { ...session, token: token.accessToken };
     },
+  },
+  pages: {
+    signIn: '/signin',
+    error: '/signin',
   },
 });

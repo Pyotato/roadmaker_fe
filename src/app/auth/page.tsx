@@ -8,17 +8,15 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
-import { notifications } from '@mantine/notifications';
-import { IconAt, IconCheck, IconPassword, IconUser } from '@tabler/icons-react';
+import { IconAt, IconPassword, IconUser } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import { useState } from 'react';
 import styled from 'styled-components';
 
-import { API_ROUTES, FAIL, SUCCESS } from '@/constants';
-import { getApiResponse } from '@/utils/get-api-response';
+import { signup } from '@/service/auth';
 
-import LoginButton from './components/LoginButton';
+import AuthButton from './components/AuthButton';
 
 export default function AuthPage() {
   const [nickname, setNickname] = useState('');
@@ -34,60 +32,6 @@ export default function AuthPage() {
 
   const regex =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}/g;
-
-  const postResponseFromApi = async () => {
-    const res = await Promise.resolve(
-      getApiResponse<undefined>({
-        requestData: JSON.stringify({
-          email: email,
-          nickname: nickname,
-          password: password,
-        }),
-        apiEndpoint: `${API_ROUTES.signup}`,
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      }),
-    );
-    if (res?.httpStatus === 409) {
-      notifications.show({
-        id: FAIL['409'].id,
-        withCloseButton: true,
-        autoClose: 6000,
-        title: FAIL['409'].title,
-        message: res.message,
-        color: FAIL['409'].color,
-        icon: <IconCheck className='icon' />,
-      });
-
-      if (res.errorCode === 'NicknameAlreadyRegistered') {
-        setNickname('');
-        return;
-      }
-      if (res.errorCode === 'EmailAlreadyRegistered') {
-        setEmail('');
-        return;
-      }
-    }
-    if (res?.httpStatus === 201) {
-      notifications.show({
-        id: SUCCESS.signup.id,
-        withCloseButton: true,
-        autoClose: 6000,
-        title: SUCCESS.signup.title,
-        message: res.message,
-        color: SUCCESS.signup.color,
-        icon: <IconCheck className='icon' />,
-      });
-      await signIn('credentials', {
-        email,
-        password,
-        redirect: true,
-        callbackUrl: '/',
-      });
-    }
-  };
 
   return (
     <PageWrap>
@@ -127,10 +71,7 @@ export default function AuthPage() {
             type='password'
             autoFocus={!password}
             withAsterisk={!password}
-            description={
-              //   (!password || !password.match(regex)) &&
-              '비밀번호는 영문, 숫자, 특수문자(@, $, !, %, *, ?, &) 하나 이상 조합해서 8자 이상 입력해주세요.'
-            }
+            description='비밀번호는 영문, 숫자, 특수문자(@, $, !, %, *, ?, &) 하나 이상 조합해서 8자 이상 입력해주세요.'
             placeholder='myPasswordCheck'
             onChange={(event) => setPassword(event.currentTarget.value)}
             leftSection={<IconPassword size={16} />}
@@ -175,14 +116,14 @@ export default function AuthPage() {
                 ) {
                   return;
                 }
-                postResponseFromApi();
+                signup({ email, nickname, password, setNickname, setEmail });
               }}
             >
               submit
             </Button>
           </div>
           <Divider my='xs' label='or' labelPosition='center' />
-          <LoginButton />
+          <AuthButton btnText='로그인 하러가기' fn={() => signIn()} />
         </Box>
       </Box>
     </PageWrap>

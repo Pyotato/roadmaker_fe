@@ -8,7 +8,8 @@ import Header from './components/Header';
 import OverLay from '../Overlay';
 
 const PageHeader = () => {
-  const { status } = useSession();
+  const { status, data: session } = useSession();
+
   const openModal = (fn: () => void) =>
     modals.openConfirmModal({
       title: '페이지를 벗어나시겠습니까?',
@@ -26,7 +27,7 @@ const PageHeader = () => {
   if (status === 'loading') {
     return <OverLay />;
   }
-  return <Header openModal={openModal} />;
+  return <Header openModal={openModal} session={session} status={status} />;
 };
 
 export default PageHeader;

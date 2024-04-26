@@ -61,9 +61,9 @@ const CreatedRoadmapList = () => {
     queryFn: loadDataFromApi,
   });
 
-  if (status === 'unauthenticated') {
-    signIn();
-  }
+  // if (status === 'unauthenticated') {
+  //   signIn();
+  // }
   if (isLoading) {
     return <SkeletonCardsGrid />;
   }

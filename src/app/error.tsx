@@ -8,10 +8,10 @@ import { consoleLog } from '@/utils/console-log';
 
 export default function ErrorPage({
   error,
-  reset,
+  // reset,
 }: Readonly<{
   error: Error & { digest?: string };
-  reset: () => void;
+  // reset: () => void;
 }>) {
   useEffect(() => {
     consoleLog('error.tsx', error);
@@ -21,7 +21,7 @@ export default function ErrorPage({
 
   return (
     <main>
-      <NotFound title={title} message={message} reset={reset} />
+      <NotFound title={title} message={message} />
     </main>
   );
 }

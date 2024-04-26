@@ -2,10 +2,17 @@
 import { Text, UnstyledButton } from '@mantine/core';
 import { IconWriting } from '@tabler/icons-react';
 import { useRouter } from 'next/navigation';
-import { signIn, useSession } from 'next-auth/react';
+import { signIn } from 'next-auth/react';
 
-const RoadmapCreateButton = ({ closeDrawer }: { closeDrawer: () => void }) => {
-  const { status } = useSession();
+import { SITE_ROUTES } from '@/constants';
+
+const RoadmapCreateButton = ({
+  closeDrawer,
+  status,
+}: {
+  closeDrawer: () => void;
+  status: 'authenticated' | 'loading' | 'unauthenticated';
+}) => {
   const router = useRouter();
   if (status === 'authenticated') {
     return (
@@ -15,7 +22,7 @@ const RoadmapCreateButton = ({ closeDrawer }: { closeDrawer: () => void }) => {
         display='inline-flex'
         onClick={() => {
           closeDrawer();
-          router.push('/roadmap/create');
+          router.push(SITE_ROUTES.CREATE_ROADMAP);
         }}
       >
         <IconWriting />

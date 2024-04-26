@@ -5,9 +5,9 @@ const FallbackImage = () => {
   return (
     <AspectRatio ratio={1920 / 1080}>
       <Image
-        radius={'md'}
+        radius='md'
         src={null}
-        alt={`이미지 없음`}
+        alt='이미지 없음'
         fallbackSrc='https://placehold.co/600x400?text=No Image'
       />
     </AspectRatio>

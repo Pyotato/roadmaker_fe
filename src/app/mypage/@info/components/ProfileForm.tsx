@@ -92,21 +92,6 @@ const ProfileForm = ({
 
   return (
     <>
-      {/* <TextInput
-        value={nickname}
-        label='닉네임'
-        type='text'
-        autoFocus={!nickname}
-        withAsterisk={!nickname}
-        description={
-          nickname.length < 2 ? '닉네임은 2글자 이상이어야합니다.' : null
-        }
-        variant='filled'
-        placeholder='myNickname'
-        onChange={(event) => setNickname(event.currentTarget.value)}
-        leftSection={<IconUser size={16} />}
-        pb='md'
-      /> */}
       <Textarea
         value={bio || ''}
         label='자기 소개'

@@ -1,10 +1,11 @@
 'use client';
 import { AspectRatio, Card, Text, Title } from '@mantine/core';
+import Image from 'next/image';
 import styled from 'styled-components';
 
-import { Post } from '@/types/post';
-import Image from 'next/image';
 import FallbackImage from './FallbackImage';
+
+import { Post } from '@/types/post';
 
 const ItemCard = ({
   article,

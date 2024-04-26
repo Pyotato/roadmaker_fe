@@ -2,17 +2,21 @@
 import { Group, UnstyledButton } from '@mantine/core';
 import { IconLogout, IconUser, IconWriting } from '@tabler/icons-react';
 import { usePathname, useRouter } from 'next/navigation';
-import { signIn, signOut, useSession } from 'next-auth/react';
+import { Session } from 'next-auth';
+import { signIn, signOut } from 'next-auth/react';
 import { useEffect } from 'react';
+
+import { SITE_ROUTES } from '@/constants';
 
 const HeaderAuthButton = ({
   openModal,
   closeDrawer,
+  session,
 }: {
   openModal: (fn: () => void) => void;
   closeDrawer: () => void;
+  session: Session | null;
 }) => {
-  const { data: session } = useSession();
   const router = useRouter();
   const pathName = usePathname();
 
@@ -28,8 +32,8 @@ const HeaderAuthButton = ({
           className='hvr-text align-ctr'
           display='inline-flex'
           onClick={() => {
-            if (pathName !== '/roadmap/create') {
-              router.push('/roadmap/create');
+            if (pathName !== SITE_ROUTES.CREATE_ROADMAP) {
+              router.push(SITE_ROUTES.CREATE_ROADMAP);
             } else {
               openModal(() => location.reload());
             }
@@ -44,7 +48,8 @@ const HeaderAuthButton = ({
           className='hvr-text align-ctr'
           display='inline-flex'
           onClick={() => {
-            if (pathName !== '/roadmap/create') router.replace('/mypage');
+            if (pathName !== SITE_ROUTES.CREATE_ROADMAP)
+              router.replace('/mypage');
             else {
               openModal(() => router.replace('/mypage'));
             }
@@ -59,7 +64,8 @@ const HeaderAuthButton = ({
           className='hvr-text align-ctr'
           display='inline-flex'
           onClick={() => {
-            if (pathName !== '/roadmap/create') signOut();
+            if (pathName !== SITE_ROUTES.CREATE_ROADMAP)
+              signOut({ callbackUrl: '/', redirect: true });
             else openModal(() => signOut({ callbackUrl: '/' }));
             closeDrawer();
           }}
